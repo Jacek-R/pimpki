@@ -1,6 +1,6 @@
 package model.cell;
 
-import model.Content;
+import model.cellcontent.Content;
 
 public class Cell {
 

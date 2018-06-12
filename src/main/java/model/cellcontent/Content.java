@@ -1,4 +1,4 @@
-package model;
+package model.cellcontent;
 
 import javafx.scene.image.Image;
 
