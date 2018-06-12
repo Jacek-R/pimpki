@@ -3,7 +3,7 @@ package model.cell;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.StackPane;
 
-class CellView {
+public class CellView {
 
     private StackPane stackPane;
     private ImageView background;
