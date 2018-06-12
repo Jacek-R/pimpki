@@ -1,8 +1,8 @@
 package model.helpers;
 
-import model.pimpek.Genre;
+import model.pimpek.PimpekGenre;
 
 public interface NameGenerator {
 
-    String generate(Genre genre);
+    String generate(PimpekGenre genre);
 }

@@ -7,18 +7,26 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * pojo class
+ */
+
 public class WorldConfiguration implements Configuration {
 
     private final int mapWidth;
     private final int mapHeight;
     private final int obstaclesQuantity;
+    private final int cloningCost;
+    private final int initialEnergy;
     private final Map<PimpekGenre,Integer> pimpeksQuantity;
     private final Map<FoodGenre,Integer> foodQuantity;
 
-    public WorldConfiguration(int mapWidth, int mapHeight, int obstaclesQuantity) {
+    public WorldConfiguration(int mapWidth, int mapHeight, int obstaclesQuantity, int cloningCost, int initialEnergy) {
         this.mapWidth = mapWidth;
         this.mapHeight = mapHeight;
         this.obstaclesQuantity = obstaclesQuantity;
+        this.cloningCost = cloningCost;
+        this.initialEnergy = initialEnergy;
         this.pimpeksQuantity = new HashMap<>();
         this.foodQuantity = new HashMap<>();
     }
@@ -53,6 +61,16 @@ public class WorldConfiguration implements Configuration {
     @Override
     public int getObstaclesQuantity() {
         return obstaclesQuantity;
+    }
+
+    @Override
+    public int getInitialEnergy() {
+        return initialEnergy;
+    }
+
+    @Override
+    public int getCloningCost() {
+        return cloningCost;
     }
 
     @Override

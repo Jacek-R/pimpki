@@ -1,15 +1,14 @@
 package model.pimpek;
 
-import model.cell.Cell;
-
 public class Predator extends SimplePimpek implements Pimpek {
 
-    public Predator(String name, Cell startLocation, int energy) {
-        super(name, startLocation, energy);
+
+    public Predator(String name, int energy, int cloningCost) {
+        super(name, energy, cloningCost);
     }
 
-    public Predator(Pimpek ancestor, String name, Cell startLocation, int energy) {
-        super(ancestor, name, startLocation, energy);
+    public Predator(Pimpek ancestor, String name, int energy, int cloningCost) {
+        super(ancestor, name, energy, cloningCost);
     }
 
     @Override

@@ -30,6 +30,11 @@ public class BasicObserver implements MatchObserver {
     }
 
     @Override
+    public void registerBeings(Set<Pimpek> toObserve) {
+        toObserve.forEach(this::registerPimpek);
+    }
+
+    @Override
     public boolean clone(Pimpek pimpek) {
 
         getPimpekStatistics(pimpek).incrementCloningPoints();
@@ -59,7 +64,7 @@ public class BasicObserver implements MatchObserver {
     }
 
     private PimpekStatistics getPimpekStatistics(Pimpek pimpek) {
-        if (! statistics.containsKey(pimpek)) {  // it's unnecessary with second constructor
+        if (! statistics.containsKey(pimpek)) {
             registerPimpek(pimpek);
         }
         return statistics.get(pimpek);

@@ -4,8 +4,8 @@ package model.pimpek;
  * use for example in NameGenerator
  */
 
-public enum Genre {
+public enum PimpekGenre {
 
-    SIMPLE, PREDATOR, INDIV, FARMER;
+    SIMPLE, PREDATOR, INDIV, FARMER
 
 }

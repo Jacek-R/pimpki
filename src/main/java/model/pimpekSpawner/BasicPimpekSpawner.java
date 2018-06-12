@@ -10,20 +10,25 @@ import java.util.Set;
 public class BasicPimpekSpawner implements PimpekSpawner {
 
     private World world;
-    private final NameGenerator nameGenerator;
 
-    public BasicPimpekSpawner(World world, NameGenerator nameGenerator) {
+    public BasicPimpekSpawner(World world) {
         this.world = world;
-        this.nameGenerator = nameGenerator;
     }
 
     @Override
     public boolean spawn(Set<Pimpek> pimpki) {
+
+
+        // put pimpki on the world map
+
         return true;
     }
 
     @Override
     public boolean spawnClone(Pimpek cloned, Pimpek parent) {
+
+        // put clone on the world map
+
         return true;
     }
 }

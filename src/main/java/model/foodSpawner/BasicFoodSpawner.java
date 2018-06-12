@@ -16,6 +16,8 @@ public class BasicFoodSpawner implements FoodSpawner {
     @Override
     public boolean spawn(List<Food> foodCollection) {
 
+        // set proper content on field!
+
         return true;
     }
 }
