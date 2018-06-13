@@ -11,7 +11,8 @@ import world.Board;
 public interface WorldManager {
 
 
-    public void setBoard(Board board);
+    void setBoard(Board board);
+
     boolean isEmpty(Coordinates coordinates);
     boolean isFood(Coordinates coordinates);
     boolean isObstacle(Coordinates coordinates);

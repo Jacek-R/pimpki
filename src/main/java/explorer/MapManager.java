@@ -22,6 +22,7 @@ public class MapManager implements WorldManager {
     private Map<Coordinates,Food> food = new HashMap<>();
     private Map<Coordinates,Obstacle> obstacles = new HashMap<>();
 
+    @Override
     public void setBoard(Board board) {
         this.board = board;
     }
