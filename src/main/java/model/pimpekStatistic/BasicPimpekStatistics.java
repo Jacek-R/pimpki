@@ -4,7 +4,6 @@ public class BasicPimpekStatistics implements PimpekStatistics {
 
     private int cloningPoints;
     private int energyPoints;
-    private boolean isDead;
 
     @Override
     public void incrementEnergyPoints(int toAdd) {
@@ -24,15 +23,5 @@ public class BasicPimpekStatistics implements PimpekStatistics {
     @Override
     public int getCloningPoints() {
         return cloningPoints;
-    }
-
-    @Override
-    public boolean isLive() {
-        return ! isDead;
-    }
-
-    @Override
-    public void registerDeath() {
-        isDead = true;
     }
 }
