@@ -12,8 +12,6 @@ public class BasicFoodSpawner implements FoodSpawner {
 
     private WorldManager worldManager;
     private Board board;
-    private int width;
-    private int height;
 
     public BasicFoodSpawner(WorldManager worldManager) {
         this.worldManager = worldManager;
@@ -22,8 +20,6 @@ public class BasicFoodSpawner implements FoodSpawner {
     @Override
     public boolean spawn(Set<Food> foodCollection) throws FileNotFoundException {
         this.board = worldManager.getBoard();
-        width = board.getWidth();
-        height = board.getHeight();
         for (int i = 0; i < foodCollection.size(); i++) {
             boolean contentPlaced = false;
             while (!contentPlaced){
