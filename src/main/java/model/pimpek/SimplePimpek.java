@@ -4,6 +4,7 @@ import explorer.WorldExplorer;
 import model.cell.Cell;
 import model.observer.MatchObserver;
 import model.observer.NullObserver;
+import world.Board;
 
 /**
  * basic genre - a bit stupid
@@ -42,7 +43,7 @@ public class SimplePimpek implements Pacifist {
     }
 
     @Override
-    public void act() {
+    public void act(Board world) {
 
         // to implement
 

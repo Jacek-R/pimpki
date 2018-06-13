@@ -1,6 +1,7 @@
 package model.pimpek;
 
 import explorer.WorldExplorer;
+import world.Board;
 
 public class Angry extends SimplePimpek implements Predator {
 
@@ -14,7 +15,7 @@ public class Angry extends SimplePimpek implements Predator {
     }
 
     @Override
-    public void act() {
+    public void act(Board world) {
 
     }
 
