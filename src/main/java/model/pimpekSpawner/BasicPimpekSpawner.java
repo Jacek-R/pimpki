@@ -1,10 +1,8 @@
 package model.pimpekSpawner;
 
-import explorer.WorldExplorer;
-import model.configuration.Configuration;
+import explorer.WorldManager;
 import model.coordinates.Coordinates;
 import model.coordinates.Coords;
-import model.helpers.NameGenerator;
 import model.pimpek.Pimpek;
 import world.World;
 
@@ -13,20 +11,21 @@ import java.util.Set;
 public class BasicPimpekSpawner implements PimpekSpawner {
 
     private World world;
-    private final WorldExplorer explorer;
+    private final WorldManager worldManager;
 
-    public BasicPimpekSpawner(World world, WorldExplorer explorer) {
+    public BasicPimpekSpawner(World world, WorldManager worldManager) {
         this.world = world;
-        this.explorer = explorer;
+        this.worldManager = worldManager;
     }
 
     @Override
     public boolean spawn(Set<Pimpek> pimpki) {
 
-        Coordinates coordinates = new Coords(0,0);
+        // algorytm wybiera coordynaty (Coordinates)
+        // po wybraniu rejetrujemy w worldManager:
+        // worldManager.registerBeing(pimpek); <-- ta metoda (worldManagera) mogłaby również seterem ustawić
+        // Content w danym cell
 
-//        explorer.
-        // put pimpki on the world map
 
         return true;
     }
@@ -34,7 +33,7 @@ public class BasicPimpekSpawner implements PimpekSpawner {
     @Override
     public boolean spawnClone(Pimpek cloned, Pimpek parent) {
 
-        // put registerClone on the world map
+        // put registerClone on the world map - JW.
 
         return true;
     }

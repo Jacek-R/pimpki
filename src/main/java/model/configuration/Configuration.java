@@ -16,5 +16,6 @@ public interface Configuration {
     void addFoodQuantityByGenre(FoodGenre genre, Integer quantity);
     Map<PimpekGenre,Integer> getPimpeksQuantity();
     Map<FoodGenre,Integer> getFoodQuantity();
+    int getMatchQuantity();
 
 }

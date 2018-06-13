@@ -1,6 +1,6 @@
 package world;
 
-import explorer.WorldExplorer;
+import explorer.WorldManager;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.StackPane;
@@ -23,11 +23,11 @@ public class WorldCreator implements BoardCreator {
 
     private int height;
     private int width;
-    private final WorldExplorer explorer;
+    private final WorldManager explorer;
     private final Configuration configuration;
 
 
-    public WorldCreator(WorldExplorer explorer, Configuration configuration,
+    public WorldCreator(WorldManager explorer, Configuration configuration,
                         FoodSpawner foodSpawner, PimpekSpawner pimpekSpawner) {
         this.explorer = explorer;
         this.configuration = configuration;

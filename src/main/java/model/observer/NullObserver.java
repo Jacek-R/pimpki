@@ -26,7 +26,7 @@ public class NullObserver implements MatchObserver {
     public void registerDeath() { }
 
     @Override
-    public Map<Pimpek, PimpekStatistics> getStatistics() {
+    public Map<Pimpek, PimpekStatistics> getBeingsAndStats() {
         return new HashMap<>();
     }
 
@@ -38,5 +38,9 @@ public class NullObserver implements MatchObserver {
     @Override
     public int getDead() {
         return 0;
+    }
+
+    @Override
+    public void resurrectBeings() {
     }
 }
