@@ -1,6 +1,6 @@
 package model.pimpek;
 
-public class Predator extends SimplePimpek implements Pimpek {
+public class Predator extends SimplePimpek {
 
 
     public Predator(String name, int energy, int cloningCost) {
