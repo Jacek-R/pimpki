@@ -3,6 +3,8 @@ package model.pimpek;
 import explorer.WorldExplorer;
 import model.cell.Cell;
 import model.cellcontent.Type;
+import model.coordinates.Coordinates;
+import model.events.Event;
 import model.observer.MatchObserver;
 import model.observer.NullObserver;
 import world.Board;
@@ -17,7 +19,7 @@ public class SimplePimpek implements Pacifist {
     private static final String IMAGE_PATH = "src/main/resources/img/pimpek.png";
     private static final Type TYPE = Type.PIMPEK;
     private final String name;
-    private Cell currentLocation;
+    private Coordinates currentLocation;
     private int energy;
     private final int cloningCost;
     private MatchObserver observer = new NullObserver();  // null object pattern to avoid null pointer ex
@@ -47,9 +49,17 @@ public class SimplePimpek implements Pacifist {
 
     @Override
     public void act(Board world) {
+        Event event = scan(world);
+        switch(event.getName()){
+            case "MOVE":
 
-        // to implement
+        }
 
+
+    }
+
+    private Event scan(Board world) {
+        return null;
     }
 
     @Override
@@ -63,12 +73,12 @@ public class SimplePimpek implements Pacifist {
     }
 
     @Override
-    public void setLocation(Cell location) {
+    public void setLocation(Coordinates location) {
         currentLocation = location;
     }
 
     @Override
-    public Cell getLocation() {
+    public Coordinates getLocation() {
         return currentLocation;
     }
 
