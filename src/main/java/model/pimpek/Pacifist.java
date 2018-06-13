@@ -1,6 +1,6 @@
 package model.pimpek;
 
-public interface Predator extends Pimpek {
+public interface Pacifist extends Pimpek {
 
     // marker interface
 }
