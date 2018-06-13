@@ -1,7 +1,5 @@
 package model;
 
-import java.io.File;
-
 public enum CellPaths {
     GRASS("src/main/resources/img/grass.png"),
     EMPTY("src/main/resources/img/empty.png"),
@@ -19,6 +17,6 @@ public enum CellPaths {
     }
 
     public String getPath() {
-        return path.replaceAll("/", File.separator);
+        return path;
     }
 }
