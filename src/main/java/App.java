@@ -6,7 +6,9 @@ import javafx.scene.control.ScrollPane;
 import javafx.stage.Stage;
 import model.configuration.Configuration;
 import model.configuration.WorldConfiguration;
+import model.food.Apple;
 import model.food.Food;
+import model.food.Strawberry;
 import model.foodSpawner.BasicFoodSpawner;
 import model.foodSpawner.FoodSpawner;
 import model.obstacleSpawner.BasicObstacleSpawner;
@@ -44,6 +46,9 @@ public class App extends Application {
         ObstacleSpawner obstacleSpawner = new BasicObstacleSpawner(worldManager);
         Set<Pimpek> beings = new HashSet<>();
         Set<Food> foods = new HashSet<>();
+        foods.add(new Apple());
+        foods.add(new Strawberry());
+        foods.add(new Apple());
         return new WorldCreator(worldManager, configuration, foodSpawner, pimpekSpawner, obstacleSpawner, beings, foods).create();
     }
 }
