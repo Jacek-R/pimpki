@@ -1,20 +1,23 @@
 package model.pimpekGenerator;
 
+import explorer.WorldExplorer;
 import model.configuration.Configuration;
 import model.helpers.NameGenerator;
 import model.pimpek.Pimpek;
 import model.pimpek.PimpekGenre;
-import model.pimpek.Predator;
+import model.pimpek.Angry;
 import model.pimpek.SimplePimpek;
 
 public class BasicPimpekFactory implements PimpekFactory {
 
     private final NameGenerator nameGenerator;
     private final Configuration configuration;
+    private final WorldExplorer explorer;
 
-    public BasicPimpekFactory(NameGenerator nameGenerator, Configuration configuration) {
+    public BasicPimpekFactory(NameGenerator nameGenerator, Configuration configuration, WorldExplorer explorer) {
         this.nameGenerator = nameGenerator;
         this.configuration = configuration;
+        this.explorer = explorer;
     }
 
 
@@ -27,10 +30,10 @@ public class BasicPimpekFactory implements PimpekFactory {
         Pimpek being;
         switch (genre) {
             case PREDATOR:
-                being = new Predator(name, energy, cloningCost);
+                being = new Angry(name, energy, cloningCost, explorer);
                 break;
             default:
-                being = new SimplePimpek(name, energy, cloningCost);
+                being = new SimplePimpek(name, energy, cloningCost, explorer);
                 break;
         }
         return being;
