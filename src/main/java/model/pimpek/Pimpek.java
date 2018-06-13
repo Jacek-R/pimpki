@@ -2,10 +2,11 @@ package model.pimpek;
 
 import model.cell.Cell;
 import model.observer.MatchObserver;
+import world.Board;
 
 public interface Pimpek {
 
-    void act();
+    void act(Board world);
     int getEnergy();
     String getName();
     void setLocation(Cell location);
