@@ -25,7 +25,7 @@ public class BasicObstacleSpawner implements ObstacleSpawner {
         height = board.getHeight();
         for (int i = 0; i < obstacleQuantity; i++) {
             boolean contentPlaced = false;
-            int triesLeft = width * height * 10;
+            int triesLeft = width * height * obstacleQuantity;
             do {
                 Coordinates coordinates = worldManager.selectRandomCoordinates();
                 if (worldManager.isEmpty(coordinates)) {
@@ -34,7 +34,7 @@ public class BasicObstacleSpawner implements ObstacleSpawner {
                 triesLeft--;
             } while (!contentPlaced && triesLeft > 0);
         }
-        return false;
+        return true;
     }
 
 }
