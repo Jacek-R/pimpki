@@ -2,6 +2,7 @@ package model.pimpek;
 
 import explorer.WorldExplorer;
 import model.cell.Cell;
+import model.cellcontent.Type;
 import model.observer.MatchObserver;
 import model.observer.NullObserver;
 import world.Board;
@@ -13,6 +14,8 @@ import world.Board;
 public class SimplePimpek implements Pacifist {
 
     private final Pimpek ancestor;  // use it to update statistic (observer)
+    private static final String IMAGE_PATH = "src/main/resources/img/pimpek.png";
+    private static final Type TYPE = Type.PIMPEK;
     private final String name;
     private Cell currentLocation;
     private int energy;
@@ -97,5 +100,20 @@ public class SimplePimpek implements Pacifist {
 
     protected WorldExplorer getExplorer() {
         return explorer;
+    }
+
+    @Override
+    public String getImagePath() {
+        return IMAGE_PATH;
+    }
+
+    @Override
+    public Type getType() {
+        return TYPE;
+    }
+
+    @Override
+    public boolean isAccessible() {
+        return true;
     }
 }

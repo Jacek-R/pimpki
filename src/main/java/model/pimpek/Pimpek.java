@@ -1,10 +1,11 @@
 package model.pimpek;
 
 import model.cell.Cell;
+import model.cellcontent.Content;
 import model.observer.MatchObserver;
 import world.Board;
 
-public interface Pimpek {
+public interface Pimpek extends Content {
 
     void act(Board world);
     int getEnergy();
