@@ -1,6 +1,6 @@
 package model.cellcontent;
 
-public class Wall implements Content {
+public class Wall implements Content, Obstacle{
     private static final String IMAGE_PATH = "src/main/resources/img/wall.png";
 
     private static final Type TYPE = Type.WALL;
