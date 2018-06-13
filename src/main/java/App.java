@@ -9,6 +9,8 @@ import model.configuration.WorldConfiguration;
 import model.food.Food;
 import model.foodSpawner.BasicFoodSpawner;
 import model.foodSpawner.FoodSpawner;
+import model.obstacleSpawner.BasicObstacleSpawner;
+import model.obstacleSpawner.ObstacleSpawner;
 import model.pimpek.Pimpek;
 import model.pimpekSpawner.BasicPimpekSpawner;
 import model.pimpekSpawner.PimpekSpawner;
@@ -37,10 +39,11 @@ public class App extends Application {
     public Board setConfigurationForWorldCreator() throws Exception{
         Configuration configuration = new WorldConfiguration(10, 10, 3, 10, 120, 100);
         WorldManager worldManager = new MapManager();
-        FoodSpawner foodSpawner = new BasicFoodSpawner();
-        PimpekSpawner pimpekSpawner = new BasicPimpekSpawner();
+        FoodSpawner foodSpawner = new BasicFoodSpawner(worldManager);
+        PimpekSpawner pimpekSpawner = new BasicPimpekSpawner(worldManager);
+        ObstacleSpawner obstacleSpawner = new BasicObstacleSpawner(worldManager);
         Set<Pimpek> beings = new HashSet<>();
         Set<Food> foods = new HashSet<>();
-        return new WorldCreator(worldManager, configuration, foodSpawner, pimpekSpawner, beings, foods).create();
+        return new WorldCreator(worldManager, configuration, foodSpawner, pimpekSpawner, obstacleSpawner, beings, foods).create();
     }
 }
