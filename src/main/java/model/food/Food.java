@@ -6,4 +6,5 @@ public interface Food extends Content {
 
     int getEnergy();
 
+    FoodGenre getGenre();
 }

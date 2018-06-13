@@ -5,6 +5,7 @@ import model.CellPaths;
 public class Strawberry implements Food {
 
     private static final String IMAGE_PATH = CellPaths.STRAWBERRY.getPath();
+    private static final FoodGenre genre = FoodGenre.STRAWBERRY;
 
     @Override
     public int getEnergy() {
@@ -14,5 +15,10 @@ public class Strawberry implements Food {
     @Override
     public String getImagePath() {
         return IMAGE_PATH;
+    }
+
+    @Override
+    public FoodGenre getGenre() {
+        return genre;
     }
 }
