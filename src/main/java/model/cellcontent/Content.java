@@ -8,4 +8,6 @@ public interface Content {
     Image getImage() throws FileNotFoundException;
 
     Type getType();
+
+    boolean isAccessible();
 }
