@@ -1,5 +1,6 @@
 package model.cell;
 
+import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.StackPane;
 
@@ -21,11 +22,11 @@ public class CellView {
         return stackPane;
     }
 
-    public void setBackground(ImageView background) {
-        this.background = background;
+    public void setBackground(Image image) {
+        background.setImage(image);
     }
 
-    public void setContent(ImageView content) {
-        this.content = content;
+    public void setContent(Image image) {
+        content.setImage(image);
     }
 }

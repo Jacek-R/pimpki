@@ -5,11 +5,11 @@ import javafx.scene.image.Image;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 
-public class Empty implements Content {
-    private static final String IMAGE_PATH = "src/main/resources/img/empty.png";
+public class Wall implements Content {
+    private static final String IMAGE_PATH = "src/main/resources/img/wall.png";
 
-    private static final Type TYPE = Type.EMPTY;
-    private static final boolean ACCESSIBLE = true;
+    private static final Type TYPE = Type.WALL;
+    private static final boolean ACCESSIBLE = false;
 
     @Override
     public Image getImage() throws FileNotFoundException {
@@ -25,4 +25,5 @@ public class Empty implements Content {
     public boolean isAccessible() {
         return ACCESSIBLE;
     }
+
 }

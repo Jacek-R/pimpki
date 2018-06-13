@@ -1,9 +1,9 @@
-package model;
+package world;
 
 import javafx.scene.layout.GridPane;
 import model.cell.Cell;
 
-public class World {
+public class World implements Board {
 
     private int width;
     private int height;
@@ -27,6 +27,22 @@ public class World {
         }
     }
 
+    @Override
+    public int getWidth() {
+        return width;
+    }
+
+    @Override
+    public int getHeight() {
+        return height;
+    }
+
+    @Override
+    public Cell getCellAt(int x, int y) {
+        return cells[x][y];
+    }
+
+    @Override
     public GridPane getGridPane() {
         return gridPane;
     }
