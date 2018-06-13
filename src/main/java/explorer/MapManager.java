@@ -15,14 +15,14 @@ import java.util.Map;
 
 public class MapManager implements WorldManager {
 
-    private final Board board;
+    private Board board;
 
     private Map<Coordinates,Predator> predators = new HashMap<>();
     private Map<Coordinates,Pacifist> pacifists = new HashMap<>();
     private Map<Coordinates,Food> food = new HashMap<>();
     private Map<Coordinates,Obstacle> obstacles = new HashMap<>();
 
-    public MapManager(Board board) {
+    public void setBoard(Board board) {
         this.board = board;
     }
 
