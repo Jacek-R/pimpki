@@ -4,10 +4,14 @@ import explorer.WorldExplorer;
 import model.cell.Cell;
 import model.cellcontent.Type;
 import model.coordinates.Coordinates;
+import model.events.BasicEvent;
 import model.events.Event;
 import model.observer.MatchObserver;
 import model.observer.NullObserver;
 import world.Board;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * basic genre - a bit stupid
@@ -51,7 +55,8 @@ public class SimplePimpek implements Pacifist {
     public void act(Board world) {
         Event event = scan(world);
         switch(event.getName()){
-            case "MOVE":
+            case "EAT":
+                eat()
 
         }
 
@@ -59,7 +64,34 @@ public class SimplePimpek implements Pacifist {
     }
 
     private Event scan(Board world) {
-        return null;
+        List<Coordinates> fieldOfView = getFieldOfView();
+        Event event = new BasicEvent("WAIT", currentLocation);
+        for(Coordinates coord : fieldOfView){
+            if(explorer.isFood(coord)){
+                 event = new BasicEvent("EAT", coord);
+                 return event;
+            }else if(explorer.isPredator(coord)){
+                event = new BasicEvent("RUN", coord);
+                return event;
+            }else if(!explorer.isObstacle(coord)){
+                event = new BasicEvent("MOVE", coord);
+            }
+        }
+        return event;
+    }
+
+    private List<Coordinates> getFieldOfView() {
+        List<Coordinates> coords = new ArrayList<>();
+        coords.add(currentLocation.getE());
+        coords.add(currentLocation.getNE());
+        coords.add(currentLocation.getS());
+        coords.add(currentLocation.getSE());
+        coords.add(currentLocation.getSW());
+        coords.add(currentLocation.getW());
+        coords.add(currentLocation.getNW());
+        coords.add(currentLocation.getN());
+
+        return coords;
     }
 
     @Override
