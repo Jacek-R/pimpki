@@ -1,11 +1,10 @@
 package model.pimpek;
 
-import explorer.WorldExplorer;
-import model.cell.Cell;
+import explorer.WorldManager;
 import model.cellcontent.Type;
 import model.coordinates.Coordinates;
-import model.events.BasicEvent;
-import model.events.Event;
+//import model.events.BasicEvent;
+//import model.events.Event;
 import model.observer.MatchObserver;
 import model.observer.NullObserver;
 import world.Board;
@@ -28,11 +27,12 @@ public class SimplePimpek implements Pacifist {
     private final int cloningCost;
     private MatchObserver observer = new NullObserver();  // null object pattern to avoid null pointer ex
     private final int totalEnergy;
-    private final WorldExplorer explorer;
+    private final WorldManager explorer;
+    private final PimpekGenre genre = PimpekGenre.PACIFIST;
 
 
     // constructor for origin/root pimpek:
-    public SimplePimpek(String name, int energy, int cloningCost, WorldExplorer explorer) {
+    public SimplePimpek(String name, int energy, int cloningCost, WorldManager explorer) {
         this.ancestor = this;
         this.name = name;
         this.energy = energy;
@@ -42,7 +42,7 @@ public class SimplePimpek implements Pacifist {
     }
 
     // constructor for clones:
-    public SimplePimpek(Pimpek ancestor, String name, int energy, int cloningCost, WorldExplorer explorer) {
+    public SimplePimpek(Pimpek ancestor, String name, int energy, int cloningCost, WorldManager explorer) {
         this.ancestor = ancestor;
         this.name = name;
         this.energy = energy;
@@ -53,35 +53,39 @@ public class SimplePimpek implements Pacifist {
 
     @Override
     public void act(Board world) {
-        Event event = scan(world);
-        switch(event.getName()){
-            case "EAT":
-                eat()
-
-        }
+//        Event event = scan(world);
+//        switch(event.getName()){
+//            case "EAT":
+//                eat()
+//
+//        }
 
 
     }
 
-    private Event scan(Board world) {
-        List<Coordinates> fieldOfView = getFieldOfView();
-        Event event = new BasicEvent("WAIT", currentLocation);
-        for(Coordinates coord : fieldOfView){
-            if(explorer.isFood(coord)){
-                 event = new BasicEvent("EAT", coord);
-                 return event;
-            }else if(explorer.isPredator(coord)){
-                event = new BasicEvent("RUN", coord);
-                return event;
-            }else if(!explorer.isObstacle(coord)){
-                event = new BasicEvent("MOVE", coord);
-            }
-        }
-        return event;
-    }
+//    private Event scan(Board world) {
+//        List<Coordinates> fieldOfView = getFieldOfView();
+//        Event event = new BasicEvent("WAIT", currentLocation);
+//        for(Coordinates coord : fieldOfView){
+//            if(explorer.isFood(coord)){
+//                 event = new BasicEvent("EAT", coord);
+//                 return event;
+//            }else if(explorer.isPredator(coord)){
+//                event = new BasicEvent("RUN", coord);
+//                return event;
+//            }else if(!explorer.isObstacle(coord)){
+//                event = new BasicEvent("MOVE", coord);
+//            }
+//        }
+//        return event;
+//    }
 
     private List<Coordinates> getFieldOfView() {
         List<Coordinates> coords = new ArrayList<>();
+
+
+        // to wyciągniesz: coords = currentLocation.getNeighbors(); :))))
+
         coords.add(currentLocation.getE());
         coords.add(currentLocation.getNE());
         coords.add(currentLocation.getS());
@@ -124,6 +128,11 @@ public class SimplePimpek implements Pacifist {
         this.energy = totalEnergy;
     }
 
+    @Override
+    public PimpekGenre getGenre() {
+        return genre;
+    }
+
     protected MatchObserver getObserver() {
         return observer;
     }
@@ -140,7 +149,7 @@ public class SimplePimpek implements Pacifist {
         return totalEnergy;
     }
 
-    protected WorldExplorer getExplorer() {
+    protected WorldManager getExplorer() {
         return explorer;
     }
 

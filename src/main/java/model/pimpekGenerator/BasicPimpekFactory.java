@@ -1,6 +1,6 @@
 package model.pimpekGenerator;
 
-import explorer.WorldExplorer;
+import explorer.WorldManager;
 import model.configuration.Configuration;
 import model.helpers.NameGenerator;
 import model.pimpek.Pimpek;
@@ -12,9 +12,9 @@ public class BasicPimpekFactory implements PimpekFactory {
 
     private final NameGenerator nameGenerator;
     private final Configuration configuration;
-    private final WorldExplorer explorer;
+    private final WorldManager explorer;
 
-    public BasicPimpekFactory(NameGenerator nameGenerator, Configuration configuration, WorldExplorer explorer) {
+    public BasicPimpekFactory(NameGenerator nameGenerator, Configuration configuration, WorldManager explorer) {
         this.nameGenerator = nameGenerator;
         this.configuration = configuration;
         this.explorer = explorer;

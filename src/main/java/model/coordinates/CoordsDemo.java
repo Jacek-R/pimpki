@@ -32,6 +32,8 @@ public class CoordsDemo {
         System.out.println(c0.getS());
         System.out.println(c0);
 
+        c0.getNeighbors().forEach(System.out::println);
+
 
 
 
