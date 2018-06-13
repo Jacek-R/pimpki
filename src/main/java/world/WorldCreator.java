@@ -1,5 +1,6 @@
 package world;
 
+import explorer.WorldExplorer;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.StackPane;
@@ -10,6 +11,7 @@ import model.cellcontent.Content;
 import model.cellcontent.Empty;
 import model.cellcontent.Type;
 import model.cellcontent.Wall;
+import model.configuration.Configuration;
 
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -17,8 +19,17 @@ import java.util.Random;
 
 public class WorldCreator implements BoardCreator {
 
-    private int height = 10;
-    private int width = 10;
+    private int height;
+    private int width;
+    private final WorldExplorer explorer;
+    private final Configuration configuration;
+
+    public WorldCreator(WorldExplorer explorer, Configuration configuration) {
+        this.explorer = explorer;
+        this.configuration = configuration;
+        this.height = configuration.getMapHeight();
+        this.width = configuration.getMapWidth();
+    }
 
     @Override
     public Board create() throws FileNotFoundException {

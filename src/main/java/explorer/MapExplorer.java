@@ -1,6 +1,6 @@
 package explorer;
 
-import model.configuration.Configuration;
+import model.cellcontent.Obstacle;
 import model.coordinates.Coordinates;
 import model.food.Food;
 import model.pimpek.Pacifist;
@@ -13,11 +13,9 @@ public class MapExplorer implements WorldExplorer {
 
 
     private Map<Coordinates,Predator> predators = new HashMap<>();
-    private Map<Coordinates,Pacifist> pacifist = new HashMap<>();
-    private Map<Coordinates,Food> obstacles = new HashMap<>();
-
-
-
+    private Map<Coordinates,Pacifist> pacifists = new HashMap<>();
+    private Map<Coordinates,Food> food = new HashMap<>();
+    private Map<Coordinates,Obstacle> obstacles = new HashMap<>();
 
     @Override
     public boolean isEmpty(Coordinates coordinates) {
@@ -31,36 +29,56 @@ public class MapExplorer implements WorldExplorer {
 
     @Override
     public boolean isObstacle(Coordinates coordinates) {
-        return false;
+        return obstacles.containsKey(coordinates);
     }
 
     @Override
     public boolean isBeing(Coordinates coordinates) {
-        return false;
+        return isPredator(coordinates) || isPacifist(coordinates);
     }
 
     @Override
     public boolean isPredator(Coordinates coordinates) {
-        return false;
+        return predators.containsKey(coordinates);
     }
 
     @Override
     public boolean isPacifist(Coordinates coordinates) {
-        return false;
+        return pacifists.containsKey(coordinates);
     }
 
     @Override
     public Predator getPredator(Coordinates coordinates) {
-        return null;
+        return predators.get(coordinates);
     }
 
     @Override
     public Pacifist getPacifist(Coordinates coordinates) {
-        return null;
+        return pacifists.get(coordinates);
     }
 
     @Override
     public Food getFood(Coordinates coordinates) {
-        return null;
+        return this.food.get(coordinates);
+    }
+
+    @Override
+    public void registerObstacle(Coordinates coordinates, Obstacle obstacle) {
+        obstacles.put(coordinates, obstacle);
+    }
+
+    @Override
+    public void registerPredator(Coordinates coordinates, Predator predator) {
+        predators.put(coordinates, predator);
+    }
+
+    @Override
+    public void registerPacifist(Coordinates coordinates, Pacifist pacifist) {
+        pacifists.put(coordinates, pacifist);
+    }
+
+    @Override
+    public void registerFood(Coordinates coordinates, Food food) {
+        this.food.put(coordinates, food);
     }
 }

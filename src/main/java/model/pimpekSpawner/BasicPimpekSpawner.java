@@ -1,5 +1,6 @@
 package model.pimpekSpawner;
 
+import explorer.WorldExplorer;
 import model.configuration.Configuration;
 import model.helpers.NameGenerator;
 import model.pimpek.Pimpek;
@@ -10,9 +11,11 @@ import java.util.Set;
 public class BasicPimpekSpawner implements PimpekSpawner {
 
     private World world;
+    private final WorldExplorer explorer;
 
-    public BasicPimpekSpawner(World world) {
+    public BasicPimpekSpawner(World world, WorldExplorer explorer) {
         this.world = world;
+        this.explorer = explorer;
     }
 
     @Override

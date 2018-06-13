@@ -1,5 +1,6 @@
 package explorer;
 
+import model.cellcontent.Obstacle;
 import model.coordinates.Coordinates;
 import model.food.Food;
 import model.pimpek.Pacifist;
@@ -19,10 +20,9 @@ public interface WorldExplorer {
     Pacifist getPacifist(Coordinates coordinates);
     Food getFood(Coordinates coordinates);
 
-//    boolean registerObstacle(Coo)
-
-    boolean registerPredator(Coordinates coordinates, Predator predator);
-    boolean registerPacifist(Coordinates coordinates, Pacifist pacifist);
-    boolean registerFood(Coordinates coordinates, Food food);
+    void registerObstacle(Coordinates coordinates, Obstacle obstacle);
+    void registerPredator(Coordinates coordinates, Predator predator);
+    void registerPacifist(Coordinates coordinates, Pacifist pacifist);
+    void registerFood(Coordinates coordinates, Food food);
 
 }
