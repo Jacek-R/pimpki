@@ -1,7 +1,7 @@
 package model.foodSpawner;
 
-import model.World;
 import model.food.Food;
+import world.World;
 
 import java.util.List;
 
