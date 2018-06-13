@@ -11,12 +11,12 @@ import java.util.Set;
 public class BasicPimpekSpawner implements PimpekSpawner {
 
     private World world;
-    private final WorldManager worldManager;
+    private WorldManager worldManager;
 
-    public BasicPimpekSpawner(World world, WorldManager worldManager) {
-        this.world = world;
-        this.worldManager = worldManager;
-    }
+//    public BasicPimpekSpawner(World world, WorldManager worldManager) {
+//        this.world = world;
+//        this.worldManager = worldManager;
+//    }
 
     @Override
     public boolean spawn(Set<Pimpek> pimpki) {

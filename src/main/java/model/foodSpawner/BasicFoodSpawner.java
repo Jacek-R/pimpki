@@ -4,20 +4,20 @@ import explorer.WorldManager;
 import model.food.Food;
 import world.World;
 
-import java.util.List;
+import java.util.Set;
 
 public class BasicFoodSpawner implements FoodSpawner {
 
     private World world;
-    private final WorldManager worldManager;
+    private WorldManager worldManager;
 
-    public BasicFoodSpawner(World world, WorldManager worldManager) {
-        this.world = world;
-        this.worldManager = worldManager;
-    }
+//    public BasicFoodSpawner(World world, WorldManager worldManager) {
+//        this.world = world;
+//        this.worldManager = worldManager;
+//    }
 
     @Override
-    public boolean spawn(List<Food> foodCollection) {
+    public boolean spawn(Set<Food> foodCollection) {
 
 
         // algorytm wybiera coordynaty (Coordinates)
