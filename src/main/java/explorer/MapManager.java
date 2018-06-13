@@ -1,7 +1,9 @@
 package explorer;
 
 import model.cell.Cell;
+import model.cellcontent.Content;
 import model.cellcontent.Obstacle;
+import model.cellcontent.Wall;
 import model.coordinates.Coordinates;
 import model.food.Food;
 import model.pimpek.Pacifist;
@@ -9,7 +11,9 @@ import model.pimpek.Pimpek;
 import model.pimpek.PimpekGenre;
 import model.pimpek.Predator;
 import world.Board;
+import world.ImageParser;
 
+import java.io.FileNotFoundException;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -21,6 +25,11 @@ public class MapManager implements WorldManager {
     private Map<Coordinates,Pacifist> pacifists = new HashMap<>();
     private Map<Coordinates,Food> food = new HashMap<>();
     private Map<Coordinates,Obstacle> obstacles = new HashMap<>();
+
+    @Override
+    public Board getBoard() {
+        return board;
+    }
 
     @Override
     public void setBoard(Board board) {
@@ -78,7 +87,7 @@ public class MapManager implements WorldManager {
     }
 
     @Override
-    public boolean registerObstacle(Coordinates coordinates, Obstacle obstacle) {
+    public boolean registerObstacle(Coordinates coordinates, Obstacle obstacle) throws FileNotFoundException {
         if (! areCoordinatesValid(coordinates) ) {
             return false;
         }
@@ -88,11 +97,11 @@ public class MapManager implements WorldManager {
         Cell cell = board.getCellAt(coordinates.getX(), coordinates.getY());
         if (cell == null) {
             return false;
+        } else{
+            placeObstacle(cell);
         }
 
-//        cell.setContent();
 
-        // ustaw ceontent w cell
         return true;
     }
 
@@ -144,6 +153,12 @@ public class MapManager implements WorldManager {
 
         return true;
 
+    }
+
+    private void placeObstacle(Cell cell) throws FileNotFoundException {
+        Content content = new Wall();
+        cell.setContent(content);
+        cell.getCellView().setContent(ImageParser.getImage(content.getImagePath()));
     }
 
     @Override

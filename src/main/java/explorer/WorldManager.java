@@ -8,9 +8,11 @@ import model.pimpek.Pimpek;
 import model.pimpek.Predator;
 import world.Board;
 
+import java.io.FileNotFoundException;
+
 public interface WorldManager {
 
-
+    Board getBoard();
     void setBoard(Board board);
 
     boolean isEmpty(Coordinates coordinates);
@@ -25,7 +27,7 @@ public interface WorldManager {
     Pacifist getPacifist(Coordinates coordinates);
     Food getFood(Coordinates coordinates);
 
-    boolean registerObstacle(Coordinates coordinates, Obstacle obstacle);
+    boolean registerObstacle(Coordinates coordinates, Obstacle obstacle) throws FileNotFoundException;
     boolean registerBeing(Coordinates coordinates, Pimpek being);
     boolean registerFood(Coordinates coordinates, Food food);
 
