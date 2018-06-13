@@ -24,7 +24,7 @@ public class MapExplorer implements WorldExplorer {
 
     @Override
     public boolean isFood(Coordinates coordinates) {
-        return false;
+        return food.containsKey(coordinates);
     }
 
     @Override
