@@ -1,10 +1,5 @@
 package model.cellcontent;
 
-import javafx.scene.image.Image;
-
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-
 public class Wall implements Content {
     private static final String IMAGE_PATH = "src/main/resources/img/wall.png";
 
@@ -12,8 +7,8 @@ public class Wall implements Content {
     private static final boolean ACCESSIBLE = false;
 
     @Override
-    public Image getImage() throws FileNotFoundException {
-        return new Image(new FileInputStream(IMAGE_PATH));
+    public String getImagePath() {
+        return IMAGE_PATH;
     }
 
     @Override

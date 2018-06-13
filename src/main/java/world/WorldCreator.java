@@ -59,7 +59,7 @@ public class WorldCreator implements BoardCreator {
         return new CellView(
                 new StackPane(),
                 new ImageView(new Image(new FileInputStream("src/main/resources/img/grass.png"))),
-                new ImageView(content.getImage())
+                new ImageView(ImageParser.getImage(content.getImagePath()))
         );
     }
 
@@ -73,7 +73,7 @@ public class WorldCreator implements BoardCreator {
     private void placeContent(Cell cell, Type type) throws FileNotFoundException {
         Content content = createContent(type);
         cell.setContent(content);
-        cell.getCellView().setContent(content.getImage());
+        cell.getCellView().setContent(ImageParser.getImage(content.getImagePath()));
     }
 
     private Content createContent(Type type) {
