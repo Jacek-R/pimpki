@@ -15,15 +15,18 @@ public class WorldConfiguration implements Configuration {
 
     private final int mapWidth;
     private final int mapHeight;
+    private int matchQuantity;
     private final int obstaclesQuantity;
     private final int cloningCost;
     private final int initialEnergy;
     private final Map<PimpekGenre,Integer> pimpeksQuantity;
     private final Map<FoodGenre,Integer> foodQuantity;
 
-    public WorldConfiguration(int mapWidth, int mapHeight, int obstaclesQuantity, int cloningCost, int initialEnergy) {
+    public WorldConfiguration(int mapWidth, int mapHeight, int matchQuantity, int obstaclesQuantity,
+                              int cloningCost, int initialEnergy) {
         this.mapWidth = mapWidth;
         this.mapHeight = mapHeight;
+        this.matchQuantity = matchQuantity;
         this.obstaclesQuantity = obstaclesQuantity;
         this.cloningCost = cloningCost;
         this.initialEnergy = initialEnergy;
@@ -48,6 +51,11 @@ public class WorldConfiguration implements Configuration {
             return generateDefaultFoodQuanity();
         }
         return foodQuantity;
+    }
+
+    @Override
+    public int getMatchQuantity() {
+        return matchQuantity;
     }
 
     @Override

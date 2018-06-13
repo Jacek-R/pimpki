@@ -12,7 +12,8 @@ public interface MatchObserver {
     boolean registerClone(Pimpek pimpek);
     boolean registerEnergyPoints(Pimpek pimpek, int pointsToAdd);
     void registerDeath();
-    Map<Pimpek,PimpekStatistics> getStatistics();
+    Map<Pimpek,PimpekStatistics> getBeingsAndStats();
     int getLiving();
     int getDead();
+    void resurrectBeings();
 }

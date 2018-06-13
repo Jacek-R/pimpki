@@ -14,20 +14,20 @@ public class BasicObserver implements MatchObserver {
 
     private final PimpekGenerator pimpekGenerator;
     private final PimpekSpawner pimpekSpawner;
-    private Map<Pimpek, PimpekStatistics> statistics;
+    private Map<Pimpek, PimpekStatistics> beingsAndStats;
     private int living;
     private int dead;
 
     public BasicObserver(PimpekGenerator pimpekGenerator, PimpekSpawner pimpekSpawner) {
         this.pimpekGenerator = pimpekGenerator;
         this.pimpekSpawner = pimpekSpawner;
-        this.statistics = new HashMap<>();
+        this.beingsAndStats = new HashMap<>();
     }
 
     public BasicObserver(PimpekGenerator pimpekGenerator, PimpekSpawner pimpekSpawner, Set<Pimpek> pimpki) {
         this.pimpekGenerator = pimpekGenerator;
         this.pimpekSpawner = pimpekSpawner;
-        this.statistics = new HashMap<>();
+        this.beingsAndStats = new HashMap<>();
         pimpki.forEach(this::registerPimpek);
     }
 
@@ -57,13 +57,13 @@ public class BasicObserver implements MatchObserver {
     }
 
     @Override
-    public Map<Pimpek, PimpekStatistics> getStatistics() {
-        return statistics;
+    public Map<Pimpek, PimpekStatistics> getBeingsAndStats() {
+        return beingsAndStats;
     }
 
     @Override
     public int getLiving() {
-        int total = statistics.size() + living - dead;
+        int total = beingsAndStats.size() + living - dead;
         if (total < 0) {
             total = 0;
         }
@@ -75,14 +75,21 @@ public class BasicObserver implements MatchObserver {
         return dead;
     }
 
+    @Override
+    public void resurrectBeings() {
+        for(Pimpek being : beingsAndStats.keySet()) {
+            being.regenerate();
+        }
+    }
+
     private void registerPimpek(Pimpek pimpek) {
-        statistics.put(pimpek, new BasicPimpekStatistics());
+        beingsAndStats.put(pimpek, new BasicPimpekStatistics());
     }
 
     private PimpekStatistics getPimpekStatistics(Pimpek pimpek) {
-        if (! statistics.containsKey(pimpek)) {
+        if (! beingsAndStats.containsKey(pimpek)) {
             registerPimpek(pimpek);
         }
-        return statistics.get(pimpek);
+        return beingsAndStats.get(pimpek);
     }
 }

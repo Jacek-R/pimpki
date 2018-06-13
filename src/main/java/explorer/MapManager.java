@@ -94,6 +94,14 @@ public class MapManager implements WorldManager {
         this.food.put(coordinates, food);
     }
 
+    @Override
+    public void reset() {
+        predators.clear();
+        pacifists.clear();
+        food.clear();
+        obstacles.clear();
+    }
+
     private void clearPlace(Coordinates coordinates) {
         if (! isEmpty(coordinates) ) {
             predators.remove(coordinates);

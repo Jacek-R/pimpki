@@ -25,4 +25,6 @@ public interface WorldManager {
     void registerObstacle(Coordinates coordinates, Obstacle obstacle);
     void registerBeing(Coordinates coordinates, Pimpek being);
     void registerFood(Coordinates coordinates, Food food);
+
+    void reset();
 }
