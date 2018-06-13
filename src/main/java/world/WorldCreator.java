@@ -9,7 +9,6 @@ import model.cell.Cell;
 import model.cell.CellView;
 import model.cellcontent.Content;
 import model.cellcontent.Empty;
-import model.cellcontent.Type;
 import model.cellcontent.Wall;
 import model.configuration.Configuration;
 import model.food.Food;
