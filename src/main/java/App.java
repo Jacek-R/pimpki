@@ -14,10 +14,10 @@ public class App extends Application {
     @Override
     public void start(Stage primaryStage) throws Exception {
         primaryStage.setTitle("Super title");
-        Board world = new WorldCreator().create();
-        ScrollPane scrollPane = new ScrollPane(world.getGridPane());
-        primaryStage.setFullScreen(true);
-        primaryStage.setScene(new Scene(scrollPane, 400, 400));
-        primaryStage.show();
+//        Board world = new WorldCreator().create();
+//        ScrollPane scrollPane = new ScrollPane(world.getGridPane());
+//        primaryStage.setFullScreen(true);
+//        primaryStage.setScene(new Scene(scrollPane, 400, 400));
+//        primaryStage.show();
     }
 }

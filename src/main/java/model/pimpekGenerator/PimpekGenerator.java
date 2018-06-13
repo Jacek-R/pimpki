@@ -8,5 +8,4 @@ public interface PimpekGenerator {
 
     Set<Pimpek> generate();
     Pimpek clone(Pimpek pimpek);
-
 }

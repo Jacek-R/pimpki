@@ -12,69 +12,47 @@ public class Coords implements Coordinates {
 
     @Override
     public Coordinates get(int x, int y) {
-        setX(x);
-        setY(y);
-        return this;
+        return new Coords(x,y);
     }
 
     @Override
     public Coordinates getN() {
-        y++;
-        return this;
+        return new Coords(x, y+1);
     }
 
     @Override
     public Coordinates getNE() {
-        x++;
-        y++;
-        return null;
+        return new Coords(x+1, y+1);
     }
 
     @Override
     public Coordinates getE() {
-        x++;
-        return this;
+        return new Coords(x+1, y);
     }
 
     @Override
     public Coordinates getSE() {
-        y--;
-        x++;
-        return this;
+        return new Coords(x+1, y-1);
     }
 
     @Override
     public Coordinates getS() {
-        y--;
-        return this;
+        return new Coords(x, y-1);
     }
 
     @Override
     public Coordinates getSW() {
-        x--;
-        y--;
-        return this;
+        return new Coords(x-1, y-1);
     }
 
     @Override
     public Coordinates getW() {
-        x--;
-        return this;
+        return new Coords(x-1, y);
     }
 
     @Override
     public Coordinates getNW() {
-        x--;
-        y++;
-        return this;
-    }
-
-    private void setX(int x) {
-        this.x = x;
-    }
-
-    private void setY(int y) {
-        this.y = y;
+        return new Coords(x-1, y+1);
     }
 
     @Override
@@ -83,4 +61,8 @@ public class Coords implements Coordinates {
         return (x-1)*multiplier + (y+1)*(multiplier+1);
     }
 
+    @Override
+    public String toString() {
+        return String.format("x(%s), y(%s)", x, y);
+    }
 }

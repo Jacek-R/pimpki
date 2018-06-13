@@ -2,6 +2,8 @@ package model.pimpekSpawner;
 
 import explorer.WorldExplorer;
 import model.configuration.Configuration;
+import model.coordinates.Coordinates;
+import model.coordinates.Coords;
 import model.helpers.NameGenerator;
 import model.pimpek.Pimpek;
 import world.World;
@@ -21,7 +23,9 @@ public class BasicPimpekSpawner implements PimpekSpawner {
     @Override
     public boolean spawn(Set<Pimpek> pimpki) {
 
+        Coordinates coordinates = new Coords(0,0);
 
+//        explorer.
         // put pimpki on the world map
 
         return true;

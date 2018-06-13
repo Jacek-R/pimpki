@@ -12,6 +12,8 @@ import model.cellcontent.Empty;
 import model.cellcontent.Type;
 import model.cellcontent.Wall;
 import model.configuration.Configuration;
+import model.foodSpawner.FoodSpawner;
+import model.pimpekSpawner.PimpekSpawner;
 
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -24,7 +26,9 @@ public class WorldCreator implements BoardCreator {
     private final WorldExplorer explorer;
     private final Configuration configuration;
 
-    public WorldCreator(WorldExplorer explorer, Configuration configuration) {
+
+    public WorldCreator(WorldExplorer explorer, Configuration configuration,
+                        FoodSpawner foodSpawner, PimpekSpawner pimpekSpawner) {
         this.explorer = explorer;
         this.configuration = configuration;
         this.height = configuration.getMapHeight();

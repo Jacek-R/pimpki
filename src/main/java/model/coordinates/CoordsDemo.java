@@ -21,6 +21,18 @@ public class CoordsDemo {
         System.out.println(c4.hashCode());
 
 
+        System.out.println("******");
+        System.out.println(c0);
+        System.out.println(c0.getNE());
+        System.out.println(c0);
+        System.out.println(c0.getN());
+        System.out.println(c0.getNE());
+        System.out.println(c0.getNW());
+        System.out.println(c0.getW());
+        System.out.println(c0.getS());
+        System.out.println(c0);
+
+
 
 
 
