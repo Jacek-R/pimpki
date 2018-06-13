@@ -1,5 +1,6 @@
 package explorer;
 
+import model.cell.Cell;
 import model.cellcontent.Obstacle;
 import model.coordinates.Coordinates;
 import model.food.Food;
@@ -7,20 +8,27 @@ import model.pimpek.Pacifist;
 import model.pimpek.Pimpek;
 import model.pimpek.PimpekGenre;
 import model.pimpek.Predator;
+import world.Board;
 
 import java.util.HashMap;
 import java.util.Map;
 
 public class MapManager implements WorldManager {
 
+    private final Board board;
+
     private Map<Coordinates,Predator> predators = new HashMap<>();
     private Map<Coordinates,Pacifist> pacifists = new HashMap<>();
     private Map<Coordinates,Food> food = new HashMap<>();
     private Map<Coordinates,Obstacle> obstacles = new HashMap<>();
 
+    public MapManager(Board board) {
+        this.board = board;
+    }
+
     @Override
     public boolean isEmpty(Coordinates coordinates) {
-        return isFood(coordinates) || isObstacle(coordinates) || isBeing(coordinates);
+        return !isFood(coordinates) && !isObstacle(coordinates) && !isBeing(coordinates);
     }
 
     @Override
@@ -69,12 +77,30 @@ public class MapManager implements WorldManager {
     }
 
     @Override
-    public void registerObstacle(Coordinates coordinates, Obstacle obstacle) {
+    public boolean registerObstacle(Coordinates coordinates, Obstacle obstacle) {
+        if (! areCoordinatesValid(coordinates) ) {
+            return false;
+        }
+
         obstacles.put(coordinates, obstacle);
+
+        Cell cell = board.getCellAt(coordinates.getX(), coordinates.getY());
+        if (cell == null) {
+            return false;
+        }
+
+//        cell.setContent();
+
+        // ustaw ceontent w cell
+        return true;
     }
 
     @Override
-    public void registerBeing(Coordinates coordinates, Pimpek pimpek) {
+    public boolean registerBeing(Coordinates coordinates, Pimpek pimpek) {
+
+        if (! areCoordinatesValid(coordinates) ) {
+            return false;
+        }
 
         PimpekGenre genre = pimpek.getGenre();
         clearPlace(coordinates);
@@ -87,11 +113,36 @@ public class MapManager implements WorldManager {
                 predators.put(coordinates, (Predator) pimpek);
                 break;
         }
+
+
+        Cell cell = board.getCellAt(coordinates.getX(), coordinates.getY());
+        if (cell == null) {
+            return false;
+        }
+
+        // ustaw ceontent w cell
+
+        return true;
     }
 
     @Override
-    public void registerFood(Coordinates coordinates, Food food) {
+    public boolean registerFood(Coordinates coordinates, Food food) {
+
+        if (! areCoordinatesValid(coordinates) ) {
+            return false;
+        }
+
         this.food.put(coordinates, food);
+
+        Cell cell = board.getCellAt(coordinates.getX(), coordinates.getY());
+        if (cell == null) {
+            return false;
+        }
+
+        // ustaw ceontent w cell
+
+        return true;
+
     }
 
     @Override
@@ -109,5 +160,23 @@ public class MapManager implements WorldManager {
             food.remove(coordinates);
             obstacles.remove(coordinates);
         }
+    }
+
+    private boolean areCoordinatesValid(Coordinates coordinates) {
+        int x = coordinates.getX();
+        int y = coordinates.getY();
+
+        if (x < 0 || y < 0) {
+            return false;
+        }
+
+        int worldWidth = board.getWidth();
+        int worldHeith = board.getHeight();
+
+        if (x > worldWidth || y > worldHeith) {
+            return false;
+        }
+
+        return true;
     }
 }

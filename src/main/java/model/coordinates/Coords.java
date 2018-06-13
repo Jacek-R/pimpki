@@ -75,4 +75,14 @@ public class Coords implements Coordinates {
     public String toString() {
         return String.format("x(%s), y(%s)", x, y);
     }
+
+    @Override
+    public int getX() {
+        return x;
+    }
+
+    @Override
+    public int getY() {
+        return y;
+    }
 }
