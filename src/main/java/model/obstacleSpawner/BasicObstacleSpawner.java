@@ -38,4 +38,11 @@ public class BasicObstacleSpawner implements ObstacleSpawner {
         }
         return false;
     }
+
+    private Coordinates selectRandomCoordinates() {
+        Random random = new Random();
+        int x = random.nextInt(width);
+        int y = random.nextInt(height);
+        return new Coords(x, y);
+    }
 }
