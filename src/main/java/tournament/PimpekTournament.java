@@ -70,14 +70,10 @@ public class PimpekTournament implements Tournament {
 //        BoardCreator boardCreator = new WorldCreator(................);
 
         BoardCreator boardCreator = null;  // temporary! :D
+
+        
         // mamy gotowe i start:
 
-
-//        Configuration configuration, PimpekCloner pimpekCloner,
-//                FoodGenerator foodGenerator, PimpekSpawner pimpekSpawner,
-//                FoodSpawner foodSpawner, BoardCreator boardCreator,
-//                BasicObserver observer, WorldManager worldManager,
-//                Set<Pimpek> beings, StatisticToPoints statisticToPoints
 
 
         int matchQuantity = configuration.getMatchQuantity();
