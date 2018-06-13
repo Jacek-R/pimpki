@@ -28,7 +28,7 @@ public interface WorldManager {
     Food getFood(Coordinates coordinates);
 
     boolean registerObstacle(Coordinates coordinates, Obstacle obstacle) throws FileNotFoundException;
-    boolean registerBeing(Coordinates coordinates, Pimpek being);
+    boolean registerBeing(Coordinates coordinates, Pimpek being) throws FileNotFoundException;
     boolean registerFood(Coordinates coordinates, Food food) throws FileNotFoundException;
 
     void reset();

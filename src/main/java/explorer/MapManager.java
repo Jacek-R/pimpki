@@ -111,7 +111,7 @@ public class MapManager implements WorldManager {
     }
 
     @Override
-    public boolean registerBeing(Coordinates coordinates, Pimpek pimpek) {
+    public boolean registerBeing(Coordinates coordinates, Pimpek pimpek) throws FileNotFoundException {
 
         if (! areCoordinatesValid(coordinates) ) {
             return false;
@@ -133,9 +133,9 @@ public class MapManager implements WorldManager {
         Cell cell = board.getCellAt(coordinates.getX(), coordinates.getY());
         if (cell == null) {
             return false;
+        } else {
+            placePimpek(cell, pimpek);
         }
-
-        // ustaw ceontent w cell
 
         return true;
     }
@@ -169,6 +169,12 @@ public class MapManager implements WorldManager {
         }
 
         return true;
+    }
+
+    private void placePimpek(Cell cell, Pimpek pimpek) throws FileNotFoundException {
+        Content content = pimpek;
+        cell.setContent(pimpek);
+        cell.getCellView().setContent(ImageParser.getImage(content.getImagePath()));
     }
 
     private void placeFood(Cell cell, Food food) throws FileNotFoundException {
