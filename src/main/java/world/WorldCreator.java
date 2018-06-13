@@ -47,9 +47,17 @@ public class WorldCreator implements BoardCreator {
     }
 
     @Override
-    public Board create() throws FileNotFoundException {
-        Cell[][] cells = createEmptyCells();
+    public Board create() throws FileNotFoundException{
+        Board board = createEmptyBoard();
+        explorer.setBoard(board);
+        Cell[][] cells = board.getCells();
         populateWithElements(cells, Type.WALL);
+        board.setCells(cells);
+        return board;
+    }
+
+    public Board createEmptyBoard() throws FileNotFoundException {
+        Cell[][] cells = createEmptyCells();
         return new World(width, height, cells);
     }
 
