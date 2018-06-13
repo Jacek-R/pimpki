@@ -1,20 +1,14 @@
 package model.pimpekSpawner;
 
 import explorer.WorldManager;
-import model.coordinates.Coordinates;
-import model.coordinates.Coords;
 import model.pimpek.Pimpek;
-import world.World;
-
 import java.util.Set;
 
 public class BasicPimpekSpawner implements PimpekSpawner {
 
-    private World world;
-    private final WorldManager worldManager;
+    private WorldManager worldManager;
 
-    public BasicPimpekSpawner(World world, WorldManager worldManager) {
-        this.world = world;
+    public BasicPimpekSpawner(WorldManager worldManager) {
         this.worldManager = worldManager;
     }
 
