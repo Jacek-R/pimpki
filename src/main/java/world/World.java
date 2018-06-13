@@ -27,6 +27,18 @@ public class World {
         }
     }
 
+    public int getWidth() {
+        return width;
+    }
+
+    public int getHeight() {
+        return height;
+    }
+
+    public Cell getCellAt(int x, int y) {
+        return cells[x][y];
+    }
+
     public GridPane getGridPane() {
         return gridPane;
     }
