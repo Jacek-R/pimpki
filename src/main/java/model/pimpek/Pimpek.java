@@ -1,6 +1,5 @@
 package model.pimpek;
 
-import model.cell.Cell;
 import model.cellcontent.Content;
 import model.coordinates.Coordinates;
 import model.observer.MatchObserver;
@@ -15,4 +14,5 @@ public interface Pimpek extends Content {
     Coordinates getLocation();
     void setObserver(MatchObserver observer);
     void regenerate();
+    PimpekGenre getGenre();
 }

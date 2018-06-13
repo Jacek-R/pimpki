@@ -1,5 +1,9 @@
 package model.coordinates;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
 public class Coords implements Coordinates {
 
     private int x;
@@ -53,6 +57,12 @@ public class Coords implements Coordinates {
     @Override
     public Coordinates getNW() {
         return new Coords(x-1, y+1);
+    }
+
+    @Override
+    public List<Coordinates> getNeighbors() {
+
+        return new ArrayList<>(Arrays.asList(getE(), getN(), getS(), getW(), getNE(), getNW(), getSE(), getSW()));
     }
 
     @Override

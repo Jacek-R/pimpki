@@ -1,6 +1,6 @@
 package model.foodSpawner;
 
-import explorer.WorldExplorer;
+import explorer.WorldManager;
 import model.food.Food;
 import world.World;
 
@@ -9,17 +9,21 @@ import java.util.List;
 public class BasicFoodSpawner implements FoodSpawner {
 
     private World world;
-    private final WorldExplorer explorer;
+    private final WorldManager worldManager;
 
-    public BasicFoodSpawner(World world, WorldExplorer explorer) {
+    public BasicFoodSpawner(World world, WorldManager worldManager) {
         this.world = world;
-        this.explorer = explorer;
+        this.worldManager = worldManager;
     }
 
     @Override
     public boolean spawn(List<Food> foodCollection) {
 
-        // set proper content on field!
+
+        // algorytm wybiera coordynaty (Coordinates)
+        // po wybraniu rejetrujemy w worldManager:
+        // worldManager.registerFood(food); <-- ta metoda (worldManagera) mogłaby również seterem ustawić
+        // Content w danym cell
 
         return true;
     }

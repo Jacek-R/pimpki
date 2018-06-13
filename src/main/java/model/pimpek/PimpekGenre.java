@@ -6,6 +6,5 @@ package model.pimpek;
 
 public enum PimpekGenre {
 
-    SIMPLE, PREDATOR, INDIV, FARMER
-
+    PACIFIST, PREDATOR
 }

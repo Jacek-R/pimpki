@@ -1,5 +1,7 @@
 package model.coordinates;
 
+import java.util.List;
+
 public interface Coordinates {
 
     Coordinates get(int x, int y);
@@ -11,6 +13,7 @@ public interface Coordinates {
     Coordinates getSW();
     Coordinates getW();
     Coordinates getNW();
+    List<Coordinates> getNeighbors();
 
 
 }

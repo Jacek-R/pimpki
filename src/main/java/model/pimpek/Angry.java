@@ -1,6 +1,6 @@
 package model.pimpek;
 
-import explorer.WorldExplorer;
+import explorer.WorldManager;
 import model.cellcontent.Type;
 import world.Board;
 
@@ -10,11 +10,11 @@ public class Angry extends SimplePimpek implements Predator {
     private static final Type TYPE = Type.PREDATOR;
 
 
-    public Angry(String name, int energy, int cloningCost, WorldExplorer explorer) {
+    public Angry(String name, int energy, int cloningCost, WorldManager explorer) {
         super(name, energy, cloningCost, explorer);
     }
 
-    public Angry(Pimpek ancestor, String name, int energy, int cloningCost, WorldExplorer explorer) {
+    public Angry(Pimpek ancestor, String name, int energy, int cloningCost, WorldManager explorer) {
         super(ancestor, name, energy, cloningCost, explorer);
     }
 
