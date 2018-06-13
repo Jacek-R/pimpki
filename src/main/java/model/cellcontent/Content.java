@@ -6,4 +6,8 @@ import java.io.FileNotFoundException;
 
 public interface Content {
     Image getImage() throws FileNotFoundException;
+
+    Type getType();
+
+    boolean isAccessible();
 }

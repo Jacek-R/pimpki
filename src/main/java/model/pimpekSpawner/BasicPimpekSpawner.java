@@ -1,9 +1,9 @@
 package model.pimpekSpawner;
 
-import model.World;
 import model.configuration.Configuration;
 import model.helpers.NameGenerator;
 import model.pimpek.Pimpek;
+import world.World;
 
 import java.util.Set;
 
