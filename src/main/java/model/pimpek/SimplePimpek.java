@@ -2,9 +2,16 @@ package model.pimpek;
 
 import explorer.WorldExplorer;
 import model.cell.Cell;
+import model.cellcontent.Type;
+import model.coordinates.Coordinates;
+import model.events.BasicEvent;
+import model.events.Event;
 import model.observer.MatchObserver;
 import model.observer.NullObserver;
 import world.Board;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * basic genre - a bit stupid
@@ -13,8 +20,10 @@ import world.Board;
 public class SimplePimpek implements Pacifist {
 
     private final Pimpek ancestor;  // use it to update statistic (observer)
+    private static final String IMAGE_PATH = "src/main/resources/img/pimpek.png";
+    private static final Type TYPE = Type.PIMPEK;
     private final String name;
-    private Cell currentLocation;
+    private Coordinates currentLocation;
     private int energy;
     private final int cloningCost;
     private MatchObserver observer = new NullObserver();  // null object pattern to avoid null pointer ex
@@ -44,9 +53,45 @@ public class SimplePimpek implements Pacifist {
 
     @Override
     public void act(Board world) {
+        Event event = scan(world);
+        switch(event.getName()){
+            case "EAT":
+                eat()
 
-        // to implement
+        }
 
+
+    }
+
+    private Event scan(Board world) {
+        List<Coordinates> fieldOfView = getFieldOfView();
+        Event event = new BasicEvent("WAIT", currentLocation);
+        for(Coordinates coord : fieldOfView){
+            if(explorer.isFood(coord)){
+                 event = new BasicEvent("EAT", coord);
+                 return event;
+            }else if(explorer.isPredator(coord)){
+                event = new BasicEvent("RUN", coord);
+                return event;
+            }else if(!explorer.isObstacle(coord)){
+                event = new BasicEvent("MOVE", coord);
+            }
+        }
+        return event;
+    }
+
+    private List<Coordinates> getFieldOfView() {
+        List<Coordinates> coords = new ArrayList<>();
+        coords.add(currentLocation.getE());
+        coords.add(currentLocation.getNE());
+        coords.add(currentLocation.getS());
+        coords.add(currentLocation.getSE());
+        coords.add(currentLocation.getSW());
+        coords.add(currentLocation.getW());
+        coords.add(currentLocation.getNW());
+        coords.add(currentLocation.getN());
+
+        return coords;
     }
 
     @Override
@@ -60,12 +105,12 @@ public class SimplePimpek implements Pacifist {
     }
 
     @Override
-    public void setLocation(Cell location) {
+    public void setLocation(Coordinates location) {
         currentLocation = location;
     }
 
     @Override
-    public Cell getLocation() {
+    public Coordinates getLocation() {
         return currentLocation;
     }
 
@@ -97,5 +142,20 @@ public class SimplePimpek implements Pacifist {
 
     protected WorldExplorer getExplorer() {
         return explorer;
+    }
+
+    @Override
+    public String getImagePath() {
+        return IMAGE_PATH;
+    }
+
+    @Override
+    public Type getType() {
+        return TYPE;
+    }
+
+    @Override
+    public boolean isAccessible() {
+        return true;
     }
 }
