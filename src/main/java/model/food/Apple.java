@@ -2,14 +2,14 @@ package model.food;
 
 import model.CellPaths;
 
-public class Strawberry implements Food {
+public class Apple implements Food {
 
-    private static final String IMAGE_PATH = CellPaths.STRAWBERRY.getPath();
-    private static final FoodGenre genre = FoodGenre.STRAWBERRY;
+    private static final String IMAGE_PATH = CellPaths.APPLE.getPath();
+    private static final FoodGenre genre = FoodGenre.APPLE;
 
     @Override
     public int getEnergy() {
-        return 40;
+        return 35;
     }
 
     @Override

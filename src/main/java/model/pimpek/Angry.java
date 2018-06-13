@@ -1,14 +1,12 @@
 package model.pimpek;
 
 import explorer.WorldManager;
-import model.cellcontent.Type;
+import model.CellPaths;
 import world.Board;
 
 public class Angry extends SimplePimpek implements Predator {
 
-    private static final String IMAGE_PATH = "src/main/resources/img/pimpek.png";
-    private static final Type TYPE = Type.PREDATOR;
-
+    private static final String IMAGE_PATH = CellPaths.PREDATOR.getPath();
 
     public Angry(String name, int energy, int cloningCost, WorldManager explorer) {
         super(name, energy, cloningCost, explorer);
@@ -27,16 +25,5 @@ public class Angry extends SimplePimpek implements Predator {
     public String getImagePath() {
         return IMAGE_PATH;
     }
-
-    @Override
-    public Type getType() {
-        return TYPE;
-    }
-
-    @Override
-    public boolean isAccessible() {
-        return true;
-    }
-
 
 }

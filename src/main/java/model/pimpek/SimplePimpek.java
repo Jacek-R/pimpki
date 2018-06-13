@@ -1,7 +1,7 @@
 package model.pimpek;
 
 import explorer.WorldManager;
-import model.cellcontent.Type;
+import model.CellPaths;
 import model.coordinates.Coordinates;
 //import model.events.BasicEvent;
 //import model.events.Event;
@@ -19,8 +19,7 @@ import java.util.List;
 public class SimplePimpek implements Pacifist {
 
     private final Pimpek ancestor;  // use it to update statistic (observer)
-    private static final String IMAGE_PATH = "src/main/resources/img/pimpek.png";
-    private static final Type TYPE = Type.PIMPEK;
+    private static final String IMAGE_PATH = CellPaths.PIMPEK.getPath();
     private final String name;
     private Coordinates currentLocation;
     private int energy;
@@ -157,15 +156,5 @@ public class SimplePimpek implements Pacifist {
     @Override
     public String getImagePath() {
         return IMAGE_PATH;
-    }
-
-    @Override
-    public Type getType() {
-        return TYPE;
-    }
-
-    @Override
-    public boolean isAccessible() {
-        return true;
     }
 }
