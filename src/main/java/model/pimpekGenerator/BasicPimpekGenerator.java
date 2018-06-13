@@ -1,9 +1,9 @@
 package model.pimpekGenerator;
 
 import model.configuration.Configuration;
-import model.helpers.NameGenerator;
 import model.pimpek.Pimpek;
 import model.pimpek.PimpekGenre;
+import model.pimpekFactory.PimpekFactory;
 
 import java.util.HashSet;
 import java.util.Map;
@@ -30,10 +30,5 @@ public class BasicPimpekGenerator implements PimpekGenerator {
             }
         }
         return beings;
-    }
-
-    @Override
-    public Pimpek clone(Pimpek pimpek) {
-        return null;
     }
 }

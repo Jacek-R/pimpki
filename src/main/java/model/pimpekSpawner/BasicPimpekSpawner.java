@@ -5,8 +5,9 @@ import model.pimpek.Pimpek;
 import java.util.Set;
 
 public class BasicPimpekSpawner implements PimpekSpawner {
+  
+    private final WorldManager worldManager;
 
-    private WorldManager worldManager;
 
     public BasicPimpekSpawner(WorldManager worldManager) {
         this.worldManager = worldManager;

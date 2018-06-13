@@ -3,7 +3,8 @@ package model.foodGenerator;
 import model.configuration.Configuration;
 import model.food.Food;
 
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 
 public class BasicFoodGenerator implements FoodGenerator {
 
@@ -14,7 +15,13 @@ public class BasicFoodGenerator implements FoodGenerator {
     }
 
     @Override
-    public List<Food> generate() {
-        return null;
+    public Set<Food> generate() {
+
+
+        // to implement
+
+
+
+        return new HashSet<>();
     }
 }

@@ -15,4 +15,5 @@ public interface Pimpek extends Content {
     void setObserver(MatchObserver observer);
     void regenerate();
     PimpekGenre getGenre();
+    Pimpek getAncestor();
 }
