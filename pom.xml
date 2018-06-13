@@ -7,6 +7,13 @@
     <groupId>com.codecool.pimpki</groupId>
     <artifactId>pimpki</artifactId>
     <version>1.0-SNAPSHOT</version>
+    <dependencies>
+        <dependency>
+            <groupId>com.github.javafaker</groupId>
+            <artifactId>javafaker</artifactId>
+            <version>0.12</version>
+        </dependency>
+    </dependencies>
     <build>
         <plugins>
             <plugin>
@@ -17,6 +24,10 @@
                     <target>1.8</target>
                 </configuration>
             </plugin>
+
+
+
         </plugins>
+
     </build>
 </project>
