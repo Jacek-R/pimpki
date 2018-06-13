@@ -29,7 +29,7 @@ public interface WorldManager {
 
     boolean registerObstacle(Coordinates coordinates, Obstacle obstacle) throws FileNotFoundException;
     boolean registerBeing(Coordinates coordinates, Pimpek being);
-    boolean registerFood(Coordinates coordinates, Food food);
+    boolean registerFood(Coordinates coordinates, Food food) throws FileNotFoundException;
 
     void reset();
     Coordinates selectRandomCoordinates();
