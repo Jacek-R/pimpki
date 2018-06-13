@@ -12,25 +12,36 @@ import model.cellcontent.Empty;
 import model.cellcontent.Type;
 import model.cellcontent.Wall;
 import model.configuration.Configuration;
+import model.food.Food;
 import model.foodSpawner.FoodSpawner;
+import model.pimpek.Pimpek;
 import model.pimpekSpawner.PimpekSpawner;
 
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.util.Random;
+import java.util.Set;
 
 public class WorldCreator implements BoardCreator {
 
-    private int height;
-    private int width;
     private final WorldManager explorer;
     private final Configuration configuration;
+    private final FoodSpawner foodSpawner;
+    private final PimpekSpawner pimpekSpawner;
+    private Set<Pimpek> beings;
+    private Set<Food> supplies;
+    private int height;
+    private int width;
 
 
     public WorldCreator(WorldManager explorer, Configuration configuration,
-                        FoodSpawner foodSpawner, PimpekSpawner pimpekSpawner) {
+                        FoodSpawner foodSpawner, PimpekSpawner pimpekSpawner, Set<Pimpek> beings, Set<Food>supplies) {
         this.explorer = explorer;
         this.configuration = configuration;
+        this.foodSpawner = foodSpawner;
+        this.pimpekSpawner = pimpekSpawner;
+        this.beings = beings;
+        this.supplies = supplies;
         this.height = configuration.getMapHeight();
         this.width = configuration.getMapWidth();
     }
@@ -39,7 +50,6 @@ public class WorldCreator implements BoardCreator {
     public Board create() throws FileNotFoundException {
         Cell[][] cells = createEmptyCells();
         populateWithElements(cells, Type.WALL);
-//        populateWithElements(cells, Type.FOOD);
         return new World(width, height, cells);
     }
 
