@@ -1,4 +1,4 @@
-package model;
+package world;
 
 import javafx.scene.layout.GridPane;
 import model.cell.Cell;
