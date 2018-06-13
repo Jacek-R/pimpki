@@ -22,9 +22,9 @@ public interface WorldManager {
     Pacifist getPacifist(Coordinates coordinates);
     Food getFood(Coordinates coordinates);
 
-    void registerObstacle(Coordinates coordinates, Obstacle obstacle);
-    void registerBeing(Coordinates coordinates, Pimpek being);
-    void registerFood(Coordinates coordinates, Food food);
+    boolean registerObstacle(Coordinates coordinates, Obstacle obstacle);
+    boolean registerBeing(Coordinates coordinates, Pimpek being);
+    boolean registerFood(Coordinates coordinates, Food food);
 
     void reset();
 }
