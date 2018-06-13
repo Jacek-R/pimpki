@@ -6,9 +6,12 @@ import model.food.Food;
 import model.pimpek.Pacifist;
 import model.pimpek.Pimpek;
 import model.pimpek.Predator;
+import world.Board;
 
 public interface WorldManager {
 
+
+    void setBoard(Board board);
 
     boolean isEmpty(Coordinates coordinates);
     boolean isFood(Coordinates coordinates);
