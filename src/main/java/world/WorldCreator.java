@@ -4,6 +4,7 @@ import explorer.WorldManager;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.StackPane;
+import model.CellPaths;
 import model.cell.BasicCell;
 import model.cell.Cell;
 import model.cell.CellView;
@@ -19,7 +20,6 @@ import model.pimpekSpawner.PimpekSpawner;
 
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
-import java.util.List;
 import java.util.Random;
 import java.util.Set;
 
@@ -82,7 +82,7 @@ public class WorldCreator implements BoardCreator {
     private CellView createCellView(Content content) throws FileNotFoundException {
         return new CellView(
                 new StackPane(),
-                new ImageView(new Image(new FileInputStream("src/main/resources/img/grass.png"))),
+                new ImageView(new Image(new FileInputStream(CellPaths.GRASS.getPath()))),
                 new ImageView(ImageParser.getImage(content.getImagePath()))
         );
     }
