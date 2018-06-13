@@ -5,6 +5,7 @@ import model.cellcontent.Content;
 import model.cellcontent.Obstacle;
 import model.cellcontent.Wall;
 import model.coordinates.Coordinates;
+import model.coordinates.Coords;
 import model.food.Food;
 import model.pimpek.Pacifist;
 import model.pimpek.Pimpek;
@@ -16,6 +17,7 @@ import world.ImageParser;
 import java.io.FileNotFoundException;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Random;
 
 public class MapManager implements WorldManager {
 
@@ -187,12 +189,19 @@ public class MapManager implements WorldManager {
         }
 
         int worldWidth = board.getWidth();
-        int worldHeith = board.getHeight();
+        int worldHeight = board.getHeight();
 
-        if (x > worldWidth || y > worldHeith) {
+        if (x > worldWidth || y > worldHeight) {
             return false;
         }
 
         return true;
+    }
+
+    public Coordinates selectRandomCoordinates() {
+        Random random = new Random();
+        int x = random.nextInt(board.getWidth());
+        int y = random.nextInt(board.getHeight());
+        return new Coords(x, y);
     }
 }

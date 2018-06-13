@@ -3,11 +3,9 @@ package model.obstacleSpawner;
 import explorer.WorldManager;
 import model.cellcontent.Wall;
 import model.coordinates.Coordinates;
-import model.coordinates.Coords;
 import world.Board;
 
 import java.io.FileNotFoundException;
-import java.util.Random;
 
 public class BasicObstacleSpawner implements ObstacleSpawner {
 
@@ -29,7 +27,7 @@ public class BasicObstacleSpawner implements ObstacleSpawner {
             boolean contentPlaced = false;
             int triesLeft = width * height * 10;
             do {
-                Coordinates coordinates = selectRandomCoordinates();
+                Coordinates coordinates = worldManager.selectRandomCoordinates();
                 if (worldManager.isEmpty(coordinates)) {
                     contentPlaced = worldManager.registerObstacle(coordinates, new Wall());
                 }
@@ -39,10 +37,4 @@ public class BasicObstacleSpawner implements ObstacleSpawner {
         return false;
     }
 
-    private Coordinates selectRandomCoordinates() {
-        Random random = new Random();
-        int x = random.nextInt(width);
-        int y = random.nextInt(height);
-        return new Coords(x, y);
-    }
 }

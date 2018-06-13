@@ -32,4 +32,5 @@ public interface WorldManager {
     boolean registerFood(Coordinates coordinates, Food food);
 
     void reset();
+    Coordinates selectRandomCoordinates();
 }
