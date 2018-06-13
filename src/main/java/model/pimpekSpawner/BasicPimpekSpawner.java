@@ -10,11 +10,9 @@ import java.util.Set;
 
 public class BasicPimpekSpawner implements PimpekSpawner {
 
-    private World world;
     private final WorldManager worldManager;
 
-    public BasicPimpekSpawner(World world, WorldManager worldManager) {
-        this.world = world;
+    public BasicPimpekSpawner(WorldManager worldManager) {
         this.worldManager = worldManager;
     }
 

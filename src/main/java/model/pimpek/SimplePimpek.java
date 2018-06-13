@@ -137,7 +137,8 @@ public class SimplePimpek implements Pacifist {
         return observer;
     }
 
-    protected Pimpek getAncestor() {
+    @Override
+    public Pimpek getAncestor() {
         return ancestor;
     }
 

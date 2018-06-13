@@ -8,11 +8,9 @@ import java.util.List;
 
 public class BasicFoodSpawner implements FoodSpawner {
 
-    private World world;
     private final WorldManager worldManager;
 
-    public BasicFoodSpawner(World world, WorldManager worldManager) {
-        this.world = world;
+    public BasicFoodSpawner(WorldManager worldManager) {
         this.worldManager = worldManager;
     }
 

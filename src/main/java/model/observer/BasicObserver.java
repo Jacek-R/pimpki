@@ -1,7 +1,7 @@
 package model.observer;
 
 import model.pimpek.Pimpek;
-import model.pimpekGenerator.PimpekGenerator;
+import model.pimpekCloner.PimpekCloner;
 import model.pimpekSpawner.PimpekSpawner;
 import model.pimpekStatistic.BasicPimpekStatistics;
 import model.pimpekStatistic.PimpekStatistics;
@@ -12,20 +12,20 @@ import java.util.Set;
 
 public class BasicObserver implements MatchObserver {
 
-    private final PimpekGenerator pimpekGenerator;
+    private final PimpekCloner pimpekCloner;
     private final PimpekSpawner pimpekSpawner;
     private Map<Pimpek, PimpekStatistics> beingsAndStats;
     private int living;
     private int dead;
 
-    public BasicObserver(PimpekGenerator pimpekGenerator, PimpekSpawner pimpekSpawner) {
-        this.pimpekGenerator = pimpekGenerator;
+    public BasicObserver(PimpekCloner pimpekCloner, PimpekSpawner pimpekSpawner) {
+        this.pimpekCloner = pimpekCloner;
         this.pimpekSpawner = pimpekSpawner;
         this.beingsAndStats = new HashMap<>();
     }
 
-    public BasicObserver(PimpekGenerator pimpekGenerator, PimpekSpawner pimpekSpawner, Set<Pimpek> pimpki) {
-        this.pimpekGenerator = pimpekGenerator;
+    public BasicObserver(PimpekCloner pimpekCloner, PimpekSpawner pimpekSpawner, Set<Pimpek> pimpki) {
+        this.pimpekCloner = pimpekCloner;
         this.pimpekSpawner = pimpekSpawner;
         this.beingsAndStats = new HashMap<>();
         pimpki.forEach(this::registerPimpek);
@@ -40,7 +40,7 @@ public class BasicObserver implements MatchObserver {
     public boolean registerClone(Pimpek pimpek) {
 
         getPimpekStatistics(pimpek).incrementCloningPoints();
-        Pimpek cloned = pimpekGenerator.clone(pimpek);
+        Pimpek cloned = pimpekCloner.clone(pimpek);
         living++;
         return pimpekSpawner.spawnClone(cloned, pimpek);
     }
