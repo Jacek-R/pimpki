@@ -65,7 +65,8 @@ public class WorldCreator implements BoardCreator {
         return new World(width, height, cells);
     }
 
-    public void populate(){
+    public void populate() throws FileNotFoundException {
+        obstacleSpawner.spawn(obstaclesQuantity);
     }
 
     private Cell[][] createEmptyCells() throws FileNotFoundException {
