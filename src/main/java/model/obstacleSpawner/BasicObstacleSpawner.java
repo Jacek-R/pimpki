@@ -9,7 +9,7 @@ import java.io.FileNotFoundException;
 
 public class BasicObstacleSpawner implements ObstacleSpawner {
 
-    private WorldManager worldManager;
+    private final WorldManager worldManager;
     private Board board;
     private int width;
     private int height;

@@ -10,7 +10,7 @@ import java.util.Set;
 
 public class BasicFoodSpawner implements FoodSpawner {
 
-    private WorldManager worldManager;
+    private final WorldManager worldManager;
     private Board board;
 
     public BasicFoodSpawner(WorldManager worldManager) {
