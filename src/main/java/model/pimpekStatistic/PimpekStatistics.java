@@ -6,6 +6,4 @@ public interface PimpekStatistics {
     void incrementCloningPoints();
     int getEnergyPoints();
     int getCloningPoints();
-    boolean isLive();
-    void registerDeath();
 }

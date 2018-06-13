@@ -11,5 +11,5 @@ public interface Pimpek {
     void setLocation(Cell location);
     Cell getLocation();
     void setObserver(MatchObserver observer);
-
+    void regenerate();
 }

@@ -27,7 +27,7 @@ public class BasicPimpekSpawner implements PimpekSpawner {
     @Override
     public boolean spawnClone(Pimpek cloned, Pimpek parent) {
 
-        // put clone on the world map
+        // put registerClone on the world map
 
         return true;
     }

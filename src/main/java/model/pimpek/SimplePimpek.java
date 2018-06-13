@@ -16,6 +16,7 @@ public class SimplePimpek implements Pimpek {
     private int energy;
     private final int cloningCost;
     private MatchObserver observer = new NullObserver();  // null object pattern to avoid null pointer ex
+    private final int totalEnergy;
 
 
     // constructor for origin/root pimpek:
@@ -24,6 +25,7 @@ public class SimplePimpek implements Pimpek {
         this.name = name;
         this.energy = energy;
         this.cloningCost = cloningCost;
+        this.totalEnergy = energy;
     }
 
     // constructor for clones:
@@ -32,6 +34,7 @@ public class SimplePimpek implements Pimpek {
         this.name = name;
         this.energy = energy;
         this.cloningCost = cloningCost;
+        this.totalEnergy = energy;
     }
 
     @Override
@@ -66,6 +69,11 @@ public class SimplePimpek implements Pimpek {
         this.observer = observer;
     }
 
+    @Override
+    public void regenerate() {
+        this.energy = totalEnergy;
+    }
+
     protected MatchObserver getObserver() {
         return observer;
     }
@@ -76,5 +84,9 @@ public class SimplePimpek implements Pimpek {
 
     protected int getCloningCost() {
         return cloningCost;
+    }
+
+    protected int getTotalEnergy() {
+        return totalEnergy;
     }
 }

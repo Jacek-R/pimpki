@@ -10,12 +10,10 @@ import java.util.Set;
 public class NullObserver implements MatchObserver {
 
     @Override
-    public void registerBeings(Set<Pimpek> toObserve) {
-
-    }
+    public void registerBeings(Set<Pimpek> toObserve) { }
 
     @Override
-    public boolean clone(Pimpek pimpek) {
+    public boolean registerClone(Pimpek pimpek) {
         return false;
     }
 
@@ -25,12 +23,20 @@ public class NullObserver implements MatchObserver {
     }
 
     @Override
-    public boolean registerDeath(Pimpek pimpek) {
-        return false;
-    }
+    public void registerDeath() { }
 
     @Override
     public Map<Pimpek, PimpekStatistics> getStatistics() {
         return new HashMap<>();
+    }
+
+    @Override
+    public int getLiving() {
+        return 0;
+    }
+
+    @Override
+    public int getDead() {
+        return 0;
     }
 }

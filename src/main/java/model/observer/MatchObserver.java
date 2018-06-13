@@ -9,8 +9,10 @@ import java.util.Set;
 public interface MatchObserver {
 
     void registerBeings(Set<Pimpek> toObserve);
-    boolean clone(Pimpek pimpek);
+    boolean registerClone(Pimpek pimpek);
     boolean registerEnergyPoints(Pimpek pimpek, int pointsToAdd);
-    boolean registerDeath(Pimpek pimpek);
+    void registerDeath();
     Map<Pimpek,PimpekStatistics> getStatistics();
+    int getLiving();
+    int getDead();
 }

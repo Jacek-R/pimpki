@@ -15,6 +15,8 @@ public class BasicObserver implements MatchObserver {
     private final PimpekGenerator pimpekGenerator;
     private final PimpekSpawner pimpekSpawner;
     private Map<Pimpek, PimpekStatistics> statistics;
+    private int living;
+    private int dead;
 
     public BasicObserver(PimpekGenerator pimpekGenerator, PimpekSpawner pimpekSpawner) {
         this.pimpekGenerator = pimpekGenerator;
@@ -35,10 +37,11 @@ public class BasicObserver implements MatchObserver {
     }
 
     @Override
-    public boolean clone(Pimpek pimpek) {
+    public boolean registerClone(Pimpek pimpek) {
 
         getPimpekStatistics(pimpek).incrementCloningPoints();
         Pimpek cloned = pimpekGenerator.clone(pimpek);
+        living++;
         return pimpekSpawner.spawnClone(cloned, pimpek);
     }
 
@@ -49,14 +52,27 @@ public class BasicObserver implements MatchObserver {
     }
 
     @Override
-    public boolean registerDeath(Pimpek pimpek) {
-        getPimpekStatistics(pimpek).registerDeath();
-        return true;
+    public void registerDeath() {
+        dead++;
     }
 
     @Override
     public Map<Pimpek, PimpekStatistics> getStatistics() {
         return statistics;
+    }
+
+    @Override
+    public int getLiving() {
+        int total = statistics.size() + living - dead;
+        if (total < 0) {
+            total = 0;
+        }
+        return total;
+    }
+
+    @Override
+    public int getDead() {
+        return dead;
     }
 
     private void registerPimpek(Pimpek pimpek) {
