@@ -1,6 +1,6 @@
 package model.food;
 
-public class Carrot implements Food {
+public class Apple implements Food {
 
     @Override
     public int getEnergy() {
