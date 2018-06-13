@@ -64,6 +64,7 @@ public class WorldCreator implements BoardCreator {
     }
 
     public void populate() throws FileNotFoundException {
+        pimpekSpawner.spawn(beings);
         foodSpawner.spawn(supplies);
         obstacleSpawner.spawn(obstaclesQuantity);
     }
