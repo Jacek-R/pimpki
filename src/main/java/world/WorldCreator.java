@@ -10,7 +10,6 @@ import model.cell.Cell;
 import model.cell.CellView;
 import model.cellcontent.Content;
 import model.cellcontent.Empty;
-import model.cellcontent.Wall;
 import model.configuration.Configuration;
 import model.food.Food;
 import model.foodSpawner.FoodSpawner;
@@ -20,7 +19,6 @@ import model.pimpekSpawner.PimpekSpawner;
 
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
-import java.util.Random;
 import java.util.Set;
 
 public class WorldCreator implements BoardCreator {
