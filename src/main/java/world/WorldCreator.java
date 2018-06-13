@@ -6,7 +6,10 @@ import javafx.scene.layout.StackPane;
 import model.cell.BasicCell;
 import model.cell.Cell;
 import model.cell.CellView;
-import model.cellcontent.*;
+import model.cellcontent.Content;
+import model.cellcontent.Empty;
+import model.cellcontent.Type;
+import model.cellcontent.Wall;
 
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -89,7 +92,7 @@ public class WorldCreator implements BoardCreator {
                 content = new Empty();
                 break;
             case FOOD:
-                content = new Food();
+                content = new Empty();
                 break;
             default:
                 content = new Empty();
