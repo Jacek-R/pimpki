@@ -81,11 +81,6 @@ public class WorldConfiguration implements Configuration {
     }
 
     @Override
-    public int getMaxTurns() {
-        return maxTurns;
-    }
-
-    @Override
     public int getObstaclesQuantity() {
         return obstaclesQuantity;
     }
