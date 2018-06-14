@@ -20,12 +20,12 @@ public class BasicFoodSpawner implements FoodSpawner {
     @Override
     public boolean spawn(Set<Food> foodCollection) throws FileNotFoundException {
         this.board = worldManager.getBoard();
-        for (int i = 0; i < foodCollection.size(); i++) {
+        for (Food food: foodCollection) {
             boolean contentPlaced = false;
             while (!contentPlaced){
                 Coordinates coordinates = worldManager.selectRandomCoordinates();
                 if (worldManager.isEmpty(coordinates)) {
-                    contentPlaced = worldManager.registerFood(coordinates, foodCollection.iterator().next());
+                    contentPlaced = worldManager.registerFood(coordinates, food);
                 }
             }
         }

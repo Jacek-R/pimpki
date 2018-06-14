@@ -20,12 +20,12 @@ public class BasicPimpekSpawner implements PimpekSpawner {
     @Override
     public boolean spawn(Set<Pimpek> pimpki) throws FileNotFoundException {
         this.board = worldManager.getBoard();
-        for (int i = 0; i < pimpki.size(); i++) {
+        for (Pimpek pimpek: pimpki) {
             boolean contentPlaced = false;
             while (!contentPlaced){
                 Coordinates coordinates = worldManager.selectRandomCoordinates();
                 if (worldManager.isEmpty(coordinates)) {
-                    contentPlaced = worldManager.registerBeing(coordinates, pimpki.iterator().next());
+                    contentPlaced = worldManager.registerBeing(coordinates, pimpek);
                 }
             }
         }
