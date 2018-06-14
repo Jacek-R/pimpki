@@ -18,7 +18,7 @@ public class BasicEvent implements Event {
     }
 
     @Override
-    public Coordinates getCords() {
+    public Coordinates getCoords() {
         return cords;
     }
 }

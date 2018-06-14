@@ -5,11 +5,12 @@ import model.CellPaths;
 import model.coordinates.Coordinates;
 import model.events.BasicEvent;
 import model.events.Event;
+import model.food.Food;
 import model.observer.MatchObserver;
 import model.observer.NullObserver;
 import world.Board;
 
-import java.util.ArrayList;
+import java.io.FileNotFoundException;
 import java.util.List;
 
 /**
@@ -51,14 +52,63 @@ public class SimplePimpek implements Pacifist {
     }
 
     @Override
-    public void act(Board world) {
-//        Event event = scan(world);
-//        switch(event.getName()){
-//            case "EAT":
-//                eat()
-//
-//        }
+    public void act(Board world) throws FileNotFoundException {
+        Event event = scan(world);
+        switch(event.getName()){
+            case "MOVE":
+                move(event.getCoords());
+                break;
+            case "EAT":
+                eat(event.getCoords());
+                break;
+            case "RUN":
+                run(event.getCoords());
+                break;
+            case "WAIT":
+                break;
 
+        }
+
+    }
+
+    private void move(Coordinates coords) throws FileNotFoundException{
+        explorer.registerBeing(coords, this);
+        setLocation(coords);
+    }
+
+    private void run(Coordinates coords) throws FileNotFoundException {
+
+        /**
+         * need to check if we can move there (there are no obstacle, other predators or something)
+         */
+//        Coordinates whereRun = null;
+//
+//        if(currentLocation.getN() == coords){
+//            whereRun = currentLocation.getSW();
+//        }else if(currentLocation.getS() == coords){
+//            whereRun = currentLocation.getNE();
+//        }else if(currentLocation.getW() == coords){
+//            whereRun = currentLocation.getNE();
+//        }else if(currentLocation.getE() == coords){
+//            whereRun = currentLocation.getSW();
+//        }else if(currentLocation.getNE() == coords){
+//            whereRun = currentLocation.getSW();
+//        }else if(currentLocation.getNW() == coords){
+//            whereRun = currentLocation.getSE();
+//        }else if(currentLocation.getSE() == coords){
+//            whereRun = currentLocation.getNW();
+//        }else if(currentLocation.getSW() == coords){
+//            whereRun = currentLocation.getNE();
+//        }
+//
+//        move(whereRun);
+    }
+
+    private void eat(Coordinates coords) throws FileNotFoundException {
+        Food food = explorer.getFood(coords);
+        this.energy += food.getEnergy();
+        observer.registerEnergyPoints(this, food.getEnergy());
+        move(coords);
 
     }
 

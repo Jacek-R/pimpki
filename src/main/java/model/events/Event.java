@@ -5,6 +5,6 @@ import model.coordinates.Coordinates;
 public interface Event {
 
     String getName();
-    Coordinates getCords();
+    Coordinates getCoords();
 
 }
