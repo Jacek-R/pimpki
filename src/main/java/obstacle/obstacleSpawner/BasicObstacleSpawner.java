@@ -36,5 +36,4 @@ public class BasicObstacleSpawner implements ObstacleSpawner {
         }
         return true;
     }
-
 }

@@ -19,11 +19,20 @@ public class WorldConfiguration implements Configuration {
     private final int obstaclesQuantity;
     private final int cloningCost;
     private final int initialEnergy;
+    private final int maxTurns;
     private final Map<PimpekGenre,Integer> pimpeksQuantity;
     private final Map<FoodGenre,Integer> foodQuantity;
 
-    public WorldConfiguration(int mapWidth, int mapHeight, int matchQuantity, int obstaclesQuantity,
-                              int cloningCost, int initialEnergy) {
+    public static Configuration getInstance(int mapWidth, int mapHeight, int matchQuantity, int obstaclesQuantity,
+                                            int cloningCost, int initialEnergy, int maxTurns) {
+
+        return new WorldConfiguration(mapWidth, mapHeight, matchQuantity, obstaclesQuantity,
+                cloningCost, initialEnergy, maxTurns);
+
+    }
+
+    private WorldConfiguration(int mapWidth, int mapHeight, int matchQuantity, int obstaclesQuantity,
+                              int cloningCost, int initialEnergy, int maxTurns) {
         this.mapWidth = mapWidth;
         this.mapHeight = mapHeight;
         this.matchQuantity = matchQuantity;
@@ -32,6 +41,7 @@ public class WorldConfiguration implements Configuration {
         this.initialEnergy = initialEnergy;
         this.pimpeksQuantity = new HashMap<>();
         this.foodQuantity = new HashMap<>();
+        this.maxTurns = maxTurns;
     }
 
 
@@ -64,6 +74,11 @@ public class WorldConfiguration implements Configuration {
             return generateDefaultPimpeksQuanity();
         }
         return pimpeksQuantity;
+    }
+
+    @Override
+    public int getMaxTurns() {
+        return maxTurns;
     }
 
     @Override
