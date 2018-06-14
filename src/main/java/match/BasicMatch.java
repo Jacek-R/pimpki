@@ -9,15 +9,11 @@ import observer.MatchObserver;
 import pimpek.pimpekModel.Pimpek;
 import pimpek.pimpekCloner.PimpekCloner;
 import pimpek.pimpekSpawner.PimpekSpawner;
-import pimpek.pimpekStatistic.PimpekStatistics;
 import parser.statisticsToPoints.StatisticToPoints;
 import world.BoardCreator;
 
 import java.io.FileNotFoundException;
-import java.util.Map;
 import java.util.Set;
-import java.util.Timer;
-import java.util.TimerTask;
 
 public class BasicMatch implements Match {
 
@@ -32,6 +28,7 @@ public class BasicMatch implements Match {
     private final Set<Pimpek> beings;
     private final StatisticToPoints statisticToPoints;  // parser
     private final Board board;
+    private int turnCounter;
 
     public BasicMatch(Configuration configuration, PimpekCloner pimpekCloner,
                       FoodGenerator foodGenerator, PimpekSpawner pimpekSpawner,
@@ -52,44 +49,70 @@ public class BasicMatch implements Match {
         this.board = board;
     }
 
-
-    @Override
-    public Map<Pimpek, PimpekStatistics> executeMatch() {
-
-        int maxTurns = configuration.getMaxTurns();
-        int interval = 1000;
-
-        executeMatchRec(interval, maxTurns);
-        return observer.getBeingsAndStats();
-    }
+//
+//    @Override
+//    public Map<Pimpek, PimpekStatistics> executeMatch() {
+//
+//        int maxTurns = configuration.getMaxTurns();
+//        int interval = 1000;
+//
+//        executeMatchRec(interval, maxTurns);
+//        return observer.getBeingsAndStats();
+//    }
 
     @Override
     public Board getBoard() {
         return board;
     }
 
-    private void executeMatchRec(int interval, int maxTurns) {
+//    private void executeMatchRec(int interval, int maxTurns) {
+//
+//        new Timer().schedule(new TimerTask() {
+//
+//            private int counter;
+//
+//            @Override
+//            public void run() {
+//                for (Pimpek being : beings) {
+//                    try {
+//                        being.act();
+//                    } catch (FileNotFoundException e) {
+//                        e.printStackTrace();
+//                    }
+//
+//                    counter++;
+//
+//                    if (counter < maxTurns && observer.getLiving() > 0) {
+//                        executeMatchRec(interval, maxTurns);
+//                    }
+//                }
+//            }
+//        }, interval);
+//    }
 
-        new Timer().schedule(new TimerTask() {
+    @Override
+    public synchronized void run() {
+        int maxTurns = configuration.getMaxTurns();
 
-            private int counter;
+        while(turnCounter < maxTurns && observer.getLiving() > 0) {
 
-            @Override
-            public void run() {
-                for (Pimpek being : beings) {
-                    try {
-                        being.act();
-                    } catch (FileNotFoundException e) {
-                        e.printStackTrace();
-                    }
+            System.out.println("Jestem w while");
 
-                    counter++;
-
-                    if (counter < maxTurns && observer.getLiving() > 0) {
-                        executeMatchRec(interval, maxTurns);
-                    }
+            for (Pimpek being : beings) {
+                System.out.println("Jetsem w for, pimpek + " + being + " with location: " + being.getLocation());
+                try {
+                    being.act();
+                } catch (FileNotFoundException e) {
+                    e.printStackTrace();
                 }
             }
-        }, interval);
+
+            try {
+                wait(500);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+            turnCounter++;
+        }
     }
 }

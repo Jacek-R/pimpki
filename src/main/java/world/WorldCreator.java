@@ -62,26 +62,18 @@ public class WorldCreator implements BoardCreator {
 
     public Board createEmptyBoard() throws FileNotFoundException {
         Cell[][] cells = createEmptyCells();
+        int counter = 0;
+        for (Cell[] row: cells) {
+            for (int i=0; i<row.length; i++) {
+                row[i].getContent();
+            }
+
+        }
         return new World(width, height, cells);
     }
 
     public void populate() throws FileNotFoundException {
         pimpekSpawner.spawn(beings);
-        for(Pimpek pimpek:beings) { //Todo DELETE THIS IS ONLY FOR TESTS
-            new Timer().schedule(new TimerTask() {
-
-                @Override
-
-                public void run() {
-                    try {
-                        pimpek.act();
-                    } catch (FileNotFoundException e) {
-                        e.printStackTrace();
-                    }
-                }
-            }, 5000);
-
-        }
         foodSpawner.spawn(supplies);
         obstacleSpawner.spawn(obstaclesQuantity);
     }

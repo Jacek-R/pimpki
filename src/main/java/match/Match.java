@@ -6,14 +6,14 @@ import world.Board;
 
 import java.util.Map;
 
-public interface Match {
+public interface Match extends Runnable {
 
     /**
      * executes match,
      * @return Map with beings with statistics
      */
 
-    Map<Pimpek, PimpekStatistics> executeMatch();
+//    Map<Pimpek, PimpekStatistics> executeMatch();
     Board getBoard();
 
 }

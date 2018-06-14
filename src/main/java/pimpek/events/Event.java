@@ -7,6 +7,6 @@ import java.util.List;
 public interface Event {
 
     EventType getType();
-    List<Coordinates> getCoords();
+    Coordinates getCords();
 
 }

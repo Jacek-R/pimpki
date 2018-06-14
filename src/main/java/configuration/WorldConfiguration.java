@@ -22,7 +22,7 @@ public class WorldConfiguration implements Configuration {
     private final int maxTurns;
     private final Map<PimpekGenre,Integer> pimpeksQuantity;
     private final Map<FoodGenre,Integer> foodQuantity;
-    private final float LIMITING_BEING_FACTOR = 0.15f;
+    private final float LIMITING_BEING_FACTOR = 0.1f;
     private final float LIMITING_OBSTACLE_FACTOR = 0.1f;
     private final float LIMITING_FOOD_FACTOR = 0.15f;
 
@@ -74,9 +74,9 @@ public class WorldConfiguration implements Configuration {
 
     @Override
     public Map<PimpekGenre, Integer> getPimpeksQuantity() {
-        if ( pimpeksQuantity.size() < 2 || ! isBeingsQuantityCorrect() ) {
-            return generateDefaultPimpeksQuantity();
-        }
+//        if ( pimpeksQuantity.size() < 2 || ! isBeingsQuantityCorrect() ) {
+//            return generateDefaultPimpeksQuantity();
+//        }
         return pimpeksQuantity;
     }
 
