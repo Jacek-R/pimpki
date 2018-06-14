@@ -50,4 +50,9 @@ public class NullObserver implements MatchObserver {
     public void registerMatch(Match match) {
 
     }
+
+    @Override
+    public int getFoodQuantity() {
+        return 0;
+    }
 }

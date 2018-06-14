@@ -60,6 +60,7 @@ public class Angry extends SimplePimpek implements Predator {
         }
 
         for (Coordinates coordinates : possiblePlacesToRun) {
+
             if (worldManager.hasBeing(coordinates) || (getEnergy() > checkLife(coordinates))) {
                 if(worldManager.hasPredator(coordinates)){
                     incrementEnergy(worldManager.getPredator(coordinates).getEnergy()/3);
