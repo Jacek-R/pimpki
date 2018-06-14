@@ -1,5 +1,6 @@
 package observer;
 
+import match.Match;
 import pimpek.pimpekModel.Pimpek;
 import pimpek.pimpekStatistic.PimpekStatistics;
 
@@ -39,4 +40,9 @@ public class NullObserver implements MatchObserver {
 
     @Override
     public void rejuvenate() { }
+
+    @Override
+    public void registerMatch(Match match) {
+
+    }
 }

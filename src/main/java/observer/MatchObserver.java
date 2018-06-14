@@ -1,5 +1,6 @@
 package observer;
 
+import match.Match;
 import pimpek.pimpekModel.Pimpek;
 import pimpek.pimpekStatistic.PimpekStatistics;
 
@@ -16,4 +17,5 @@ public interface MatchObserver {
     int getLiving();
     int getDead();
     void rejuvenate();
+    void registerMatch(Match match);
 }

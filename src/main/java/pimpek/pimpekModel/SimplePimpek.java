@@ -236,13 +236,12 @@ public class SimplePimpek implements Pacifist {
     }
 
     protected synchronized void handleCloning() throws FileNotFoundException {
-        if (energy < cloningCost * 2) {
+        if (this != ancestor || energy < cloningCost * 2) {
             return;
         }
 
         observer.registerClone(ancestor);
         decrementEnergy(cloningCost);
-        System.out.println("Pimpek, urodziłem klona! " + this);
     }
 
     protected void decrementEnergy(int pointsToDecrement) {
