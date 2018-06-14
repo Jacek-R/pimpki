@@ -34,11 +34,11 @@ public class App extends Application {
 
     private Configuration buildConfig() {
 
-        Configuration configuration = WorldConfiguration.getInstance(10, 10,
+        Configuration configuration = WorldConfiguration.getInstance(30, 30,
                 1, 10,
-                140, 100, 100);
+                140, 130, 100);
         configuration.addPimpeksQuantityByGenre(PimpekGenre.PACIFIST, 3);
-        configuration.addFoodQuantityByGenre(FoodGenre.APPLE, 5);
+        configuration.addFoodQuantityByGenre(FoodGenre.APPLE, 15);
         return configuration;
     }
 
