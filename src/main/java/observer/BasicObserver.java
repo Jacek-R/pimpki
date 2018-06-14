@@ -116,4 +116,9 @@ public class BasicObserver implements MatchObserver {
             foodQuantity += foodSpawner.getSpawnedFood();
         }
     }
+
+    @Override
+    public int getFoodQuantity() {
+        return foodQuantity;
+    }
 }

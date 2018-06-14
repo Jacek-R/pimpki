@@ -19,4 +19,5 @@ public interface MatchObserver {
     int getDead();
     void rejuvenate();
     void registerMatch(Match match);
+    int getFoodQuantity();
 }
