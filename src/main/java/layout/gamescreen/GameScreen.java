@@ -59,9 +59,8 @@ public class GameScreen {
         this.worldGridPane = worldGridPane;
         this.match = match;
         duel = new Thread(match);
+        matchObserver = match.getObserver();
         updater = new Task(matchObserver);
-        Thread thread = new Thread(updater);
-        thread.start();
         rowsWithBestPimpki = new Label[NUMBER_OF_BEST_PLAYERS][STATISTICS_TO_TRACK];
     }
 
@@ -240,6 +239,8 @@ public class GameScreen {
 
     private void startMatch(){
         duel.start();
+        Thread thread = new Thread(updater);
+        thread.start();
     }
 
     private GridPane createRoot(ScrollPane mapContainer, VBox optionsContainer) throws FileNotFoundException {

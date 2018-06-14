@@ -15,7 +15,7 @@ public class Task extends javafx.concurrent.Task{
     while (true) {
         updateMessage(String.valueOf(matchObserver.getLiving()));
         try {
-            Thread.sleep(100);
+            Thread.sleep(1000);
         } catch (InterruptedException ex) {
             break;
         }
