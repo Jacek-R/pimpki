@@ -15,6 +15,7 @@ import javafx.scene.text.FontWeight;
 import layout.utils.GridConstraints;
 import layout.utils.SetMargins;
 import match.Match;
+import observer.MatchObserver;
 
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -42,6 +43,8 @@ public class GameScreen {
 
     private Match match;
     private Thread duel;
+    private Task updater;
+    private MatchObserver matchObserver;
     private GridPane worldGridPane;
     private final Lock lock = new ReentrantLock();
 
@@ -56,6 +59,8 @@ public class GameScreen {
         this.worldGridPane = worldGridPane;
         this.match = match;
         duel = new Thread(match);
+        matchObserver = match.getObserver();
+        updater = new Task(matchObserver);
         rowsWithBestPimpki = new Label[NUMBER_OF_BEST_PLAYERS][STATISTICS_TO_TRACK];
     }
 
@@ -133,6 +138,7 @@ public class GameScreen {
 
         Label pimpkiLabel = createLabel("Pimpki left : ", FONT_COLOR);
         pimpkiQuantity = createLabel("30", FONT_COLOR);
+        pimpkiQuantity.textProperty().bind(updater.messageProperty());
 
         Label foodLabel = createLabel("Food on board : ", FONT_COLOR);
         foodQuantity = createLabel("20", FONT_COLOR);
@@ -195,7 +201,7 @@ public class GameScreen {
         return event -> {
             try {
                 if(duel.getState() == Thread.State.NEW) {
-                    duel.start();
+                    startMatch();
                 }
                 button.setBackground(createBackground(BTN_BG_CLICK));
             } catch (FileNotFoundException e) {
@@ -229,6 +235,12 @@ public class GameScreen {
         label.setTextFill(color);
         label.setFont(FONT);
         return label;
+    }
+
+    private void startMatch(){
+        duel.start();
+        Thread thread = new Thread(updater);
+        thread.start();
     }
 
     private GridPane createRoot(ScrollPane mapContainer, VBox optionsContainer) throws FileNotFoundException {
