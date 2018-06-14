@@ -54,6 +54,14 @@ public class BasicMatch implements Match {
         // tutaj kolejka :)
         // proponuję tu zwracać mapę z wynikami od observera (żeby wyżej budować całościowy wynik):
 
+
+        int turnCounter = 0;
+        int maxTurns = configuration.getMaxTurns();
+        while (turnCounter < maxTurns) {
+
+            turnCounter++;
+        }
+
         return observer.getBeingsAndStats();
     }
 

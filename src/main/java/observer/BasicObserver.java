@@ -18,17 +18,11 @@ public class BasicObserver implements MatchObserver {
     private int living;
     private int dead;
 
-    public BasicObserver(PimpekCloner pimpekCloner, PimpekSpawner pimpekSpawner) {
+    public BasicObserver(PimpekCloner pimpekCloner, PimpekSpawner pimpekSpawner, Set<Pimpek> beings) {
         this.pimpekCloner = pimpekCloner;
         this.pimpekSpawner = pimpekSpawner;
         this.beingsAndStats = new HashMap<>();
-    }
-
-    public BasicObserver(PimpekCloner pimpekCloner, PimpekSpawner pimpekSpawner, Set<Pimpek> pimpki) {
-        this.pimpekCloner = pimpekCloner;
-        this.pimpekSpawner = pimpekSpawner;
-        this.beingsAndStats = new HashMap<>();
-        pimpki.forEach(this::registerPimpek);
+        beings.forEach(this::registerPimpek);
     }
 
     @Override
@@ -76,14 +70,12 @@ public class BasicObserver implements MatchObserver {
     }
 
     @Override
-    public void resurrectBeings() {
-        for(Pimpek being : beingsAndStats.keySet()) {
-            being.regenerate();
-        }
+    public void reset() {
+        beingsAndStats.keySet().forEach(Pimpek::regenerate);
     }
 
     private void registerPimpek(Pimpek pimpek) {
-        beingsAndStats.put(pimpek, new BasicPimpekStatistics());
+        beingsAndStats.put(pimpek.getAncestor(), new BasicPimpekStatistics());
     }
 
     private PimpekStatistics getPimpekStatistics(Pimpek pimpek) {
