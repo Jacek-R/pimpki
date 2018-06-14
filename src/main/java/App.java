@@ -1,14 +1,10 @@
+import layout.gamescreen.GameScreen;
 import match.Match;
-import pimpek.pimpekModel.Angry;
 import supplier.BasicSupplier;
 import supplier.Supplier;
 import tournament.PimpekTournament;
 import tournament.Tournament;
-import worldManager.MapManager;
-import worldManager.WorldManager;
 import javafx.application.Application;
-import javafx.scene.Scene;
-import javafx.scene.control.ScrollPane;
 import javafx.stage.Stage;
 import configuration.Configuration;
 import configuration.WorldConfiguration;
@@ -18,21 +14,19 @@ import java.io.FileNotFoundException;
 
 public class App extends Application {
 
-    void run(String... args){
+    void run(String... args) {
         launch(args);
     }
 
     @Override
     public void start(Stage primaryStage) throws Exception {
-
         Supplier supplier = buildSupplier();
         Match match = supplier.getNewMatch();
         Board board = match.getBoard();
         primaryStage.setTitle("Super title");
 
-        ScrollPane scrollPane = new ScrollPane(board.getGridPane());
         primaryStage.setFullScreen(true);
-        primaryStage.setScene(new Scene(scrollPane));
+        primaryStage.setScene(new GameScreen(board.getGridPane()).buildScene());
         primaryStage.show();
         match.executeMatch();
     }
