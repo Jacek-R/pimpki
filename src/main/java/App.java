@@ -1,5 +1,6 @@
 import match.Match;
 import pimpek.pimpekModel.Angry;
+import pimpek.pimpekModel.PimpekGenre;
 import supplier.BasicSupplier;
 import supplier.Supplier;
 import tournament.PimpekTournament;
@@ -34,7 +35,9 @@ public class App extends Application {
         primaryStage.setFullScreen(true);
         primaryStage.setScene(new Scene(scrollPane));
         primaryStage.show();
-        match.executeMatch();
+
+        Thread duel = new Thread(match);
+        duel.start();
     }
 
     private void startTournament() {
@@ -55,8 +58,10 @@ public class App extends Application {
 
     private Configuration buildConfig() {
 
-        return WorldConfiguration.getInstance(10, 10, 1, 2,
+        Configuration configuration = WorldConfiguration.getInstance(10, 10, 1, 2,
                 140, 100, 100);
+        configuration.addPimpeksQuantityByGenre(PimpekGenre.PACIFIST, 1);
+        return configuration;
     }
 
     private Supplier buildSupplier() {

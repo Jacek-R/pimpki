@@ -152,6 +152,7 @@ public class MapManager implements WorldManager {
                 break;
         }
 
+        pimpek.setLocation(coordinates);
 
         Cell cell = board.getCellAt(coordinates.getX(), coordinates.getY());
         if (cell == null) {

@@ -41,10 +41,10 @@ public class PimpekTournament implements Tournament {
             match = supplier.getNewMatch();
 
             // execute match, build result
-            singleMatchResult = match.executeMatch();
+//            singleMatchResult = match.executeMatch();
 
-
-            System.out.println(singleMatchResult);
+//
+//            System.out.println(singleMatchResult);
 
             // todo build result
 //            System.out.println(results);

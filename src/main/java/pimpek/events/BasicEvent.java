@@ -7,11 +7,11 @@ import java.util.List;
 public class BasicEvent implements Event {
 
     private EventType type;
-    private List<Coordinates> cords;
+    private Coordinates cords;
 
-    public BasicEvent(EventType name, List<Coordinates> cords) {
+    public BasicEvent(EventType name, Coordinates coordinates) {
         this.type = name;
-        this.cords = cords;
+        this.cords = coordinates;
     }
 
     @Override
@@ -20,7 +20,7 @@ public class BasicEvent implements Event {
     }
 
     @Override
-    public List<Coordinates> getCoords() {
+    public Coordinates getCords() {
         return cords;
     }
 }

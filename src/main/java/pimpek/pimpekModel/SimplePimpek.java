@@ -12,6 +12,7 @@ import observer.NullObserver;
 
 import java.io.FileNotFoundException;
 import java.util.*;
+import java.util.stream.Collectors;
 
 /**
  * basic genre - a bit stupid
@@ -53,128 +54,90 @@ public class SimplePimpek implements Pacifist {
 
     @Override
     public void act() throws FileNotFoundException {
-        Set<Coordinates> predators = whereArePredators(currentLocation.getNeighbors());
-        Event event = scan(predators);
+        Event event = scan();
         switch(event.getType()){
             case MOVE:
-                move(event.getCoords());
+                move(event.getCords());
                 break;
             case EAT:
-                eat(event.getCoords());
-                break;
-            case DEFAULT:
-                run(event.getCoords());
+                eat(event.getCords());
                 break;
             case WAIT:
                 break;
-
         }
+    }
+
+    protected void move(Coordinates coordinates) throws FileNotFoundException {
+            System.out.println("ruszam się tu: " + coordinates);
+            System.out.println(this);
+            worldManager.registerBeing(coordinates, this);
 
     }
 
-    protected void move(List<Coordinates> coords) throws FileNotFoundException{
-        worldManager.registerBeing(coords.get(0), this);
-        setLocation(coords.get(0));
-    }
+    protected void eat(Coordinates coordinates) throws FileNotFoundException {
+        Food food = worldManager.getFood(coordinates);
 
-    protected void move() throws FileNotFoundException{
-        move(getRandomCoordinate());
-    }
-
-    protected List<Coordinates> getRandomCoordinate() {
-        Set<Coordinates> direction = currentLocation.getNeighbors();
-        Coordinates direct = currentLocation.getE();
-        do {
-            int size = direction.size();
-            int item = new Random().nextInt(size); // In real life, the Random object should be rather more shared than this
-            int i = 0;
-            for (Coordinates coord : direction) {
-                if (i == item)
-                    direct = coord;
-                i++;
-            }
-        }while(!worldManager.hasObstacle(direct));
-        return Collections.singletonList(direct);
-    }
-
-    private void run(List<Coordinates> coords) throws FileNotFoundException {
-
-        /**
-         * need to check if we can move there (there are no obstacle, other predators or something)
-         */
-            int currentY = getLocation().getY();
-            int currentX = getLocation().getX();
-            List<Coordinates> cord = getRandomCoordinate();
-            do {
-                for (Coordinates coord : coords) {
-                    if (coord.getX() >= currentX && coord.getY() == currentY) {
-                        cord = Collections.singletonList(getLocation().getW());
-                    } else if (coord.getX() <= currentX && coord.getY() == currentY) {
-                        cord = Collections.singletonList(getLocation().getE());
-                    } else if (coord.getX() == currentX && coord.getY() <= currentY) {
-                        cord = Collections.singletonList(getLocation().getN());
-                    } else if (coord.getX() == currentX && coord.getY() >= currentY) {
-                        cord = Collections.singletonList(getLocation().getS());
-                    } else if (coord.getX() <= currentX && coord.getY() <= currentY) {
-                        cord = Collections.singletonList(getLocation().getNE());
-                    } else if (coord.getX() >= currentX && coord.getY() >= currentY) {
-                        cord = Collections.singletonList(getLocation().getSW());
-                    } else if (coord.getX() >= currentX && coord.getY() <= currentY) {
-                        cord = Collections.singletonList(getLocation().getNW());
-                    } else if (coord.getX() <= currentX && coord.getY() >= currentY) {
-                        cord = Collections.singletonList(getLocation().getSE());
-                    }
-                }
-            }while(!worldManager.hasObstacle(cord.get(0)) && worldManager.registerBeing(cord.get(0), this));
-            }
-
-
-
-
-
-    protected void eat(List<Coordinates> coords) throws FileNotFoundException {
-        Food food = worldManager.getFood(coords.get(0));
         this.energy += food.getEnergy();
         observer.registerEnergyPoints(this, food.getEnergy());
-        move(coords);
-
+        move(coordinates);
     }
 
-    protected Event scan(Set<Coordinates> pimpeks) {
+    protected Event scan() {
+        Set<Coordinates> possibleCordsToGo = currentLocation.getNeighbors();
+
+        // check for predator
+        for (Coordinates coordinate : possibleCordsToGo) {
+            if (worldManager.hasPredator(coordinate) ) {
+                return handlePredatorProblem();
+            }
+        }
+
+        // check for food
+        for (Coordinates coordinate : possibleCordsToGo) {
+            if (worldManager.hasFood(coordinate) ) {
+                return new BasicEvent(EventType.EAT, coordinate);
+            }
+        }
+
+        return chaoticMove(possibleCordsToGo);
+    }
+
+    protected Event handlePredatorProblem() {
         Set<Coordinates> neighbors = currentLocation.getNeighbors();
-        List<Coordinates> coords = new ArrayList<>();
-        coords.add(currentLocation);
-        Event event = new BasicEvent(EventType.WAIT, coords);
-        if(pimpeks.size() != 0){
-            coords = new ArrayList<>();
-            coords.add(currentLocation);
-            event = new BasicEvent(EventType.DEFAULT, coords);
-        }else {
-            for (Coordinates coord : neighbors) {
-                if (worldManager.isNeighborhoodEmpty(coord)) {
-                    coords = new ArrayList<>();
-                    coords.add(coord);
-                    event = new BasicEvent(EventType.MOVE, coords);
-                } else if (worldManager.hasFood(coord)) {
-                    coords = new ArrayList<>();
-                    coords.add(coord);
-                    event = new BasicEvent(EventType.EAT, coords);
-                    return event;
-                }
+        List<Coordinates> possiblePlacesToRun = new ArrayList<>();
+
+        for (Coordinates cords: neighbors) {
+            if (worldManager.areCoordinatesOnMap(cords) &&
+                    (worldManager.isEmpty(cords) || worldManager.hasFood(cords)) ) {
+                possiblePlacesToRun.add(cords);
             }
         }
-        return event;
+
+        if (possiblePlacesToRun.size() == 0) {
+            return new BasicEvent(EventType.WAIT, currentLocation);
+        }
+
+        for (Coordinates coordinates : possiblePlacesToRun) {
+            if (worldManager.isNeighborhoodEmpty(coordinates) ) {
+                return new BasicEvent(EventType.MOVE, coordinates);
+            }
+        }
+
+        return new BasicEvent(EventType.MOVE, possiblePlacesToRun.get(0));
     }
 
-    private Set<Coordinates> whereArePredators(Set<Coordinates> neighbors){
-        Set<Coordinates> predators = new HashSet<>();
-        for(Coordinates coord : neighbors){
-            if(worldManager.hasPredator(coord)){
-                predators.add(coord);
-            }
+    private Event chaoticMove(Set<Coordinates> possiblePlacesToGo) {
+        Random chaos = new Random();
+        if ( chaos.nextBoolean() ) {
+            return new BasicEvent(EventType.WAIT, currentLocation);
         }
-        return predators;
+
+        List<Coordinates> placesAsList = new ArrayList<>(possiblePlacesToGo);
+        Collections.shuffle(placesAsList);
+        return new BasicEvent(EventType.MOVE, placesAsList.get(0));
     }
+
+
 
     @Override
     public int getEnergy() {
@@ -235,5 +198,10 @@ public class SimplePimpek implements Pacifist {
     @Override
     public String getImagePath() {
         return IMAGE_PATH;
+    }
+
+    @Override
+    public String toString() {
+        return String.format("%s energy: %s, location: %s", name, energy, currentLocation);
     }
 }
