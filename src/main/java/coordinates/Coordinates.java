@@ -1,6 +1,6 @@
 package coordinates;
 
-import java.util.List;
+import java.util.Set;
 
 public interface Coordinates {
 
@@ -13,7 +13,7 @@ public interface Coordinates {
     Coordinates getSW();
     Coordinates getW();
     Coordinates getNW();
-    List<Coordinates> getNeighbors();
+    Set<Coordinates> getNeighbors();
     int getX();
     int getY();
 

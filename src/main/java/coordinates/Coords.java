@@ -1,8 +1,6 @@
 package coordinates;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
+import java.util.*;
 
 public class Coords implements Coordinates {
 
@@ -60,9 +58,9 @@ public class Coords implements Coordinates {
     }
 
     @Override
-    public List<Coordinates> getNeighbors() {
+    public Set<Coordinates> getNeighbors() {
 
-        return new ArrayList<>(Arrays.asList(getE(), getN(), getS(), getW(), getNE(), getNW(), getSE(), getSW()));
+        return new HashSet<>(Arrays.asList(getE(), getN(), getS(), getW(), getNE(), getNW(), getSE(), getSW()));
     }
 
     @Override
