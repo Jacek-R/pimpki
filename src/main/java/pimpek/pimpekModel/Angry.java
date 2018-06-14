@@ -61,7 +61,7 @@ public class Angry extends SimplePimpek implements Predator {
 
         for (Coordinates coordinates : possiblePlacesToRun) {
 
-            if (worldManager.hasBeing(coordinates) || (getEnergy() > checkLife(coordinates))) {
+            if (worldManager.hasBeing(coordinates) || (getEnergy() > checkOpponentLife(coordinates))) {
                 if(worldManager.hasPredator(coordinates)){
                     incrementEnergy(worldManager.getPredator(coordinates).getEnergy()/3);
                     worldManager.getPredator(coordinates).kill();
@@ -80,7 +80,7 @@ public class Angry extends SimplePimpek implements Predator {
     }
 
 
-    private int checkLife(Coordinates coord) {
+    private int checkOpponentLife(Coordinates coord) {
         WorldManager worldManager = getWorldManager();
         if(worldManager.hasPredator(coord)){
             return worldManager.getPredator(coord).getEnergy();
