@@ -25,6 +25,7 @@ public class BasicPimpekSpawner implements PimpekSpawner {
             while (!contentPlaced){
                 Coordinates coordinates = worldManager.selectRandomCoordinates();
                 if (worldManager.isEmpty(coordinates)) {
+                    pimpek.setLocation(coordinates);
                     contentPlaced = worldManager.registerBeing(coordinates, pimpek);
                 }
             }
