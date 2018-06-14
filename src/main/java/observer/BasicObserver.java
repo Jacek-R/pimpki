@@ -76,6 +76,7 @@ public class BasicObserver implements MatchObserver {
 
     private void registerPimpek(Pimpek pimpek) {
         beingsAndStats.put(pimpek.getAncestor(), new BasicPimpekStatistics());
+        pimpek.setObserver(this);
     }
 
     private PimpekStatistics getPimpekStatistics(Pimpek pimpek) {

@@ -110,6 +110,15 @@ public class MapManager implements WorldManager {
     }
 
     @Override
+    public void cleanUpPlace(Coordinates coordinates) throws FileNotFoundException {
+        Cell oldCell = board.getCellAt(coordinates.getX(), coordinates.getY());
+        clearPlace(coordinates);
+        Content newContent = new Empty();
+        oldCell.setContent(newContent);
+        oldCell.getCellView().setContent(ImageParser.getImage(newContent.getImagePath()));
+    }
+
+    @Override
     public boolean registerObstacle(Coordinates coordinates, Obstacle obstacle) throws FileNotFoundException {
         if (! areCoordinatesOnMap(coordinates) ) {
             return false;
@@ -124,7 +133,6 @@ public class MapManager implements WorldManager {
             placeObstacle(cell);
         }
 
-
         return true;
     }
 
@@ -138,7 +146,7 @@ public class MapManager implements WorldManager {
         PimpekGenre genre = pimpek.getGenre();
 
         // clean old place
-        cleanUpOldPimpekPlace(pimpek);
+        clearPlace(pimpek.getLocation());
 
         // clean up new place
         clearPlace(coordinates);
@@ -184,15 +192,13 @@ public class MapManager implements WorldManager {
     }
 
     private void placePimpek(Cell cell, Pimpek pimpek) throws FileNotFoundException {
-        Content content = pimpek;
         cell.setContent(pimpek);
-        cell.getCellView().setContent(ImageParser.getImage(content.getImagePath()));
+        cell.getCellView().setContent(ImageParser.getImage(pimpek.getImagePath()));
     }
 
     private void placeFood(Cell cell, Food food) throws FileNotFoundException {
-        Content content = food;
         cell.setContent(food);
-        cell.getCellView().setContent(ImageParser.getImage(content.getImagePath()));
+        cell.getCellView().setContent(ImageParser.getImage(food.getImagePath()));
     }
 
     private void placeObstacle(Cell cell) throws FileNotFoundException {
@@ -223,16 +229,5 @@ public class MapManager implements WorldManager {
             food.remove(coordinates);
             obstacles.remove(coordinates);
         }
-    }
-
-    private void cleanUpOldPimpekPlace(Pimpek pimpek) throws FileNotFoundException {
-        // clean up old place in map
-        Coordinates oldCoordinates = pimpek.getLocation();
-        // set old cell to empty content
-        Cell oldCell = board.getCellAt(oldCoordinates.getX(), oldCoordinates.getY());
-        clearPlace(oldCoordinates);
-        Content newContent = new Empty();
-        oldCell.setContent(newContent);
-        oldCell.getCellView().setContent(ImageParser.getImage(newContent.getImagePath()));
     }
 }

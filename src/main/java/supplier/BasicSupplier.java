@@ -157,13 +157,11 @@ public class BasicSupplier implements Supplier {
     }
 
     private Match createMatch() throws FileNotFoundException {
-
         Board board = boardCreator.create();
         worldManager.setBoard(board);
         matchObserver.reset();
 
-        return new BasicMatch(configuration, pimpekCloner, foodGenerator, pimpekSpawner, foodSpawner, boardCreator,
-                matchObserver, worldManager, beings, pointsParser, board);
+        return new BasicMatch(configuration, matchObserver, beings, pointsParser, board);
     }
 
     private StatisticToPoints createPointsParser() {

@@ -55,9 +55,10 @@ public class App extends Application {
 
     private Configuration buildConfig() {
 
-        Configuration configuration = WorldConfiguration.getInstance(10, 10, 1, 2,
-                140, 100, 100);
-        configuration.addPimpeksQuantityByGenre(PimpekGenre.PACIFIST, 1);
+        Configuration configuration = WorldConfiguration.getInstance(10, 10,
+                1, 10,
+                140, 10, 100);
+        configuration.addPimpeksQuantityByGenre(PimpekGenre.PACIFIST, 3);
         return configuration;
     }
 
