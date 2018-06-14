@@ -1,8 +1,12 @@
 package pimpek.pimpekModel;
 
 import cell.CellPaths;
-import world.Board;
+import coordinates.Coordinates;
+import pimpek.events.Event;
 import worldManager.WorldManager;
+
+import java.io.FileNotFoundException;
+import java.util.*;
 
 public class Angry extends SimplePimpek implements Predator {
 
@@ -17,13 +21,53 @@ public class Angry extends SimplePimpek implements Predator {
     }
 
     @Override
-    public void act(Board world) {
+    public void act() throws FileNotFoundException {
+        Set<Coordinates> pimpeks = whereArePimpeks(getFieldOfView(getLocation()));
+        Event event = scan(pimpeks);
+        switch(event.getType()){
+            case MOVE:
+                move(event.getCoords());
+                break;
+            case EAT:
+                eat(event.getCoords());
+                break;
+            case DEFAULT:
+                attack(event.getCoords());
+                break;
+            case WAIT:
+                break;
+
+        }
 
     }
 
     @Override
     public String getImagePath() {
         return IMAGE_PATH;
+    }
+
+
+    private Set<Coordinates> whereArePimpeks(Set<Coordinates> neighbors) {
+        Set<Coordinates> pimpeks = new HashSet<>();
+        for(Coordinates coord : neighbors){
+            if(getExplorer().isBeing(coord)) {
+                pimpeks.add(coord);
+            }
+        }
+        return pimpeks;
+    }
+
+    private Set<Coordinates> getFieldOfView(Coordinates currentLocation) {
+        Set<Coordinates> fieldOfView = new HashSet<>();
+        fieldOfView.addAll(currentLocation.getNE().getNeighbors());
+        fieldOfView.addAll(currentLocation.getNW().getNeighbors());
+        fieldOfView.addAll(currentLocation.getSE().getNeighbors());
+        fieldOfView.addAll(currentLocation.getSW().getNeighbors());
+        fieldOfView.remove(currentLocation);
+        return fieldOfView;
+
+
+
     }
 
 }
