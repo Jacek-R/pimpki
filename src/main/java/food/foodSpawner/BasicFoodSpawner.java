@@ -20,8 +20,6 @@ public class BasicFoodSpawner implements FoodSpawner {
     public synchronized boolean spawn(Set<Food> foodCollection) throws FileNotFoundException {
         spawnedFood = 0;
         for (Food food: foodCollection) {
-
-            System.out.println("KArmiciel, food: " + spawnedFood);
             boolean contentPlaced = false;
             while (!contentPlaced){
                 Coordinates coordinates = worldManager.selectRandomCoordinates();

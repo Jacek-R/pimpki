@@ -34,8 +34,8 @@ public class BasicObserver implements MatchObserver {
         this.beingsAndStats = new HashMap<>();
         beings.forEach(this::registerPimpek);
         this.fodder = fodder;
-        foodQuantity = foodSpawner.getSpawnedFood();
         this.living = beings.size();
+        this.foodQuantity = fodder.size();
     }
 
     @Override
@@ -43,6 +43,7 @@ public class BasicObserver implements MatchObserver {
 
         getPimpekStatistics(pimpek).incrementCloningPoints();
         Pimpek cloned = pimpekCloner.clone(pimpek);
+        cloned.setObserver(this);
 
         living++;
         if (match == null) {
@@ -66,7 +67,7 @@ public class BasicObserver implements MatchObserver {
     }
 
     @Override
-    public void registerFoodConsumption() {
+    public synchronized void registerFoodConsumption() {
         foodQuantity--;
     }
 
@@ -108,7 +109,6 @@ public class BasicObserver implements MatchObserver {
     }
 
     private void handleFoodSpawn() throws FileNotFoundException {
-
         if (foodQuantity < living) {
             foodSpawner.spawn(fodder);
             foodQuantity += foodSpawner.getSpawnedFood();
