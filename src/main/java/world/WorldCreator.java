@@ -20,6 +20,8 @@ import pimpek.pimpekSpawner.PimpekSpawner;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.util.Set;
+import java.util.Timer;
+import java.util.TimerTask;
 
 public class WorldCreator implements BoardCreator {
 
@@ -65,6 +67,21 @@ public class WorldCreator implements BoardCreator {
 
     public void populate() throws FileNotFoundException {
         pimpekSpawner.spawn(beings);
+        for(Pimpek pimpek:beings) { //Todo DELETE THIS IS ONLY FOR TESTS
+            new Timer().schedule(new TimerTask() {
+
+                @Override
+
+                public void run() {
+                    try {
+                        pimpek.act();
+                    } catch (FileNotFoundException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }, 5000);
+
+        }
         foodSpawner.spawn(supplies);
         obstacleSpawner.spawn(obstaclesQuantity);
     }
