@@ -44,7 +44,6 @@ public class WorldConfiguration implements Configuration {
         this.maxTurns = maxTurns;
     }
 
-
     @Override
     public int getMapWidth() {
         return mapWidth;
@@ -66,6 +65,11 @@ public class WorldConfiguration implements Configuration {
     @Override
     public int getMatchQuantity() {
         return matchQuantity;
+    }
+
+    @Override
+    public int getMaxTurns() {
+        return maxTurns;
     }
 
     @Override

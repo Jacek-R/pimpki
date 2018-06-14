@@ -15,5 +15,5 @@ public interface MatchObserver {
     Map<Pimpek,PimpekStatistics> getBeingsAndStats();
     int getLiving();
     int getDead();
-    void resurrectBeings();
+    void reset();
 }
