@@ -34,10 +34,21 @@ public class GameScreen {
     private static final String BTN_BG_HOVER = "src/main/resources/img/btn_hover.png";
     private static final String BTN_BG_CLICK = "src/main/resources/img/btn_click.png";
 
+    private static final int NUMBER_OF_BEST_PLAYERS = 10;
+    private static final int STATISTICS_TO_TRACK = 5;
+
     private GridPane worldGridPane;
+
+    private Label pimpkiQuantity;
+    private Label roundNumberInformation;
+    private Label foodQuantity;
+
+    private Label[][] rowsWithBestPimpki;
+
 
     public GameScreen(GridPane worldGridPane) {
         this.worldGridPane = worldGridPane;
+        rowsWithBestPimpki = new Label[NUMBER_OF_BEST_PLAYERS][STATISTICS_TO_TRACK];
     }
 
     public Scene buildScene() throws FileNotFoundException {
@@ -56,6 +67,7 @@ public class GameScreen {
         GridPane resultsTable = createResultsTableContainer();
         GridPane statsContainer = createStatsContainer();
         GridPane buttonsContainer = createButtonsContainer();
+//        buttonsContainer.setVisible(false);
         vBox.getChildren().addAll(header, resultsTable, statsContainer, buttonsContainer);
         return vBox;
     }
@@ -65,7 +77,7 @@ public class GameScreen {
         SetMargins.vBox(SMALL_MARGIN, container);
         GridConstraints.column(container, 20, 20, 20, 20, 20);
         container.addRow(0, createHeaderRowForTable());
-        for (int i = 0; i < 5; i++) {
+        for (int i = 0; i < NUMBER_OF_BEST_PLAYERS; i++) {
             container.addRow(i + 1, createRowForResults(i));
         }
         return container;
@@ -82,13 +94,14 @@ public class GameScreen {
         return nodes;
     }
 
-    private Node[] createRowForResults(int position) {
-        Label labelPosition = createLabel(String.valueOf(position), FONT_COLOR);
+    private Node[] createRowForResults(int index) {
+        Label labelPosition = createLabel(String.valueOf(index + 1), FONT_COLOR);
         Label name = createLabel("Henryk", FONT_COLOR);
-        Label children = createLabel(String.valueOf(position * 2), FONT_COLOR);
-        Label energy = createLabel(String.valueOf(position * 10), FONT_COLOR);
-        Label points = createLabel(String.valueOf(position * 22), FONT_COLOR);
-        Node[] nodes = new Node[]{labelPosition, name, children, energy, points};
+        Label children = createLabel(String.valueOf(index * 2), FONT_COLOR);
+        Label energy = createLabel(String.valueOf(index * 10), FONT_COLOR);
+        Label points = createLabel(String.valueOf(index * 22), FONT_COLOR);
+        Label[] nodes = new Label[]{labelPosition, name, children, energy, points};
+        rowsWithBestPimpki[index] = nodes;
         SetMargins.gridPane(SMALL_MARGIN, nodes);
         return nodes;
     }
@@ -98,7 +111,7 @@ public class GameScreen {
         SetMargins.vBox(SMALL_MARGIN, container);
 
         Label gameTitle = createLabel(GAME_TITLE, FONT_COLOR);
-        Label roundNumberInformation = createLabel(String.format("Turn %d out of %d", 1, 10), FONT_COLOR);
+        roundNumberInformation = createLabel(String.format("Turn %d out of %d", 1, 10), FONT_COLOR);
 
         SetMargins.gridPane(SMALL_MARGIN, gameTitle, roundNumberInformation);
         GridConstraints.column(container, 50, 50);
@@ -111,10 +124,10 @@ public class GameScreen {
         SetMargins.vBox(SMALL_MARGIN, container);
 
         Label pimpkiLabel = createLabel("Pimpki left : ", FONT_COLOR);
-        Label pimpkiQuantity = createLabel("30", FONT_COLOR);
+        pimpkiQuantity = createLabel("30", FONT_COLOR);
 
         Label foodLabel = createLabel("Food on board : ", FONT_COLOR);
-        Label foodQuantity = createLabel("20", FONT_COLOR);
+        foodQuantity = createLabel("20", FONT_COLOR);
 
         SetMargins.gridPane(SMALL_MARGIN, pimpkiLabel, pimpkiQuantity, foodLabel, foodQuantity);
         GridConstraints.column(container, 35, 15, 35, 15);
@@ -220,5 +233,29 @@ public class GameScreen {
         Image image = new Image(new FileInputStream(path));
         BackgroundImage backgroundImage = new BackgroundImage(image, null, null, null, null);
         return new Background(backgroundImage);
+    }
+
+    public void setPimpkiQuantity(int quantity) {
+        this.pimpkiQuantity.setText(String.valueOf(quantity));
+    }
+
+    public void setRoundNumberInformation(int round, int numberOfRounds) {
+        this.roundNumberInformation.setText(String.format("Turn %d out of %d", round, numberOfRounds));
+    }
+
+    public void setFoodQuantity(int foodQuantity) {
+        this.foodQuantity.setText(String.valueOf(foodQuantity));
+    }
+
+    public void setRowOfTheBests(int index, String name, int children, int energy, int points) {
+        int nameIndex = 1;
+        int childrenIndex = 2;
+        int energyIndex = 3;
+        int pointsIndex = 4;
+
+        rowsWithBestPimpki[index][nameIndex].setText(name);
+        rowsWithBestPimpki[index][childrenIndex].setText(String.valueOf(children));
+        rowsWithBestPimpki[index][energyIndex].setText(String.valueOf(energy));
+        rowsWithBestPimpki[index][pointsIndex].setText(String.valueOf(points));
     }
 }
