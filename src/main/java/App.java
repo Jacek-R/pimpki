@@ -28,14 +28,10 @@ public class App extends Application {
         Match match = supplier.getNewMatch();
         Board board = match.getBoard();
         primaryStage.setTitle("The Pimpki game");
-
-        GameScreen gameScreen = new GameScreen(board.getGridPane());
+        GameScreen gameScreen = new GameScreen(board.getGridPane(), match);
         primaryStage.setFullScreen(true);
         primaryStage.setScene(gameScreen.buildScene());
         primaryStage.show();
-
-        Thread duel = new Thread(match);
-        duel.start();
     }
 
     private void startTournament() {
@@ -56,7 +52,7 @@ public class App extends Application {
 
     private Configuration buildConfig() {
 
-        Configuration configuration = WorldConfiguration.getInstance(10, 10, 1, 2,
+        Configuration configuration = WorldConfiguration.getInstance(10, 10, 1, 50,
                 140, 100, 100);
         configuration.addPimpeksQuantityByGenre(PimpekGenre.PACIFIST, 1);
         return configuration;
