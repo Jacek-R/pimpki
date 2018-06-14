@@ -27,10 +27,11 @@ public class App extends Application {
         Supplier supplier = buildSupplier();
         Match match = supplier.getNewMatch();
         Board board = match.getBoard();
-        primaryStage.setTitle("Super title");
+        primaryStage.setTitle("The Pimpki game");
 
+        GameScreen gameScreen = new GameScreen(board.getGridPane());
         primaryStage.setFullScreen(true);
-        primaryStage.setScene(new GameScreen(board.getGridPane()).buildScene());
+        primaryStage.setScene(gameScreen.buildScene());
         primaryStage.show();
 
         Thread duel = new Thread(match);
