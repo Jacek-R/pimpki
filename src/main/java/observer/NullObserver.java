@@ -10,9 +10,6 @@ import java.util.Set;
 public class NullObserver implements MatchObserver {
 
     @Override
-    public void registerBeings(Set<Pimpek> toObserve) { }
-
-    @Override
     public boolean registerClone(Pimpek pimpek) {
         return false;
     }
@@ -41,5 +38,5 @@ public class NullObserver implements MatchObserver {
     }
 
     @Override
-    public void reset() { }
+    public void rejuvenate() { }
 }

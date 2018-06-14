@@ -30,6 +30,7 @@ public class SimplePimpek implements Pacifist {
     private final int totalEnergy;
     private final WorldManager worldManager;
     private final PimpekGenre genre = PimpekGenre.PACIFIST;
+    private boolean dead = false;
 
 
     // constructor for origin/root pimpekModel:
@@ -53,7 +54,16 @@ public class SimplePimpek implements Pacifist {
     }
 
     @Override
-    public void act() throws FileNotFoundException {
+    public synchronized void act() throws FileNotFoundException {
+        if ( isDead() ) {
+            return;
+        }
+        energy--;
+
+        if (energy < 1) {
+            handleDead();
+        }
+
         Event event = scan();
         switch(event.getType()){
             case MOVE:
@@ -68,10 +78,8 @@ public class SimplePimpek implements Pacifist {
     }
 
     protected void move(Coordinates coordinates) throws FileNotFoundException {
-            System.out.println("ruszam się tu: " + coordinates);
-            System.out.println(this);
             worldManager.registerBeing(coordinates, this);
-
+            energy--;
     }
 
     protected void eat(Coordinates coordinates) throws FileNotFoundException {
@@ -133,8 +141,27 @@ public class SimplePimpek implements Pacifist {
         }
 
         List<Coordinates> placesAsList = new ArrayList<>(possiblePlacesToGo);
-        Collections.shuffle(placesAsList);
+
+        int chances = 0;
+        do {
+            if (chances > 10) {
+                return new BasicEvent(EventType.WAIT, currentLocation);
+            }
+            Collections.shuffle(placesAsList);
+            chances++;
+            
+        } while(worldManager.hasObstacle(placesAsList.get(0)));
+
         return new BasicEvent(EventType.MOVE, placesAsList.get(0));
+    }
+
+    protected void handleDead() throws FileNotFoundException {
+        if ( isDead() ) {
+            return;
+        }
+        die();
+        observer.registerDeath();
+        worldManager.cleanUpPlace(currentLocation);
     }
 
 
@@ -193,6 +220,22 @@ public class SimplePimpek implements Pacifist {
 
     protected WorldManager getWorldManager() {
         return worldManager;
+    }
+
+    protected boolean isDead() {
+        return dead;
+    }
+
+    protected void die() {
+        dead = true;
+    }
+
+    protected void decrementEnergy(int pointsToDecrement) {
+        energy -= pointsToDecrement;
+    }
+
+    protected void incrementEnergy(int pointsToIncrement) {
+        energy += pointsToIncrement;
     }
 
     @Override

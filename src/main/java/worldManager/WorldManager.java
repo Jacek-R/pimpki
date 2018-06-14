@@ -28,6 +28,8 @@ public interface WorldManager {
     Pacifist getPacifist(Coordinates coordinates);
     Food getFood(Coordinates coordinates);
 
+    void cleanUpPlace(Coordinates coordinates) throws FileNotFoundException;
+
     boolean registerObstacle(Coordinates coordinates, Obstacle obstacle) throws FileNotFoundException;
     boolean registerBeing(Coordinates coordinates, Pimpek being) throws FileNotFoundException;
     boolean registerFood(Coordinates coordinates, Food food) throws FileNotFoundException;
