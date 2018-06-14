@@ -1,7 +1,7 @@
 package match;
 
-import model.pimpek.Pimpek;
-import model.pimpekStatistic.PimpekStatistics;
+import pimpek.pimpekModel.Pimpek;
+import pimpek.pimpekStatistic.PimpekStatistics;
 
 import java.util.Map;
 

@@ -1,14 +1,14 @@
 package match;
 
-import explorer.WorldManager;
-import model.configuration.Configuration;
-import model.foodGenerator.FoodGenerator;
-import model.foodSpawner.FoodSpawner;
-import model.observer.MatchObserver;
-import model.pimpek.Pimpek;
-import model.pimpekCloner.PimpekCloner;
-import model.pimpekSpawner.PimpekSpawner;
-import model.pimpekStatistic.PimpekStatistics;
+import worldManager.WorldManager;
+import configuration.Configuration;
+import food.foodGenerator.FoodGenerator;
+import food.foodSpawner.FoodSpawner;
+import observer.MatchObserver;
+import pimpek.pimpekModel.Pimpek;
+import pimpek.pimpekCloner.PimpekCloner;
+import pimpek.pimpekSpawner.PimpekSpawner;
+import pimpek.pimpekStatistic.PimpekStatistics;
 import parser.statisticsToPoints.StatisticToPoints;
 import world.BoardCreator;
 
