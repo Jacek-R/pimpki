@@ -26,7 +26,7 @@ public class App extends Application {
 
         primaryStage.setTitle("The Pimpki game");
 
-        GameScreen gameScreen = new GameScreen(board.getGridPane());
+        GameScreen gameScreen = new GameScreen(board.getGridPane(), match);
         primaryStage.setFullScreen(true);
         primaryStage.setScene(gameScreen.buildScene());
         primaryStage.show();
