@@ -125,7 +125,7 @@ public class SimplePimpek implements Pacifist {
                         cord = Collections.singletonList(getLocation().getSE());
                     }
                 }
-            }while(!worldManager.hasObstacle(cord.get(0)) && !worldManager.registerBeing(cord.get(0), this));
+            }while(!worldManager.hasObstacle(cord.get(0)) && worldManager.registerBeing(cord.get(0), this));
             }
 
 

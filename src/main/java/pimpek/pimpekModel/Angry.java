@@ -69,7 +69,7 @@ public class Angry extends SimplePimpek implements Predator {
                     }
                 }
             }
-        }while(!getWorldManager().hasObstacle(cord.get(0)) && !getWorldManager().registerBeing(cord.get(0), this));
+        }while(!getWorldManager().hasObstacle(cord.get(0)) && getWorldManager().registerBeing(cord.get(0), this));
 
     }
 
