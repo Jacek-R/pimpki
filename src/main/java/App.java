@@ -1,4 +1,9 @@
+import match.Match;
 import pimpek.pimpekModel.Angry;
+import supplier.BasicSupplier;
+import supplier.Supplier;
+import tournament.PimpekTournament;
+import tournament.Tournament;
 import worldManager.MapManager;
 import worldManager.WorldManager;
 import javafx.application.Application;
@@ -7,22 +12,9 @@ import javafx.scene.control.ScrollPane;
 import javafx.stage.Stage;
 import configuration.Configuration;
 import configuration.WorldConfiguration;
-import food.foodModel.Apple;
-import food.foodModel.Food;
-import food.foodModel.Strawberry;
-import food.foodSpawner.BasicFoodSpawner;
-import food.foodSpawner.FoodSpawner;
-import obstacle.obstacleSpawner.BasicObstacleSpawner;
-import obstacle.obstacleSpawner.ObstacleSpawner;
-import pimpek.pimpekModel.Pimpek;
-import pimpek.pimpekModel.SimplePimpek;
-import pimpek.pimpekSpawner.BasicPimpekSpawner;
-import pimpek.pimpekSpawner.PimpekSpawner;
 import world.Board;
-import world.WorldCreator;
 
-import java.util.HashSet;
-import java.util.Set;
+import java.io.FileNotFoundException;
 
 public class App extends Application {
 
@@ -32,29 +24,42 @@ public class App extends Application {
 
     @Override
     public void start(Stage primaryStage) throws Exception {
+
+        Supplier supplier = buildSupplier();
+        Match match = supplier.getNewMatch();
+        Board board = match.getBoard();
         primaryStage.setTitle("Super title");
-        Board world =setConfigurationForWorldCreator();
-        ScrollPane scrollPane = new ScrollPane(world.getGridPane());
+
+        ScrollPane scrollPane = new ScrollPane(board.getGridPane());
         primaryStage.setFullScreen(true);
-        primaryStage.setScene(new Scene(scrollPane, 400, 400));
+        primaryStage.setScene(new Scene(scrollPane));
         primaryStage.show();
+        match.executeMatch();
     }
 
-    public Board setConfigurationForWorldCreator() throws Exception{
+    private void startTournament() {
 
-        Configuration configuration = WorldConfiguration.getInstance(10, 10, 3, 10, 120, 100, 10);
+        try {
+            buildTournament().begin();
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+            System.out.println("Problem occurred!");
+        }
+    }
 
-        WorldManager worldManager = new MapManager();
-        FoodSpawner foodSpawner = new BasicFoodSpawner(worldManager);
-        PimpekSpawner pimpekSpawner = new BasicPimpekSpawner(worldManager);
-        ObstacleSpawner obstacleSpawner = new BasicObstacleSpawner(worldManager);
-        Set<Pimpek> beings = new HashSet<>();
-        beings.add(new SimplePimpek("Tomek", 100, 120, worldManager));
-        beings.add(new Angry("Henio", 100, 120, worldManager));
-        Set<Food> foods = new HashSet<>();
-        foods.add(new Apple());
-        foods.add(new Strawberry());
-        foods.add(new Apple());
-        return new WorldCreator(worldManager, configuration, foodSpawner, pimpekSpawner, obstacleSpawner, beings, foods).create();
+    private Tournament buildTournament() {
+
+        return PimpekTournament.getInstance(buildSupplier());
+    }
+
+
+    private Configuration buildConfig() {
+
+        return WorldConfiguration.getInstance(10, 10, 1, 2,
+                140, 100, 100);
+    }
+
+    private Supplier buildSupplier() {
+        return BasicSupplier.getInstance(buildConfig());
     }
 }

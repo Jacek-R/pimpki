@@ -1,6 +1,8 @@
 package tournament;
 
+import java.io.FileNotFoundException;
+
 public interface Tournament {
 
-    void begin();
+    void begin() throws FileNotFoundException;
 }

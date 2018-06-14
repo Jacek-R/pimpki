@@ -37,6 +37,7 @@ public class MapManager implements WorldManager {
     @Override
     public void setBoard(Board board) {
         this.board = board;
+        resetMaps();
     }
 
     @Override
@@ -199,8 +200,7 @@ public class MapManager implements WorldManager {
         cell.getCellView().setContent(ImageParser.getImage(content.getImagePath()));
     }
 
-    @Override
-    public void reset() {
+    private void resetMaps() {
         predators.clear();
         pacifists.clear();
         food.clear();

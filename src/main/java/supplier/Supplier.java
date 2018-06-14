@@ -4,6 +4,7 @@ import configuration.Configuration;
 import food.foodGenerator.FoodGenerator;
 import food.foodModel.Food;
 import food.foodSpawner.FoodSpawner;
+import match.Match;
 import observer.MatchObserver;
 import obstacle.obstacleSpawner.ObstacleSpawner;
 import parser.statisticsToPoints.StatisticToPoints;
@@ -14,6 +15,7 @@ import pimpek.pimpekSpawner.PimpekSpawner;
 import world.BoardCreator;
 import worldManager.WorldManager;
 
+import java.io.FileNotFoundException;
 import java.util.Set;
 
 public interface Supplier {
@@ -32,7 +34,7 @@ public interface Supplier {
 
     Set<Pimpek> getBeings();
 
-    Set<Food> getSuplies();
+    Set<Food> getSupplies();
 
     FoodSpawner getFoodSpawner();
 
@@ -43,4 +45,6 @@ public interface Supplier {
     PimpekCloner getPimpekCloner();
 
     StatisticToPoints getPointsParser();
+
+    Match getNewMatch() throws FileNotFoundException;
 }
