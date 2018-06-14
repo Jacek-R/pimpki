@@ -6,11 +6,10 @@ import configuration.Configuration;
 import configuration.WorldConfiguration;
 import coordinates.Coordinates;
 import coordinates.Coords;
-import dependencyFactory.BasicDIFactory;
-import dependencyFactory.DIFactory;
+import supplier.BasicSupplier;
+import supplier.Supplier;
 import food.foodModel.Apple;
 import food.foodModel.Food;
-import food.foodModel.Strawberry;
 import org.junit.Before;
 import org.junit.Test;
 import pimpek.pimpekModel.Angry;
@@ -27,7 +26,7 @@ public class MapManagerTest {
 
 
     private WorldManager worldManager;
-    private DIFactory diContainer;
+    private Supplier diContainer;
 
     @Before
     public void setUp() throws FileNotFoundException {
@@ -35,7 +34,7 @@ public class MapManagerTest {
         Configuration configuration = WorldConfiguration.getInstance(10, 10, 3,
                 10, 120, 100, 10);
 
-        diContainer = BasicDIFactory.getInstance(configuration);
+        diContainer = BasicSupplier.getInstance(configuration);
 
         worldManager = diContainer.getWorldManager();
         Board board = diContainer.getBoardCreator().create();

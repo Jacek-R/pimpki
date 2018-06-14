@@ -1,4 +1,4 @@
-package dependencyFactory;
+package supplier;
 
 import configuration.Configuration;
 import food.foodGenerator.FoodGenerator;
@@ -16,7 +16,7 @@ import worldManager.WorldManager;
 
 import java.util.Set;
 
-public interface DIFactory {
+public interface Supplier {
 
     Configuration getConfiguration();
 
