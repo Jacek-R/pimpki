@@ -27,28 +27,28 @@ public class SimplePimpek implements Pacifist {
     private final int cloningCost;
     private MatchObserver observer = new NullObserver();  // null object pattern to avoid null pointer ex
     private final int totalEnergy;
-    private final WorldManager explorer;
+    private final WorldManager worldManager;
     private final PimpekGenre genre = PimpekGenre.PACIFIST;
 
 
     // constructor for origin/root pimpekModel:
-    public SimplePimpek(String name, int energy, int cloningCost, WorldManager explorer) {
+    public SimplePimpek(String name, int energy, int cloningCost, WorldManager worldManager) {
         this.ancestor = this;
         this.name = name;
         this.energy = energy;
         this.cloningCost = cloningCost;
         this.totalEnergy = energy;
-        this.explorer = explorer;
+        this.worldManager = worldManager;
     }
 
     // constructor for clones:
-    public SimplePimpek(Pimpek ancestor, String name, int energy, int cloningCost, WorldManager explorer) {
+    public SimplePimpek(Pimpek ancestor, String name, int energy, int cloningCost, WorldManager worldManager) {
         this.ancestor = ancestor;
         this.name = name;
         this.energy = energy;
         this.cloningCost = cloningCost;
         this.totalEnergy = energy;
-        this.explorer = explorer;
+        this.worldManager = worldManager;
     }
 
     @Override
@@ -73,7 +73,7 @@ public class SimplePimpek implements Pacifist {
     }
 
     protected void move(List<Coordinates> coords) throws FileNotFoundException{
-        explorer.registerBeing(coords.get(0), this);
+        worldManager.registerBeing(coords.get(0), this);
         setLocation(coords.get(0));
     }
 
@@ -93,7 +93,7 @@ public class SimplePimpek implements Pacifist {
                     direct = coord;
                 i++;
             }
-        }while(!explorer.isObstacle(direct));
+        }while(!worldManager.hasObstacle(direct));
         return Collections.singletonList(direct);
     }
 
@@ -125,7 +125,7 @@ public class SimplePimpek implements Pacifist {
                         cord = Collections.singletonList(getLocation().getSE());
                     }
                 }
-            }while(!explorer.isObstacle(cord.get(0)) && !explorer.registerBeing(cord.get(0), this));
+            }while(!worldManager.hasObstacle(cord.get(0)) && !worldManager.registerBeing(cord.get(0), this));
             }
 
 
@@ -133,7 +133,7 @@ public class SimplePimpek implements Pacifist {
 
 
     protected void eat(List<Coordinates> coords) throws FileNotFoundException {
-        Food food = explorer.getFood(coords.get(0));
+        Food food = worldManager.getFood(coords.get(0));
         this.energy += food.getEnergy();
         observer.registerEnergyPoints(this, food.getEnergy());
         move(coords);
@@ -151,11 +151,11 @@ public class SimplePimpek implements Pacifist {
             event = new BasicEvent(EventType.DEFAULT, coords);
         }else {
             for (Coordinates coord : neighbors) {
-                if (explorer.isNeighborhoodEmpty(coord)) {
+                if (worldManager.isNeighborhoodEmpty(coord)) {
                     coords = new ArrayList<>();
                     coords.add(coord);
                     event = new BasicEvent(EventType.MOVE, coords);
-                } else if (explorer.isFood(coord)) {
+                } else if (worldManager.hasFood(coord)) {
                     coords = new ArrayList<>();
                     coords.add(coord);
                     event = new BasicEvent(EventType.EAT, coords);
@@ -169,7 +169,7 @@ public class SimplePimpek implements Pacifist {
     private Set<Coordinates> whereArePredators(Set<Coordinates> neighbors){
         Set<Coordinates> predators = new HashSet<>();
         for(Coordinates coord : neighbors){
-            if(explorer.isPredator(coord)){
+            if(worldManager.hasPredator(coord)){
                 predators.add(coord);
             }
         }
@@ -228,8 +228,8 @@ public class SimplePimpek implements Pacifist {
         return totalEnergy;
     }
 
-    protected WorldManager getExplorer() {
-        return explorer;
+    protected WorldManager getWorldManager() {
+        return worldManager;
     }
 
     @Override

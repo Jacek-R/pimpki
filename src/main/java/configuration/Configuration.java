@@ -17,5 +17,6 @@ public interface Configuration {
     Map<PimpekGenre,Integer> getPimpeksQuantity();
     Map<FoodGenre,Integer> getFoodQuantity();
     int getMatchQuantity();
+    int getMaxTurns();
 
 }

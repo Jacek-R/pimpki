@@ -41,6 +41,5 @@ public class NullObserver implements MatchObserver {
     }
 
     @Override
-    public void resurrectBeings() {
-    }
+    public void reset() { }
 }

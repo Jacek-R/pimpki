@@ -70,6 +70,18 @@ public class Coords implements Coordinates {
     }
 
     @Override
+    public boolean equals(Object obj) {
+        if (obj == null) {
+            return false;
+        }
+        if (obj instanceof Coordinates) {
+            Coordinates coordinates = (Coordinates) obj;
+            return this.x == coordinates.getX() && this.y == coordinates.getY();
+        }
+        return false;
+    }
+
+    @Override
     public String toString() {
         return String.format("x(%s), y(%s)", x, y);
     }

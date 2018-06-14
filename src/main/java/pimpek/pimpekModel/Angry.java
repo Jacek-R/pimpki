@@ -12,12 +12,12 @@ public class Angry extends SimplePimpek implements Predator {
 
     private static final String IMAGE_PATH = CellPaths.PREDATOR.getPath();
 
-    public Angry(String name, int energy, int cloningCost, WorldManager explorer) {
-        super(name, energy, cloningCost, explorer);
+    public Angry(String name, int energy, int cloningCost, WorldManager worldManager) {
+        super(name, energy, cloningCost, worldManager);
     }
 
-    public Angry(Pimpek ancestor, String name, int energy, int cloningCost, WorldManager explorer) {
-        super(ancestor, name, energy, cloningCost, explorer);
+    public Angry(Pimpek ancestor, String name, int energy, int cloningCost, WorldManager worldManager) {
+        super(ancestor, name, energy, cloningCost, worldManager);
     }
 
     @Override
@@ -69,16 +69,16 @@ public class Angry extends SimplePimpek implements Predator {
                     }
                 }
             }
-        }while(!getExplorer().isObstacle(cord.get(0)) && !getExplorer().registerBeing(cord.get(0), this));
+        }while(!getWorldManager().hasObstacle(cord.get(0)) && !getWorldManager().registerBeing(cord.get(0), this));
 
     }
 
     private int checkLife(Coordinates coord) {
-        WorldManager explorer = getExplorer();
-        if(explorer.isPredator(coord)){
-            return explorer.getPredator(coord).getEnergy();
-        }else if(explorer.isPacifist(coord)){
-            return explorer.getPacifist(coord).getEnergy();
+        WorldManager worldManager = getWorldManager();
+        if(worldManager.hasPredator(coord)){
+            return worldManager.getPredator(coord).getEnergy();
+        }else if(worldManager.hasPacifist(coord)){
+            return worldManager.getPacifist(coord).getEnergy();
         }
         return 0;
     }
@@ -92,7 +92,7 @@ public class Angry extends SimplePimpek implements Predator {
     private Set<Coordinates> whereArePimpeks(Set<Coordinates> neighbors) {
         Set<Coordinates> pimpeks = new HashSet<>();
         for(Coordinates coord : neighbors){
-            if(getExplorer().isBeing(coord)) {
+            if(getWorldManager().hasBeing(coord)) {
                 pimpeks.add(coord);
             }
         }
