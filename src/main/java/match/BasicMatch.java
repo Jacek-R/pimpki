@@ -1,5 +1,6 @@
 package match;
 
+import world.Board;
 import worldManager.WorldManager;
 import configuration.Configuration;
 import food.foodGenerator.FoodGenerator;
@@ -12,8 +13,11 @@ import pimpek.pimpekStatistic.PimpekStatistics;
 import parser.statisticsToPoints.StatisticToPoints;
 import world.BoardCreator;
 
+import java.io.FileNotFoundException;
 import java.util.Map;
 import java.util.Set;
+import java.util.Timer;
+import java.util.TimerTask;
 
 public class BasicMatch implements Match {
 
@@ -27,12 +31,14 @@ public class BasicMatch implements Match {
     private final WorldManager worldManager;
     private final Set<Pimpek> beings;
     private final StatisticToPoints statisticToPoints;  // parser
+    private final Board board;
 
     public BasicMatch(Configuration configuration, PimpekCloner pimpekCloner,
                       FoodGenerator foodGenerator, PimpekSpawner pimpekSpawner,
                       FoodSpawner foodSpawner, BoardCreator boardCreator,
                       MatchObserver observer, WorldManager worldManager,
-                      Set<Pimpek> beings, StatisticToPoints statisticToPoints) {
+                      Set<Pimpek> beings, StatisticToPoints statisticToPoints,
+                      Board board) {
         this.configuration = configuration;
         this.pimpekCloner = pimpekCloner;
         this.foodGenerator = foodGenerator;
@@ -43,30 +49,47 @@ public class BasicMatch implements Match {
         this.worldManager = worldManager;
         this.beings = beings;
         this.statisticToPoints = statisticToPoints;
+        this.board = board;
     }
 
 
     @Override
     public Map<Pimpek, PimpekStatistics> executeMatch() {
 
-
-        // przygotowanie do meczu
-        // tutaj kolejka :)
-        // proponuję tu zwracać mapę z wynikami od observera (żeby wyżej budować całościowy wynik):
-
-
-        int turnCounter = 0;
         int maxTurns = configuration.getMaxTurns();
-        while (turnCounter < maxTurns) {
+        int interval = 1000;
 
-            turnCounter++;
-        }
-
+        executeMatchRec(interval, maxTurns);
         return observer.getBeingsAndStats();
     }
 
-    private void prepareMatch() {
+    @Override
+    public Board getBoard() {
+        return board;
+    }
 
+    private void executeMatchRec(int interval, int maxTurns) {
 
+        new Timer().schedule(new TimerTask() {
+
+            private int counter;
+
+            @Override
+            public void run() {
+                for (Pimpek being : beings) {
+                    try {
+                        being.act();
+                    } catch (FileNotFoundException e) {
+                        e.printStackTrace();
+                    }
+
+                    counter++;
+
+                    if (counter < maxTurns && observer.getLiving() > 0) {
+                        executeMatchRec(interval, maxTurns);
+                    }
+                }
+            }
+        }, interval);
     }
 }

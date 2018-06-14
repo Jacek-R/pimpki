@@ -29,10 +29,10 @@ public class WorldConfiguration implements Configuration {
     public static Configuration getInstance(int mapWidth, int mapHeight, int matchQuantity, int obstaclesQuantity,
                                             int cloningCost, int initialEnergy, int maxTurns) {
 
-        if (areConstructorArgumentIncorrect(mapWidth, mapHeight, matchQuantity, obstaclesQuantity,
-                cloningCost, initialEnergy, maxTurns) ) {
-            throw new IllegalArgumentException("Invalid arguments!");
-        }
+//        if (areConstructorArgumentIncorrect(mapWidth, mapHeight, matchQuantity, obstaclesQuantity,
+//                cloningCost, initialEnergy, maxTurns) ) {
+//            throw new IllegalArgumentException("Invalid arguments!");
+//        }
 
         return new WorldConfiguration(mapWidth, mapHeight, matchQuantity, obstaclesQuantity,
                 cloningCost, initialEnergy, maxTurns);
@@ -170,6 +170,6 @@ public class WorldConfiguration implements Configuration {
 
         return mapWidth < 5 || mapHeight < 5 || mapWidth > 100 || mapHeight > 100 || matchQuantity < 1 ||
                 matchQuantity > 100 || obstaclesQuantity < 0 ||
-                initialEnergy < cloningCost*2 || maxTurns < 0 || maxTurns > 1000;
+                initialEnergy < cloningCost*0.8 || maxTurns < 0 || maxTurns > 1000;
     }
 }

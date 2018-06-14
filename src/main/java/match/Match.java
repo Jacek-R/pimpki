@@ -2,6 +2,7 @@ package match;
 
 import pimpek.pimpekModel.Pimpek;
 import pimpek.pimpekStatistic.PimpekStatistics;
+import world.Board;
 
 import java.util.Map;
 
@@ -13,5 +14,6 @@ public interface Match {
      */
 
     Map<Pimpek, PimpekStatistics> executeMatch();
+    Board getBoard();
 
 }

@@ -8,6 +8,8 @@ import food.foodSpawner.BasicFoodSpawner;
 import food.foodSpawner.FoodSpawner;
 import helpers.nameGenerator.BasicNameGenerator;
 import helpers.nameGenerator.NameGenerator;
+import match.BasicMatch;
+import match.Match;
 import observer.BasicObserver;
 import observer.MatchObserver;
 import obstacle.obstacleSpawner.BasicObstacleSpawner;
@@ -24,11 +26,13 @@ import pimpek.pimpekModel.Pimpek;
 import pimpek.pimpekSpawner.BasicPimpekSpawner;
 import pimpek.pimpekSpawner.PimpekSpawner;
 
+import world.Board;
 import world.BoardCreator;
 import world.WorldCreator;
 import worldManager.MapManager;
 import worldManager.WorldManager;
 
+import java.io.FileNotFoundException;
 import java.util.Set;
 
 public class BasicSupplier implements Supplier {
@@ -44,7 +48,7 @@ public class BasicSupplier implements Supplier {
     private final FoodGenerator foodGenerator;
 
     private final Set<Pimpek> beings;
-    private final Set<Food> suplies;
+    private final Set<Food> supplies;
 
     private final FoodSpawner foodSpawner;
     private final PimpekSpawner pimpekSpawner;
@@ -53,7 +57,6 @@ public class BasicSupplier implements Supplier {
     private final PimpekCloner pimpekCloner;
 
     private final StatisticToPoints pointsParser;
-
 
     public static Supplier getInstance(Configuration configuration) {
         return new BasicSupplier(configuration);
@@ -74,7 +77,7 @@ public class BasicSupplier implements Supplier {
         this.pimpekCloner = createCloner();
 
         this.beings = pimpekGenerator.generate();
-        this.suplies = foodGenerator.generate();
+        this.supplies = foodGenerator.generate();
 
         this.matchObserver = createObserver();
 
@@ -119,8 +122,8 @@ public class BasicSupplier implements Supplier {
     }
 
     @Override
-    public Set<Food> getSuplies() {
-        return suplies;
+    public Set<Food> getSupplies() {
+        return supplies;
     }
 
     @Override
@@ -148,6 +151,20 @@ public class BasicSupplier implements Supplier {
         return pointsParser;
     }
 
+    @Override
+    public Match getNewMatch() throws FileNotFoundException {
+        return createMatch();
+    }
+
+    private Match createMatch() throws FileNotFoundException {
+
+        Board board = boardCreator.create();
+        worldManager.setBoard(board);
+        matchObserver.reset();
+
+        return new BasicMatch(configuration, pimpekCloner, foodGenerator, pimpekSpawner, foodSpawner, boardCreator,
+                matchObserver, worldManager, beings, pointsParser, board);
+    }
 
     private StatisticToPoints createPointsParser() {
         return new PimpekPoints();
@@ -203,7 +220,7 @@ public class BasicSupplier implements Supplier {
     private BoardCreator createWorldCreator() {
 
         return new WorldCreator(worldManager, configuration, foodSpawner, pimpekSpawner,
-                obstacleSpawner, beings, suplies);
+                obstacleSpawner, beings, supplies);
     }
 
 

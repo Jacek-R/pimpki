@@ -32,6 +32,5 @@ public interface WorldManager {
     boolean registerBeing(Coordinates coordinates, Pimpek being) throws FileNotFoundException;
     boolean registerFood(Coordinates coordinates, Food food) throws FileNotFoundException;
 
-    void reset();
     Coordinates selectRandomCoordinates();
 }
