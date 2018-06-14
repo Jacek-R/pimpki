@@ -8,4 +8,5 @@ import java.util.Set;
 public interface FoodSpawner {
 
     boolean spawn(Set<Food> foodCollection) throws FileNotFoundException;
+    int getSpawnedFood();
 }

@@ -7,9 +7,8 @@ import pimpek.pimpekModel.Pimpek;
 import parser.statisticsToPoints.StatisticToPoints;
 
 import java.io.FileNotFoundException;
-import java.util.Collections;
+import java.util.HashSet;
 import java.util.Set;
-import java.util.concurrent.ConcurrentHashMap;
 
 public class BasicMatch implements Match {
 
@@ -20,6 +19,7 @@ public class BasicMatch implements Match {
     private final StatisticToPoints statisticToPoints;  // parser
     private final Board board;
     private int turnCounter;
+    private final int TURN_INTERVAL = 100;
 
     public BasicMatch(Configuration configuration,
                       MatchObserver observer,
@@ -28,7 +28,7 @@ public class BasicMatch implements Match {
         this.configuration = configuration;
         this.observer = observer;
         this.beings = beings;
-        this.clonedBeings = Collections.newSetFromMap(new ConcurrentHashMap<>());
+        this.clonedBeings = new HashSet<>();
         this.statisticToPoints = statisticToPoints;
         this.board = board;
     }
@@ -66,7 +66,7 @@ public class BasicMatch implements Match {
             }
 
             try {
-                wait(500);
+                wait(TURN_INTERVAL);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }

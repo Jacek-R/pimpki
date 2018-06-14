@@ -12,7 +12,8 @@ public interface MatchObserver {
 
     boolean registerClone(Pimpek pimpek) throws FileNotFoundException;
     boolean registerEnergyPoints(Pimpek pimpek, int pointsToAdd);
-    void registerDeath();
+    void registerDeath() throws FileNotFoundException;
+    void registerFoodConsumption();
     Map<Pimpek,PimpekStatistics> getBeingsAndStats();
     int getLiving();
     int getDead();

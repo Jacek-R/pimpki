@@ -45,8 +45,6 @@ public class SimplePimpek implements Pacifist {
 
     // constructor for clones:
     public SimplePimpek(Pimpek ancestor, String name, int energy, int cloningCost, WorldManager worldManager) {
-
-        System.out.println("Tworzę klona!");
         this.ancestor = ancestor;
         this.name = name;
         this.energy = energy;
