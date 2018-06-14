@@ -1,11 +1,13 @@
 package observer;
 
+import match.Match;
 import pimpek.pimpekModel.Pimpek;
 import pimpek.pimpekCloner.PimpekCloner;
 import pimpek.pimpekSpawner.PimpekSpawner;
 import pimpek.pimpekStatistic.BasicPimpekStatistics;
 import pimpek.pimpekStatistic.PimpekStatistics;
 
+import java.io.FileNotFoundException;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
@@ -14,6 +16,7 @@ public class BasicObserver implements MatchObserver {
 
     private final PimpekCloner pimpekCloner;
     private final PimpekSpawner pimpekSpawner;
+    private Match match;
     private Map<Pimpek, PimpekStatistics> beingsAndStats;
     private int living;
     private int dead;
@@ -26,12 +29,17 @@ public class BasicObserver implements MatchObserver {
     }
 
     @Override
-    public boolean registerClone(Pimpek pimpek) {
+    public boolean registerClone(Pimpek pimpek) throws FileNotFoundException {
 
         getPimpekStatistics(pimpek).incrementCloningPoints();
         Pimpek cloned = pimpekCloner.clone(pimpek);
+
         living++;
-        return pimpekSpawner.spawnClone(cloned, pimpek);
+        if (match == null) {
+            return false;
+        }
+        pimpekSpawner.spawnClone(cloned, pimpek);
+        return match.registerClonedPlayer(cloned);
     }
 
     @Override
@@ -67,6 +75,11 @@ public class BasicObserver implements MatchObserver {
     @Override
     public void rejuvenate() {
         beingsAndStats.keySet().forEach(Pimpek::regenerate);
+    }
+
+    @Override
+    public void registerMatch(Match match) {
+        this.match = match;
     }
 
     private void registerPimpek(Pimpek pimpek) {

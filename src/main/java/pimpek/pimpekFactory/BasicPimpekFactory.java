@@ -43,10 +43,10 @@ public class BasicPimpekFactory implements PimpekFactory {
     public Pimpek clone(Pimpek parent) {
 
         PimpekGenre genre = parent.getGenre();
-        String name = nameGenerator.generate(genre);
+        String name = "Child: " + nameGenerator.generate(genre);
         int cloningCost = configuration.getCloningCost();
 
-        int energy = configuration.getInitialEnergy() - cloningCost;
+        int energy = parent.getEnergy();
 
         Pimpek being;
 

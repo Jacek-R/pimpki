@@ -7,13 +7,16 @@ import pimpek.pimpekModel.Pimpek;
 import parser.statisticsToPoints.StatisticToPoints;
 
 import java.io.FileNotFoundException;
+import java.util.Collections;
 import java.util.Set;
+import java.util.concurrent.ConcurrentHashMap;
 
 public class BasicMatch implements Match {
 
     private final Configuration configuration;
     private final MatchObserver observer;
     private final Set<Pimpek> beings;
+    private final Set<Pimpek> clonedBeings;
     private final StatisticToPoints statisticToPoints;  // parser
     private final Board board;
     private int turnCounter;
@@ -25,6 +28,7 @@ public class BasicMatch implements Match {
         this.configuration = configuration;
         this.observer = observer;
         this.beings = beings;
+        this.clonedBeings = Collections.newSetFromMap(new ConcurrentHashMap<>());
         this.statisticToPoints = statisticToPoints;
         this.board = board;
     }
@@ -32,6 +36,11 @@ public class BasicMatch implements Match {
     @Override
     public Board getBoard() {
         return board;
+    }
+
+    @Override
+    public boolean registerClonedPlayer(Pimpek pimpek) {
+        return clonedBeings.add(pimpek);
     }
 
     @Override
@@ -43,6 +52,14 @@ public class BasicMatch implements Match {
             for (Pimpek being : beings) {
                 try {
                     being.act();
+                } catch (FileNotFoundException e) {
+                    e.printStackTrace();
+                }
+            }
+
+            for (Pimpek cloned : clonedBeings) {
+                try {
+                    cloned.act();
                 } catch (FileNotFoundException e) {
                     e.printStackTrace();
                 }
