@@ -49,6 +49,9 @@ public class BasicMatch implements Match {
 
         while(turnCounter < maxTurns && observer.getLiving() > 0) {
 
+            System.out.println("Żarcie: " + observer.getFoodQuantity());
+            System.out.println("Żywi: " + observer.getLiving());
+
             for (Pimpek being : beings) {
                 try {
                     being.act();

@@ -91,6 +91,7 @@ public class SimplePimpek implements Pacifist {
 
         this.energy += food.getEnergy();
         observer.registerEnergyPoints(ancestor, food.getEnergy());
+        observer.registerFoodConsumption();
         move(coordinates);
     }
 
