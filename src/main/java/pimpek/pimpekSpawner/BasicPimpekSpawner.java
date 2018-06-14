@@ -40,7 +40,6 @@ public class BasicPimpekSpawner implements PimpekSpawner {
             if (worldManager.areCoordinatesOnMap(field) && worldManager.isEmpty(field) ) {
                 cloned.setLocation(field);
                 worldManager.registerBeing(field, cloned);
-                System.out.println("Cloner: zrzucony klon! " + cloned);
                 return true;
             }
         }

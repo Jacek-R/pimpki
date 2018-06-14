@@ -12,7 +12,6 @@ import observer.NullObserver;
 
 import java.io.FileNotFoundException;
 import java.util.*;
-import java.util.stream.Collectors;
 
 /**
  * basic genre - a bit stupid
@@ -45,8 +44,6 @@ public class SimplePimpek implements Pacifist {
 
     // constructor for clones:
     public SimplePimpek(Pimpek ancestor, String name, int energy, int cloningCost, WorldManager worldManager) {
-
-        System.out.println("Tworzę klona!");
         this.ancestor = ancestor;
         this.name = name;
         this.energy = energy;
@@ -89,6 +86,7 @@ public class SimplePimpek implements Pacifist {
     }
 
     protected synchronized void eat(Coordinates coordinates) throws FileNotFoundException {
+
         Food food = worldManager.getFood(coordinates);
 
         this.energy += food.getEnergy();
@@ -97,6 +95,7 @@ public class SimplePimpek implements Pacifist {
     }
 
     protected synchronized Event scan() {
+
         Set<Coordinates> possibleCordsToGo = currentLocation.getNeighbors();
 
         // check for predator
@@ -117,6 +116,7 @@ public class SimplePimpek implements Pacifist {
     }
 
     protected synchronized Event handlePredatorProblem() {
+
         Set<Coordinates> neighbors = currentLocation.getNeighbors();
         List<Coordinates> possiblePlacesToRun = new ArrayList<>();
 
@@ -165,7 +165,7 @@ public class SimplePimpek implements Pacifist {
         if ( isDead() ) {
             return;
         }
-        die();
+        kill();
         observer.registerDeath();
         worldManager.cleanUpPlace(currentLocation);
     }
@@ -231,7 +231,9 @@ public class SimplePimpek implements Pacifist {
         return dead;
     }
 
-    protected synchronized void die() {
+    @Override
+    public void kill() {
+        energy = -1;
         dead = true;
     }
 

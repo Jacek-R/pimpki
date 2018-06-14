@@ -171,7 +171,7 @@ public class BasicSupplier implements Supplier {
 
     private MatchObserver createObserver() {
 
-        return new BasicObserver(pimpekCloner, pimpekSpawner, beings);
+        return new BasicObserver(pimpekCloner, pimpekSpawner, foodSpawner, beings, supplies);
     }
 
     private PimpekFactory createPimpekFactory() {

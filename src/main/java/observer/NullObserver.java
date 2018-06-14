@@ -24,6 +24,11 @@ public class NullObserver implements MatchObserver {
     public void registerDeath() { }
 
     @Override
+    public void registerFoodConsumption() {
+
+    }
+
+    @Override
     public Map<Pimpek, PimpekStatistics> getBeingsAndStats() {
         return new HashMap<>();
     }
