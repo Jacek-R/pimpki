@@ -40,7 +40,8 @@ public class App extends Application {
         Configuration configuration = WorldConfiguration.getInstance(10, 10,
                 1, 10,
                 140, 100, 100);
-        configuration.addPimpeksQuantityByGenre(PimpekGenre.PACIFIST, 3);
+        configuration.addPimpeksQuantityByGenre(PimpekGenre.PACIFIST, 5);
+        configuration.addPimpeksQuantityByGenre(PimpekGenre.PREDATOR, 5);
         configuration.addFoodQuantityByGenre(FoodGenre.APPLE, 5);
         return configuration;
     }
