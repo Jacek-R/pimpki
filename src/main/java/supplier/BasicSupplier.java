@@ -160,8 +160,9 @@ public class BasicSupplier implements Supplier {
         Board board = boardCreator.create();
         worldManager.setBoard(board);
         matchObserver.rejuvenate();
-
-        return new BasicMatch(configuration, matchObserver, beings, pointsParser, board);
+        Match match = new BasicMatch(configuration, matchObserver, beings, pointsParser, board);
+        matchObserver.registerMatch(match);
+        return match;
     }
 
     private StatisticToPoints createPointsParser() {
@@ -170,7 +171,7 @@ public class BasicSupplier implements Supplier {
 
     private MatchObserver createObserver() {
 
-        return new BasicObserver(pimpekCloner, pimpekSpawner, beings);
+        return new BasicObserver(pimpekCloner, pimpekSpawner, foodSpawner, beings, supplies);
     }
 
     private PimpekFactory createPimpekFactory() {

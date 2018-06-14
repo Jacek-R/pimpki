@@ -57,11 +57,15 @@ public class SimplePimpek implements Pacifist {
         if ( isDead() ) {
             return;
         }
+
         energy--;
 
         if (energy < 1) {
             handleDead();
+            return;
         }
+
+        handleCloning();
 
         Event event = scan();
         switch(event.getType()){
@@ -76,20 +80,22 @@ public class SimplePimpek implements Pacifist {
         }
     }
 
-    private void move(Coordinates coordinates) throws FileNotFoundException {
+    protected synchronized void move(Coordinates coordinates) throws FileNotFoundException {
             worldManager.registerBeing(coordinates, this);
             energy--;
     }
 
-    private void eat(Coordinates coordinates) throws FileNotFoundException {
+    protected synchronized void eat(Coordinates coordinates) throws FileNotFoundException {
+
         Food food = worldManager.getFood(coordinates);
 
         this.energy += food.getEnergy();
-        observer.registerEnergyPoints(this, food.getEnergy());
+        observer.registerEnergyPoints(ancestor, food.getEnergy());
         move(coordinates);
     }
 
-    protected Event scan() throws FileNotFoundException {
+    protected synchronized Event scan() {
+
         Set<Coordinates> possibleCordsToGo = currentLocation.getNeighbors();
 
         // check for predator
@@ -109,7 +115,8 @@ public class SimplePimpek implements Pacifist {
         return chaoticMove(possibleCordsToGo);
     }
 
-    Event handlePredatorProblem() {
+    protected synchronized Event handlePredatorProblem() {
+
         Set<Coordinates> neighbors = currentLocation.getNeighbors();
         List<Coordinates> possiblePlacesToRun = new ArrayList<>();
 
@@ -133,7 +140,7 @@ public class SimplePimpek implements Pacifist {
         return new BasicEvent(EventType.MOVE, possiblePlacesToRun.get(0));
     }
 
-    Event chaoticMove(Set<Coordinates> possiblePlacesToGo) {
+    private synchronized Event chaoticMove(Set<Coordinates> possiblePlacesToGo) {
         Random chaos = new Random();
         if ( chaos.nextBoolean() ) {
             return new BasicEvent(EventType.WAIT, currentLocation);
@@ -149,12 +156,12 @@ public class SimplePimpek implements Pacifist {
             Collections.shuffle(placesAsList);
             chances++;
             
-        } while(worldManager.hasObstacle(placesAsList.get(0)) || worldManager.hasBeing(placesAsList.get(0)));
+        } while(worldManager.hasObstacle(placesAsList.get(0)) && !worldManager.isEmpty(placesAsList.get(0)));
 
         return new BasicEvent(EventType.MOVE, placesAsList.get(0));
     }
 
-    protected void handleDead() throws FileNotFoundException {
+    protected synchronized void handleDead() throws FileNotFoundException {
         if ( isDead() ) {
             return;
         }
@@ -162,7 +169,6 @@ public class SimplePimpek implements Pacifist {
         observer.registerDeath();
         worldManager.cleanUpPlace(currentLocation);
     }
-
 
 
     @Override
@@ -221,7 +227,7 @@ public class SimplePimpek implements Pacifist {
         return worldManager;
     }
 
-    protected boolean isDead() {
+    protected synchronized boolean isDead() {
         return dead;
     }
 
@@ -229,6 +235,15 @@ public class SimplePimpek implements Pacifist {
     public void kill() {
         energy = -1;
         dead = true;
+    }
+
+    protected synchronized void handleCloning() throws FileNotFoundException {
+        if (this != ancestor || energy < cloningCost * 2) {
+            return;
+        }
+
+        observer.registerClone(ancestor);
+        decrementEnergy(cloningCost);
     }
 
     protected void decrementEnergy(int pointsToDecrement) {

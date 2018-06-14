@@ -14,9 +14,12 @@ import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import layout.utils.GridConstraints;
 import layout.utils.SetMargins;
+import match.Match;
 
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.util.concurrent.locks.Lock;
+import java.util.concurrent.locks.ReentrantLock;
 
 public class GameScreen {
 
@@ -37,7 +40,10 @@ public class GameScreen {
     private static final int NUMBER_OF_BEST_PLAYERS = 10;
     private static final int STATISTICS_TO_TRACK = 5;
 
+    private Match match;
+    private Thread duel;
     private GridPane worldGridPane;
+    private final Lock lock = new ReentrantLock();
 
     private Label pimpkiQuantity;
     private Label roundNumberInformation;
@@ -46,8 +52,10 @@ public class GameScreen {
     private Label[][] rowsWithBestPimpki;
 
 
-    public GameScreen(GridPane worldGridPane) {
+    public GameScreen(GridPane worldGridPane, Match match) {
         this.worldGridPane = worldGridPane;
+        this.match = match;
+        duel = new Thread(match);
         rowsWithBestPimpki = new Label[NUMBER_OF_BEST_PLAYERS][STATISTICS_TO_TRACK];
     }
 
@@ -183,9 +191,12 @@ public class GameScreen {
         return button;
     }
 
-    private EventHandler<MouseEvent> createClickStartHandler(Button button) {
+    private synchronized EventHandler<MouseEvent> createClickStartHandler(Button button) {
         return event -> {
             try {
+                if(duel.getState() == Thread.State.NEW) {
+                    duel.start();
+                }
                 button.setBackground(createBackground(BTN_BG_CLICK));
             } catch (FileNotFoundException e) {
                 e.printStackTrace();
@@ -193,7 +204,7 @@ public class GameScreen {
         };
     }
 
-    private EventHandler<MouseEvent> createClickPauseHandler(Button button) {
+    private synchronized EventHandler<MouseEvent> createClickPauseHandler(Button button) {
         return event -> {
             try {
                 button.setBackground(createBackground(BTN_BG_CLICK));

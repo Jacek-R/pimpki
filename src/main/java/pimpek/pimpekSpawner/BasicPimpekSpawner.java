@@ -32,10 +32,17 @@ public class BasicPimpekSpawner implements PimpekSpawner {
     }
 
     @Override
-    public boolean spawnClone(Pimpek cloned, Pimpek parent) {
+    public boolean spawnClone(Pimpek cloned, Pimpek parent) throws FileNotFoundException {
 
-        // put registerClone on the world map - JW.
+        Set<Coordinates> possibleFields = parent.getLocation().getNeighbors();
 
-        return true;
+        for (Coordinates field : possibleFields) {
+            if (worldManager.areCoordinatesOnMap(field) && worldManager.isEmpty(field) ) {
+                cloned.setLocation(field);
+                worldManager.registerBeing(field, cloned);
+                return true;
+            }
+        }
+        return false;
     }
 }

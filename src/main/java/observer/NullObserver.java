@@ -1,5 +1,6 @@
 package observer;
 
+import match.Match;
 import pimpek.pimpekModel.Pimpek;
 import pimpek.pimpekStatistic.PimpekStatistics;
 
@@ -23,6 +24,11 @@ public class NullObserver implements MatchObserver {
     public void registerDeath() { }
 
     @Override
+    public void registerFoodConsumption() {
+
+    }
+
+    @Override
     public Map<Pimpek, PimpekStatistics> getBeingsAndStats() {
         return new HashMap<>();
     }
@@ -39,4 +45,9 @@ public class NullObserver implements MatchObserver {
 
     @Override
     public void rejuvenate() { }
+
+    @Override
+    public void registerMatch(Match match) {
+
+    }
 }
