@@ -2,9 +2,11 @@ package pimpek.events;
 
 import coordinates.Coordinates;
 
+import java.util.List;
+
 public interface Event {
 
-    String getName();
-    Coordinates getCoords();
+    EventType getType();
+    List<Coordinates> getCoords();
 
 }
