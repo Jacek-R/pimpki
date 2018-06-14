@@ -1,5 +1,6 @@
 package pimpek.pimpekModel;
 
+import pimpek.events.EventType;
 import worldManager.WorldManager;
 import cell.CellPaths;
 import coordinates.Coordinates;
@@ -8,10 +9,9 @@ import pimpek.events.Event;
 import food.foodModel.Food;
 import observer.MatchObserver;
 import observer.NullObserver;
-import world.Board;
 
 import java.io.FileNotFoundException;
-import java.util.List;
+import java.util.*;
 
 /**
  * basic genre - a bit stupid
@@ -52,19 +52,20 @@ public class SimplePimpek implements Pacifist {
     }
 
     @Override
-    public void act(Board world) throws FileNotFoundException {
-        Event event = scan(world);
-        switch(event.getName()){
-            case "MOVE":
+    public void act() throws FileNotFoundException {
+        Set<Coordinates> predators = whereArePredators(currentLocation.getNeighbors());
+        Event event = scan(predators);
+        switch(event.getType()){
+            case MOVE:
                 move(event.getCoords());
                 break;
-            case "EAT":
+            case EAT:
                 eat(event.getCoords());
                 break;
-            case "RUN":
+            case DEFAULT:
                 run(event.getCoords());
                 break;
-            case "WAIT":
+            case WAIT:
                 break;
 
         }
@@ -112,18 +113,27 @@ public class SimplePimpek implements Pacifist {
 
     }
 
-    private Event scan(Board world) {
-        List<Coordinates> neighbors = currentLocation.getNeighbors();
-        Event event = new BasicEvent("WAIT", currentLocation);
-        for(Coordinates coord : neighbors){
-            if(explorer.isFood(coord)){
-                 event = new BasicEvent("EAT", coord);
-                 return event;
-            }else if(explorer.isPredator(coord)){
-                event = new BasicEvent("RUN", coord);
-                return event;
-            }else if(explorer.isNeighborhoodEmpty(coord)){
-                event = new BasicEvent("MOVE", coord);
+    protected Event scan(Set<Coordinates> pimpeks) {
+        Set<Coordinates> neighbors = currentLocation.getNeighbors();
+        List<Coordinates> coords = new ArrayList<>();
+        coords.add(currentLocation);
+        Event event = new BasicEvent(EventType.WAIT, coords);
+        if(pimpeks.size() != 0){
+            coords = new ArrayList<>();
+            coords.add(currentLocation);
+            event = new BasicEvent(EventType.DEFAULT, coords);
+        }else {
+            for (Coordinates coord : neighbors) {
+                if (explorer.isNeighborhoodEmpty(coord)) {
+                    coords = new ArrayList<>();
+                    coords.add(coord);
+                    event = new BasicEvent(EventType.MOVE, coords);
+                } else if (explorer.isFood(coord)) {
+                    coords = new ArrayList<>();
+                    coords.add(coord);
+                    event = new BasicEvent(EventType.EAT, coords);
+                    return event;
+                }
             }
         }
         return event;
