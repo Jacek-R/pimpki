@@ -43,7 +43,8 @@ public class GameScreen {
 
     private Match match;
     private Thread duel;
-    private Task updater;
+    private PimpekQuantityTask pimpekUpdater;
+    private FoodQuantityTask foodUpdater;
     private MatchObserver matchObserver;
     private GridPane worldGridPane;
     private final Lock lock = new ReentrantLock();
@@ -60,7 +61,8 @@ public class GameScreen {
         this.match = match;
         duel = new Thread(match);
         matchObserver = match.getObserver();
-        updater = new Task(matchObserver);
+        pimpekUpdater = new PimpekQuantityTask(matchObserver);
+        foodUpdater = new FoodQuantityTask(matchObserver);
         rowsWithBestPimpki = new Label[NUMBER_OF_BEST_PLAYERS][STATISTICS_TO_TRACK];
     }
 
@@ -138,10 +140,11 @@ public class GameScreen {
 
         Label pimpkiLabel = createLabel("Pimpki left : ", FONT_COLOR);
         pimpkiQuantity = createLabel("30", FONT_COLOR);
-        pimpkiQuantity.textProperty().bind(updater.messageProperty());
+        pimpkiQuantity.textProperty().bind(pimpekUpdater.messageProperty());
 
         Label foodLabel = createLabel("Food on board : ", FONT_COLOR);
         foodQuantity = createLabel("20", FONT_COLOR);
+        foodQuantity.textProperty().bind(foodUpdater.messageProperty());
 
         SetMargins.gridPane(SMALL_MARGIN, pimpkiLabel, pimpkiQuantity, foodLabel, foodQuantity);
         GridConstraints.column(container, 35, 15, 35, 15);
@@ -239,8 +242,10 @@ public class GameScreen {
 
     private void startMatch(){
         duel.start();
-        Thread thread = new Thread(updater);
-        thread.start();
+        Thread pimpekUpdaterThread = new Thread(pimpekUpdater);
+        pimpekUpdaterThread.start();
+        Thread foodUpdaterThread = new Thread(foodUpdater);
+        foodUpdaterThread.start();
     }
 
     private GridPane createRoot(ScrollPane mapContainer, VBox optionsContainer) throws FileNotFoundException {

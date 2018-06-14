@@ -2,11 +2,11 @@ package layout.gamescreen;
 
 import observer.MatchObserver;
 
-public class Task extends javafx.concurrent.Task{
+public class PimpekQuantityTask extends javafx.concurrent.Task{
 
     private MatchObserver matchObserver;
 
-    public Task(MatchObserver matchObserver) {
+    public PimpekQuantityTask(MatchObserver matchObserver) {
         this.matchObserver = matchObserver;
     }
 
@@ -15,7 +15,7 @@ public class Task extends javafx.concurrent.Task{
     while (true) {
         updateMessage(String.valueOf(matchObserver.getLiving()));
         try {
-            Thread.sleep(1000);
+            Thread.sleep(10);
         } catch (InterruptedException ex) {
             break;
         }
