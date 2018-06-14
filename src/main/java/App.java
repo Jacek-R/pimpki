@@ -30,9 +30,6 @@ public class App extends Application {
         primaryStage.setFullScreen(true);
         primaryStage.setScene(gameScreen.buildScene());
         primaryStage.show();
-
-        Thread duel = new Thread(match);
-        duel.start();
     }
 
     private Configuration buildConfig() {
