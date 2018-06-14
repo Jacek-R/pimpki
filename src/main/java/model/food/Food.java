@@ -1,7 +1,10 @@
 package model.food;
 
-public interface Food {
+import model.cellcontent.Content;
+
+public interface Food extends Content {
 
     int getEnergy();
 
+    FoodGenre getGenre();
 }

@@ -1,15 +1,16 @@
 package model.pimpek;
 
 import explorer.WorldManager;
-import model.cellcontent.Type;
+import model.CellPaths;
 import model.coordinates.Coordinates;
-//import model.events.BasicEvent;
-//import model.events.Event;
+import model.events.BasicEvent;
+import model.events.Event;
+import model.food.Food;
 import model.observer.MatchObserver;
 import model.observer.NullObserver;
 import world.Board;
 
-import java.util.ArrayList;
+import java.io.FileNotFoundException;
 import java.util.List;
 
 /**
@@ -19,8 +20,7 @@ import java.util.List;
 public class SimplePimpek implements Pacifist {
 
     private final Pimpek ancestor;  // use it to update statistic (observer)
-    private static final String IMAGE_PATH = "src/main/resources/img/pimpek.png";
-    private static final Type TYPE = Type.PIMPEK;
+    private static final String IMAGE_PATH = CellPaths.PIMPEK.getPath();
     private final String name;
     private Coordinates currentLocation;
     private int energy;
@@ -52,50 +52,81 @@ public class SimplePimpek implements Pacifist {
     }
 
     @Override
-    public void act(Board world) {
-//        Event event = scan(world);
-//        switch(event.getName()){
-//            case "EAT":
-//                eat()
-//
-//        }
+    public void act(Board world) throws FileNotFoundException {
+        Event event = scan(world);
+        switch(event.getName()){
+            case "MOVE":
+                move(event.getCoords());
+                break;
+            case "EAT":
+                eat(event.getCoords());
+                break;
+            case "RUN":
+                run(event.getCoords());
+                break;
+            case "WAIT":
+                break;
 
+        }
 
     }
 
-//    private Event scan(Board world) {
-//        List<Coordinates> fieldOfView = getFieldOfView();
-//        Event event = new BasicEvent("WAIT", currentLocation);
-//        for(Coordinates coord : fieldOfView){
-//            if(explorer.isFood(coord)){
-//                 event = new BasicEvent("EAT", coord);
-//                 return event;
-//            }else if(explorer.isPredator(coord)){
-//                event = new BasicEvent("RUN", coord);
-//                return event;
-//            }else if(!explorer.isObstacle(coord)){
-//                event = new BasicEvent("MOVE", coord);
-//            }
+    private void move(Coordinates coords) throws FileNotFoundException{
+        explorer.registerBeing(coords, this);
+        setLocation(coords);
+    }
+
+    private void run(Coordinates coords) throws FileNotFoundException {
+
+        /**
+         * need to check if we can move there (there are no obstacle, other predators or something)
+         */
+//        Coordinates whereRun = null;
+//
+//        if(currentLocation.getN() == coords){
+//            whereRun = currentLocation.getSW();
+//        }else if(currentLocation.getS() == coords){
+//            whereRun = currentLocation.getNE();
+//        }else if(currentLocation.getW() == coords){
+//            whereRun = currentLocation.getNE();
+//        }else if(currentLocation.getE() == coords){
+//            whereRun = currentLocation.getSW();
+//        }else if(currentLocation.getNE() == coords){
+//            whereRun = currentLocation.getSW();
+//        }else if(currentLocation.getNW() == coords){
+//            whereRun = currentLocation.getSE();
+//        }else if(currentLocation.getSE() == coords){
+//            whereRun = currentLocation.getNW();
+//        }else if(currentLocation.getSW() == coords){
+//            whereRun = currentLocation.getNE();
 //        }
-//        return event;
-//    }
+//
+//        move(whereRun);
+    }
 
-    private List<Coordinates> getFieldOfView() {
-        List<Coordinates> coords = new ArrayList<>();
+    private void eat(Coordinates coords) throws FileNotFoundException {
+        Food food = explorer.getFood(coords);
+        this.energy += food.getEnergy();
+        observer.registerEnergyPoints(this, food.getEnergy());
+        move(coords);
 
+    }
 
-        // to wyciągniesz: coords = currentLocation.getNeighbors(); :))))
-
-        coords.add(currentLocation.getE());
-        coords.add(currentLocation.getNE());
-        coords.add(currentLocation.getS());
-        coords.add(currentLocation.getSE());
-        coords.add(currentLocation.getSW());
-        coords.add(currentLocation.getW());
-        coords.add(currentLocation.getNW());
-        coords.add(currentLocation.getN());
-
-        return coords;
+    private Event scan(Board world) {
+        List<Coordinates> neighbors = currentLocation.getNeighbors();
+        Event event = new BasicEvent("WAIT", currentLocation);
+        for(Coordinates coord : neighbors){
+            if(explorer.isFood(coord)){
+                 event = new BasicEvent("EAT", coord);
+                 return event;
+            }else if(explorer.isPredator(coord)){
+                event = new BasicEvent("RUN", coord);
+                return event;
+            }else if(explorer.isNeighborhoodEmpty(coord)){
+                event = new BasicEvent("MOVE", coord);
+            }
+        }
+        return event;
     }
 
     @Override
@@ -157,15 +188,5 @@ public class SimplePimpek implements Pacifist {
     @Override
     public String getImagePath() {
         return IMAGE_PATH;
-    }
-
-    @Override
-    public Type getType() {
-        return TYPE;
-    }
-
-    @Override
-    public boolean isAccessible() {
-        return true;
     }
 }
