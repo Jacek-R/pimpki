@@ -18,11 +18,11 @@ public class BasicObserver implements MatchObserver {
     private int living;
     private int dead;
 
-    public BasicObserver(PimpekCloner pimpekCloner, PimpekSpawner pimpekSpawner, Set<Pimpek> pimpki) {
+    public BasicObserver(PimpekCloner pimpekCloner, PimpekSpawner pimpekSpawner, Set<Pimpek> beings) {
         this.pimpekCloner = pimpekCloner;
         this.pimpekSpawner = pimpekSpawner;
         this.beingsAndStats = new HashMap<>();
-        pimpki.forEach(this::registerPimpek);
+        beings.forEach(this::registerPimpek);
     }
 
     @Override
