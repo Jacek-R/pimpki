@@ -20,6 +20,8 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Random;
 
+import static cell.CellPaths.BLOOD;
+
 public class MapManager implements WorldManager {
 
     private Board board;
@@ -111,6 +113,7 @@ public class MapManager implements WorldManager {
         Cell cell = board.getCellAt(coordinates.getX(), coordinates.getY());
         Content newContent = new Empty();
         cell.setContent(newContent);
+        cell.getCellView().setBackground(ImageParser.getImage(BLOOD.getPath()));
         cell.getCellView().setContent(ImageParser.getImage(newContent.getImagePath()));
     }
 

@@ -8,7 +8,8 @@ public enum CellPaths {
     PREDATOR("src/main/resources/img/predator.png"),
     APPLE("src/main/resources/img/apple.png"),
     STRAWBERRY("src/main/resources/img/strawberry.png"),
-    SAUSAGE("src/main/resources/img/sausage.png");
+    SAUSAGE("src/main/resources/img/sausage.png"),
+    BLOOD("src/main/resources/img/blood.png");
 
     private String path;
 
