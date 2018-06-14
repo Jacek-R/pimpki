@@ -56,4 +56,11 @@ public class BasicMatch implements Match {
             turnCounter++;
         }
     }
+
+    @Override
+    public MatchObserver getObserver() {
+        return observer;
+    }
+
+
 }
