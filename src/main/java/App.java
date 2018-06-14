@@ -39,7 +39,7 @@ public class App extends Application {
 
         Configuration configuration = WorldConfiguration.getInstance(10, 10,
                 1, 10,
-                140, 100, 100);
+                140, 130, 100);
         configuration.addPimpeksQuantityByGenre(PimpekGenre.PACIFIST, 3);
         configuration.addFoodQuantityByGenre(FoodGenre.APPLE, 5);
         return configuration;

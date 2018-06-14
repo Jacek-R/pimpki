@@ -6,6 +6,7 @@ import pimpek.pimpekSpawner.PimpekSpawner;
 import pimpek.pimpekStatistic.BasicPimpekStatistics;
 import pimpek.pimpekStatistic.PimpekStatistics;
 
+import java.io.FileNotFoundException;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
@@ -26,10 +27,12 @@ public class BasicObserver implements MatchObserver {
     }
 
     @Override
-    public boolean registerClone(Pimpek pimpek) {
+    public boolean registerClone(Pimpek pimpek) throws FileNotFoundException {
 
         getPimpekStatistics(pimpek).incrementCloningPoints();
         Pimpek cloned = pimpekCloner.clone(pimpek);
+
+        System.out.println("Observer: stworzony klon! " + cloned);
         living++;
         return pimpekSpawner.spawnClone(cloned, pimpek);
     }
