@@ -12,7 +12,6 @@ import observer.NullObserver;
 
 import java.io.FileNotFoundException;
 import java.util.*;
-import java.util.stream.Collectors;
 
 /**
  * basic genre - a bit stupid
@@ -77,12 +76,12 @@ public class SimplePimpek implements Pacifist {
         }
     }
 
-    protected void move(Coordinates coordinates) throws FileNotFoundException {
+    private void move(Coordinates coordinates) throws FileNotFoundException {
             worldManager.registerBeing(coordinates, this);
             energy--;
     }
 
-    protected void eat(Coordinates coordinates) throws FileNotFoundException {
+    private void eat(Coordinates coordinates) throws FileNotFoundException {
         Food food = worldManager.getFood(coordinates);
 
         this.energy += food.getEnergy();
@@ -90,7 +89,7 @@ public class SimplePimpek implements Pacifist {
         move(coordinates);
     }
 
-    protected Event scan() {
+    protected Event scan() throws FileNotFoundException {
         Set<Coordinates> possibleCordsToGo = currentLocation.getNeighbors();
 
         // check for predator
@@ -110,7 +109,7 @@ public class SimplePimpek implements Pacifist {
         return chaoticMove(possibleCordsToGo);
     }
 
-    protected Event handlePredatorProblem() {
+    Event handlePredatorProblem() {
         Set<Coordinates> neighbors = currentLocation.getNeighbors();
         List<Coordinates> possiblePlacesToRun = new ArrayList<>();
 
@@ -134,7 +133,7 @@ public class SimplePimpek implements Pacifist {
         return new BasicEvent(EventType.MOVE, possiblePlacesToRun.get(0));
     }
 
-    private Event chaoticMove(Set<Coordinates> possiblePlacesToGo) {
+    Event chaoticMove(Set<Coordinates> possiblePlacesToGo) {
         Random chaos = new Random();
         if ( chaos.nextBoolean() ) {
             return new BasicEvent(EventType.WAIT, currentLocation);
@@ -150,7 +149,7 @@ public class SimplePimpek implements Pacifist {
             Collections.shuffle(placesAsList);
             chances++;
             
-        } while(worldManager.hasObstacle(placesAsList.get(0)));
+        } while(worldManager.hasObstacle(placesAsList.get(0)) || worldManager.hasBeing(placesAsList.get(0)));
 
         return new BasicEvent(EventType.MOVE, placesAsList.get(0));
     }
@@ -159,7 +158,7 @@ public class SimplePimpek implements Pacifist {
         if ( isDead() ) {
             return;
         }
-        die();
+        kill();
         observer.registerDeath();
         worldManager.cleanUpPlace(currentLocation);
     }
@@ -226,7 +225,9 @@ public class SimplePimpek implements Pacifist {
         return dead;
     }
 
-    protected void die() {
+    @Override
+    public void kill() {
+        energy = -1;
         dead = true;
     }
 
