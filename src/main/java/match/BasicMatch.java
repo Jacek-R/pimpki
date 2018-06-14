@@ -19,7 +19,7 @@ public class BasicMatch implements Match {
     private final StatisticToPoints statisticToPoints;  // parser
     private final Board board;
     private int turnCounter;
-    private final int TURN_INTERVAL = 300;
+    private final int TURN_INTERVAL = 150;
 
     public BasicMatch(Configuration configuration,
                       MatchObserver observer,

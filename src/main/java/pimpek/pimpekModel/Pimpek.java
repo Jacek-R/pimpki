@@ -17,5 +17,5 @@ public interface Pimpek extends Content {
     void regenerate();
     PimpekGenre getGenre();
     Pimpek getAncestor();
-    void kill();
+    void kill() throws FileNotFoundException;
 }

@@ -216,8 +216,10 @@ public class SimplePimpek implements Pacifist {
     }
 
     @Override
-    public void kill() {
+    public void kill() throws FileNotFoundException {
         energy = 0;
+        observer.registerDeath();
+        die();
     }
 
     protected int getCloningCost() {
