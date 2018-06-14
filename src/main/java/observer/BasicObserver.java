@@ -109,7 +109,7 @@ public class BasicObserver implements MatchObserver {
     }
 
     private void handleFoodSpawn() throws FileNotFoundException {
-        if (foodQuantity < living) {
+        if (foodQuantity*0.5 < living) {
             foodSpawner.spawn(fodder);
             foodQuantity += foodSpawner.getSpawnedFood();
         }
