@@ -2,7 +2,9 @@ package pimpek.pimpekModel;
 
 import cell.CellPaths;
 import coordinates.Coordinates;
+import pimpek.events.BasicEvent;
 import pimpek.events.Event;
+import pimpek.events.EventType;
 import worldManager.WorldManager;
 
 import java.io.FileNotFoundException;
@@ -11,6 +13,8 @@ import java.util.*;
 public class Angry extends SimplePimpek implements Predator {
 
     private static final String IMAGE_PATH = CellPaths.PREDATOR.getPath();
+    private final PimpekGenre genre = PimpekGenre.PREDATOR;
+
 
     public Angry(String name, int energy, int cloningCost, WorldManager worldManager) {
         super(name, energy, cloningCost, worldManager);
@@ -20,61 +24,60 @@ public class Angry extends SimplePimpek implements Predator {
         super(ancestor, name, energy, cloningCost, worldManager);
     }
 
-    @Override
-    public void act() throws FileNotFoundException {
-//        Set<Coordinates> pimpeks = whereArePimpeks(getFieldOfView(getLocation()));
-//        Event event = scan(pimpeks);
-//        switch(event.getType()){
-//            case MOVE:
-//                System.out.println("MOVE predator");
-//                move(event.getCords());
-//                break;
-//            case EAT:
-//                System.out.println("EAT predator");
-//                eat(event.getCords());
-//                break;
-//            case DEFAULT:
-//                System.out.println("ATTACK predator");
-//                attack(event.getCords());
-//                break;
-//            case WAIT:
-//                break;
-//
-//        }
+    protected Event scan() throws FileNotFoundException {
+        Set<Coordinates> possibleCordsToGo = getLocation().getNeighbors();
 
+        // check for pimpeks
+        for (Coordinates coordinate : possibleCordsToGo) {
+            if (getWorldManager().hasBeing(coordinate) ) {
+                return handlePimpkiProblem();
+            }
+        }
+
+        // check for food
+        for (Coordinates coordinate : possibleCordsToGo) {
+            if (getWorldManager().hasFood(coordinate) ) {
+                return new BasicEvent(EventType.EAT, coordinate);
+            }
+        }
+
+        return chaoticMove(possibleCordsToGo);
     }
 
-    private void attack(List<Coordinates> coords) throws FileNotFoundException {
-//        int currentY = getLocation().getY();
-//        int currentX = getLocation().getX();
-//        List<Coordinates> cord = getRandomCoordinate();
-//        do {
-//            for (Coordinates coord : coords) {
-//                if (checkLife(coord) > getEnergy()) {
-//                    move();
-//                } else {
-//                    if (coord.getX() >= currentX && coord.getY() == currentY) {
-//                        cord = Collections.singletonList(getLocation().getE());
-//                    } else if (coord.getX() <= currentX && coord.getY() == currentY) {
-//                        cord = Collections.singletonList(getLocation().getW());
-//                    } else if (coord.getX() == currentX && coord.getY() <= currentY) {
-//                        cord = Collections.singletonList(getLocation().getS());
-//                    } else if (coord.getX() == currentX && coord.getY() >= currentY) {
-//                        cord = Collections.singletonList(getLocation().getN());
-//                    } else if (coord.getX() <= currentX && coord.getY() <= currentY) {
-//                        cord = Collections.singletonList(getLocation().getSW());
-//                    } else if (coord.getX() >= currentX && coord.getY() >= currentY) {
-//                        cord = Collections.singletonList(getLocation().getNE());
-//                    } else if (coord.getX() >= currentX && coord.getY() <= currentY) {
-//                        cord = Collections.singletonList(getLocation().getSE());
-//                    } else if (coord.getX() <= currentX && coord.getY() >= currentY) {
-//                        cord = Collections.singletonList(getLocation().getNW());
-//                    }
-//                }
-//            }
-//        }while(!getWorldManager().hasObstacle(cord.get(0)) && getWorldManager().registerBeing(cord.get(0), this));
+    private Event handlePimpkiProblem() throws FileNotFoundException {
+        Set<Coordinates> neighbors = getLocation().getNeighbors();
+        List<Coordinates> possiblePlacesToRun = new ArrayList<>();
+        WorldManager worldManager = getWorldManager();
+        for (Coordinates cords: neighbors) {
+            if (worldManager.areCoordinatesOnMap(cords) &&
+                    (!worldManager.hasObstacle(cords) || worldManager.isEmpty(cords) || worldManager.hasBeing(cords)) ) {
+                possiblePlacesToRun.add(cords);
+            }
+        }
 
+        if (possiblePlacesToRun.size() == 0) {
+            return new BasicEvent(EventType.WAIT, getLocation());
+        }
+
+        for (Coordinates coordinates : possiblePlacesToRun) {
+            if (worldManager.hasBeing(coordinates) || (getEnergy() > checkLife(coordinates))) {
+                if(worldManager.hasPredator(coordinates)){
+                    incrementEnergy(worldManager.getPredator(coordinates).getEnergy()/3);
+                    worldManager.getPredator(coordinates).kill();
+                    worldManager.cleanUpPlace(coordinates);
+                    return new BasicEvent(EventType.MOVE, coordinates);
+                }else if(worldManager.hasPacifist(coordinates)){
+                    incrementEnergy(worldManager.getPacifist(coordinates).getEnergy()/3);
+                    worldManager.getPacifist(coordinates).kill();
+                    worldManager.cleanUpPlace(coordinates);
+                    return new BasicEvent(EventType.MOVE, coordinates);
+                }
+            }
+        }
+
+        return new BasicEvent(EventType.MOVE, possiblePlacesToRun.get(0));
     }
+
 
     private int checkLife(Coordinates coord) {
         WorldManager worldManager = getWorldManager();
@@ -91,28 +94,9 @@ public class Angry extends SimplePimpek implements Predator {
         return IMAGE_PATH;
     }
 
-
-    private Set<Coordinates> whereArePimpeks(Set<Coordinates> neighbors) {
-        Set<Coordinates> pimpeks = new HashSet<>();
-        for(Coordinates coord : neighbors){
-            if(getWorldManager().hasBeing(coord)) {
-                pimpeks.add(coord);
-            }
-        }
-        return pimpeks;
-    }
-
-    private Set<Coordinates> getFieldOfView(Coordinates currentLocation) {
-        Set<Coordinates> fieldOfView = new HashSet<>();
-        fieldOfView.addAll(currentLocation.getNE().getNeighbors());
-        fieldOfView.addAll(currentLocation.getNW().getNeighbors());
-        fieldOfView.addAll(currentLocation.getSE().getNeighbors());
-        fieldOfView.addAll(currentLocation.getSW().getNeighbors());
-        fieldOfView.remove(currentLocation);
-        return fieldOfView;
-
-
-
+    @Override
+    public PimpekGenre getGenre() {
+        return genre;
     }
 
 }

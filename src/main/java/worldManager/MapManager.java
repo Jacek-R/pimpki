@@ -57,7 +57,7 @@ public class MapManager implements WorldManager {
 
     @Override
     public boolean hasBeing(Coordinates coordinates) {
-        return hasPredator(coordinates) || hasPacifist(coordinates);
+        return (hasPredator(coordinates) || hasPacifist(coordinates));
     }
 
     @Override

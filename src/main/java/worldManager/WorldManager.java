@@ -9,6 +9,7 @@ import pimpek.pimpekModel.Predator;
 import world.Board;
 
 import java.io.FileNotFoundException;
+import java.util.Map;
 
 public interface WorldManager {
 
