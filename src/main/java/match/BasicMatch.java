@@ -1,5 +1,7 @@
 package match;
 
+import javafx.application.Platform;
+import layout.gamescreen.GameScreen;
 import world.Board;
 import configuration.Configuration;
 import observer.MatchObserver;
@@ -18,6 +20,7 @@ public class BasicMatch implements Match {
     private final Set<Pimpek> clonedBeings;
     private final StatisticToPoints statisticToPoints;  // parser
     private final Board board;
+    private GameScreen gameScreen;
     private int turnCounter;
     private final int TURN_INTERVAL = 150;
 
@@ -71,6 +74,7 @@ public class BasicMatch implements Match {
                 e.printStackTrace();
             }
             turnCounter++;
+            Platform.runLater(() -> gameScreen.setRoundNumberInformation(turnCounter, maxTurns));
         }
     }
 
@@ -79,5 +83,7 @@ public class BasicMatch implements Match {
         return observer;
     }
 
-
+    public void setGameScreen(GameScreen gameScreen) {
+        this.gameScreen = gameScreen;
+    }
 }
