@@ -37,6 +37,7 @@ public class App extends Application {
                 1, 10,
                 140, 130, 1000);
         configuration.addPimpeksQuantityByGenre(PimpekGenre.PACIFIST, 3);
+
         return configuration;
     }
 
