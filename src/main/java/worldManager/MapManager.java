@@ -108,10 +108,10 @@ public class MapManager implements WorldManager {
     @Override
     public void cleanUpPlace(Coordinates coordinates) throws FileNotFoundException {
         clearPlace(coordinates);
-        Cell oldCell = board.getCellAt(coordinates.getX(), coordinates.getY());
+        Cell cell = board.getCellAt(coordinates.getX(), coordinates.getY());
         Content newContent = new Empty();
-        oldCell.setContent(newContent);
-        oldCell.getCellView().setContent(ImageParser.getImage(newContent.getImagePath()));
+        cell.setContent(newContent);
+        cell.getCellView().setContent(ImageParser.getImage(newContent.getImagePath()));
     }
 
     @Override

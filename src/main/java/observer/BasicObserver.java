@@ -1,5 +1,7 @@
 package observer;
 
+import food.foodModel.Food;
+import food.foodSpawner.FoodSpawner;
 import match.Match;
 import pimpek.pimpekModel.Pimpek;
 import pimpek.pimpekCloner.PimpekCloner;
@@ -16,16 +18,23 @@ public class BasicObserver implements MatchObserver {
 
     private final PimpekCloner pimpekCloner;
     private final PimpekSpawner pimpekSpawner;
+    private final FoodSpawner foodSpawner;
     private Match match;
     private Map<Pimpek, PimpekStatistics> beingsAndStats;
     private int living;
     private int dead;
+    private int foodQuantity;
+    private final Set<Food> fodder;
 
-    public BasicObserver(PimpekCloner pimpekCloner, PimpekSpawner pimpekSpawner, Set<Pimpek> beings) {
+    public BasicObserver(PimpekCloner pimpekCloner, PimpekSpawner pimpekSpawner, FoodSpawner foodSpawner,
+                         Set<Pimpek> beings, Set<Food> fodder) {
         this.pimpekCloner = pimpekCloner;
         this.pimpekSpawner = pimpekSpawner;
+        this.foodSpawner = foodSpawner;
         this.beingsAndStats = new HashMap<>();
         beings.forEach(this::registerPimpek);
+        this.fodder = fodder;
+        foodQuantity = foodSpawner.getSpawnedFood();
     }
 
     @Override
@@ -49,8 +58,14 @@ public class BasicObserver implements MatchObserver {
     }
 
     @Override
-    public void registerDeath() {
+    public void registerDeath() throws FileNotFoundException {
         dead++;
+        handleFoodSpawn();
+    }
+
+    @Override
+    public void registerFoodConsumption() {
+        foodQuantity--;
     }
 
     @Override
@@ -92,5 +107,13 @@ public class BasicObserver implements MatchObserver {
             registerPimpek(pimpek);
         }
         return beingsAndStats.get(pimpek);
+    }
+
+    private void handleFoodSpawn() throws FileNotFoundException {
+
+        if (foodQuantity < living) {
+            foodSpawner.spawn(fodder);
+            foodQuantity += foodSpawner.getSpawnedFood();
+        }
     }
 }

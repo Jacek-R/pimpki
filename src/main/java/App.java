@@ -1,4 +1,3 @@
-import food.foodModel.FoodGenre;
 import layout.gamescreen.GameScreen;
 import match.Match;
 
@@ -34,11 +33,10 @@ public class App extends Application {
 
     private Configuration buildConfig() {
 
-        Configuration configuration = WorldConfiguration.getInstance(30, 30,
+        Configuration configuration = WorldConfiguration.getInstance(27, 27,
                 1, 10,
-                140, 130, 100);
+                140, 130, 1000);
         configuration.addPimpeksQuantityByGenre(PimpekGenre.PACIFIST, 3);
-        configuration.addFoodQuantityByGenre(FoodGenre.APPLE, 15);
         return configuration;
     }
 
