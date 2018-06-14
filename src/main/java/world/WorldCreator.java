@@ -1,21 +1,21 @@
 package world;
 
-import explorer.WorldManager;
+import worldManager.WorldManager;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.StackPane;
-import model.CellPaths;
-import model.cell.BasicCell;
-import model.cell.Cell;
-import model.cell.CellView;
-import model.cellcontent.Content;
-import model.cellcontent.Empty;
-import model.configuration.Configuration;
-import model.food.Food;
-import model.foodSpawner.FoodSpawner;
-import model.obstacleSpawner.ObstacleSpawner;
-import model.pimpek.Pimpek;
-import model.pimpekSpawner.PimpekSpawner;
+import cell.CellPaths;
+import cell.BasicCell;
+import cell.Cell;
+import cell.CellView;
+import cell.cellcontent.Content;
+import cell.cellcontent.Empty;
+import configuration.Configuration;
+import food.foodModel.Food;
+import food.foodSpawner.FoodSpawner;
+import obstacle.obstacleSpawner.ObstacleSpawner;
+import pimpek.pimpekModel.Pimpek;
+import pimpek.pimpekSpawner.PimpekSpawner;
 
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;

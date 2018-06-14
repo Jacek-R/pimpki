@@ -1,7 +1,7 @@
 package world;
 
 import javafx.scene.layout.GridPane;
-import model.cell.Cell;
+import cell.Cell;
 
 public interface Board {
 

@@ -1,6 +1,6 @@
 package parser.statisticsToPoints;
 
-import model.pimpekStatistic.PimpekStatistics;
+import pimpek.pimpekStatistic.PimpekStatistics;
 
 public interface StatisticToPoints {
 
