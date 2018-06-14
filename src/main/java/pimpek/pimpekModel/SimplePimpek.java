@@ -116,10 +116,10 @@ public class SimplePimpek implements Pacifist {
         List<Coordinates> neighbors = currentLocation.getNeighbors();
         Event event = new BasicEvent("WAIT", currentLocation);
         for(Coordinates coord : neighbors){
-            if(explorer.isFood(coord)){
+            if(explorer.hasFood(coord)){
                  event = new BasicEvent("EAT", coord);
                  return event;
-            }else if(explorer.isPredator(coord)){
+            }else if(explorer.hasPredator(coord)){
                 event = new BasicEvent("RUN", coord);
                 return event;
             }else if(explorer.isNeighborhoodEmpty(coord)){

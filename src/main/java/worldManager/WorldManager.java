@@ -16,12 +16,13 @@ public interface WorldManager {
     void setBoard(Board board);
 
     boolean isEmpty(Coordinates coordinates);
-    boolean isFood(Coordinates coordinates);
-    boolean isObstacle(Coordinates coordinates);
-    boolean isBeing(Coordinates coordinates);
-    boolean isPredator(Coordinates coordinates);
-    boolean isPacifist(Coordinates coordinates);
+    boolean hasFood(Coordinates coordinates);
+    boolean hasObstacle(Coordinates coordinates);
+    boolean hasBeing(Coordinates coordinates);
+    boolean hasPredator(Coordinates coordinates);
+    boolean hasPacifist(Coordinates coordinates);
     boolean isNeighborhoodEmpty(Coordinates coordinates);
+    boolean areCoordinatesOnMap(Coordinates coordinates);
 
     Predator getPredator(Coordinates coordinates);
     Pacifist getPacifist(Coordinates coordinates);

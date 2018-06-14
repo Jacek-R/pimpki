@@ -41,7 +41,8 @@ public class App extends Application {
     }
 
     public Board setConfigurationForWorldCreator() throws Exception{
-        Configuration configuration = new WorldConfiguration(10, 10, 3, 10, 120, 100);
+        Configuration configuration = new WorldConfiguration(10, 10, 3,
+                10, 120, 100, 20);
         WorldManager worldManager = new MapManager();
         FoodSpawner foodSpawner = new BasicFoodSpawner(worldManager);
         PimpekSpawner pimpekSpawner = new BasicPimpekSpawner(worldManager);

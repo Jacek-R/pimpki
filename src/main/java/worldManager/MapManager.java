@@ -2,14 +2,12 @@ package worldManager;
 
 import cell.Cell;
 import cell.cellcontent.Content;
+import cell.cellcontent.Empty;
 import cell.cellcontent.Obstacle;
 import cell.cellcontent.Wall;
 import coordinates.Coordinates;
 import coordinates.Coords;
-import food.foodModel.Apple;
 import food.foodModel.Food;
-import food.foodModel.FoodGenre;
-import food.foodModel.Strawberry;
 import pimpek.pimpekModel.Pacifist;
 import pimpek.pimpekModel.Pimpek;
 import pimpek.pimpekModel.PimpekGenre;
@@ -43,37 +41,56 @@ public class MapManager implements WorldManager {
 
     @Override
     public boolean isEmpty(Coordinates coordinates) {
-        return !isFood(coordinates) && !isObstacle(coordinates) && !isBeing(coordinates);
+        return !hasFood(coordinates) && !hasObstacle(coordinates) && !hasBeing(coordinates);
     }
 
     @Override
-    public boolean isFood(Coordinates coordinates) {
+    public boolean hasFood(Coordinates coordinates) {
         return food.containsKey(coordinates);
     }
 
     @Override
-    public boolean isObstacle(Coordinates coordinates) {
+    public boolean hasObstacle(Coordinates coordinates) {
         return obstacles.containsKey(coordinates);
     }
 
     @Override
-    public boolean isBeing(Coordinates coordinates) {
-        return isPredator(coordinates) || isPacifist(coordinates);
+    public boolean hasBeing(Coordinates coordinates) {
+        return hasPredator(coordinates) || hasPacifist(coordinates);
     }
 
     @Override
-    public boolean isPredator(Coordinates coordinates) {
+    public boolean hasPredator(Coordinates coordinates) {
         return predators.containsKey(coordinates);
     }
 
     @Override
-    public boolean isPacifist(Coordinates coordinates) {
+    public boolean hasPacifist(Coordinates coordinates) {
         return pacifists.containsKey(coordinates);
     }
 
     @Override
     public boolean isNeighborhoodEmpty(Coordinates coordinates) {
         return coordinates.getNeighbors().stream().allMatch(this::isEmpty);
+    }
+
+    @Override
+    public boolean areCoordinatesOnMap(Coordinates coordinates) {
+        int x = coordinates.getX();
+        int y = coordinates.getY();
+
+        if (x < 0 || y < 0) {
+            return false;
+        }
+
+        int worldWidth = board.getWidth();
+        int worldHeight = board.getHeight();
+
+        if (x > worldWidth || y > worldHeight) {
+            return false;
+        }
+
+        return true;
     }
 
     @Override
@@ -93,7 +110,7 @@ public class MapManager implements WorldManager {
 
     @Override
     public boolean registerObstacle(Coordinates coordinates, Obstacle obstacle) throws FileNotFoundException {
-        if (! areCoordinatesValid(coordinates) ) {
+        if (! areCoordinatesOnMap(coordinates) ) {
             return false;
         }
 
@@ -113,11 +130,16 @@ public class MapManager implements WorldManager {
     @Override
     public boolean registerBeing(Coordinates coordinates, Pimpek pimpek) throws FileNotFoundException {
 
-        if (! areCoordinatesValid(coordinates) ) {
+        if (! areCoordinatesOnMap(coordinates) ) {
             return false;
         }
 
         PimpekGenre genre = pimpek.getGenre();
+
+        // clean old place
+        cleanUpOldPimpekPlace(pimpek);
+
+        // clean up new place
         clearPlace(coordinates);
 
         switch(genre) {
@@ -143,20 +165,8 @@ public class MapManager implements WorldManager {
     @Override
     public boolean registerFood(Coordinates coordinates, Food newFood) throws FileNotFoundException{
 
-        if (! areCoordinatesValid(coordinates) ) {
+        if (! areCoordinatesOnMap(coordinates) ) {
             return false;
-        }
-
-        FoodGenre foodGenre = newFood.getGenre();
-
-
-        switch(foodGenre) {
-            case APPLE:
-                newFood = (Apple)newFood;
-                break;
-            case STRAWBERRY:
-                newFood = (Strawberry)newFood ;
-                break;
         }
 
         food.put(coordinates, newFood);
@@ -197,6 +207,14 @@ public class MapManager implements WorldManager {
         obstacles.clear();
     }
 
+    @Override
+    public Coordinates selectRandomCoordinates() {
+        Random random = new Random();
+        int x = random.nextInt(board.getWidth());
+        int y = random.nextInt(board.getHeight());
+        return new Coords(x, y);
+    }
+
     private void clearPlace(Coordinates coordinates) {
         if (! isEmpty(coordinates) ) {
             predators.remove(coordinates);
@@ -206,28 +224,14 @@ public class MapManager implements WorldManager {
         }
     }
 
-    private boolean areCoordinatesValid(Coordinates coordinates) {
-        int x = coordinates.getX();
-        int y = coordinates.getY();
-
-        if (x < 0 || y < 0) {
-            return false;
-        }
-
-        int worldWidth = board.getWidth();
-        int worldHeight = board.getHeight();
-
-        if (x > worldWidth || y > worldHeight) {
-            return false;
-        }
-
-        return true;
-    }
-
-    public Coordinates selectRandomCoordinates() {
-        Random random = new Random();
-        int x = random.nextInt(board.getWidth());
-        int y = random.nextInt(board.getHeight());
-        return new Coords(x, y);
+    private void cleanUpOldPimpekPlace(Pimpek pimpek) throws FileNotFoundException {
+        // clean up old place in map
+        Coordinates oldCoordinates = pimpek.getLocation();
+        // set old cell to empty content
+        Cell oldCell = board.getCellAt(oldCoordinates.getX(), oldCoordinates.getY());
+        clearPlace(oldCoordinates);
+        Content newContent = new Empty();
+        oldCell.setContent(newContent);
+        oldCell.getCellView().setContent(ImageParser.getImage(newContent.getImagePath()));
     }
 }
