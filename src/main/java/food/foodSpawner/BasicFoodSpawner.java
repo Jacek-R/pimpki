@@ -3,7 +3,6 @@ package food.foodSpawner;
 import worldManager.WorldManager;
 import coordinates.Coordinates;
 import food.foodModel.Food;
-import world.Board;
 
 import java.io.FileNotFoundException;
 import java.util.Set;
@@ -11,7 +10,6 @@ import java.util.Set;
 public class BasicFoodSpawner implements FoodSpawner {
 
     private final WorldManager worldManager;
-    private Board board;
 
     public BasicFoodSpawner(WorldManager worldManager) {
         this.worldManager = worldManager;
@@ -19,7 +17,6 @@ public class BasicFoodSpawner implements FoodSpawner {
 
     @Override
     public boolean spawn(Set<Food> foodCollection) throws FileNotFoundException {
-        this.board = worldManager.getBoard();
         for (Food food: foodCollection) {
             boolean contentPlaced = false;
             while (!contentPlaced){

@@ -11,7 +11,6 @@ import java.util.Set;
 public class BasicPimpekSpawner implements PimpekSpawner {
 
     private final WorldManager worldManager;
-    private Board board;
 
     public BasicPimpekSpawner(WorldManager worldManager) {
         this.worldManager = worldManager;
@@ -19,7 +18,6 @@ public class BasicPimpekSpawner implements PimpekSpawner {
 
     @Override
     public boolean spawn(Set<Pimpek> pimpki) throws FileNotFoundException {
-        this.board = worldManager.getBoard();
         for (Pimpek pimpek: pimpki) {
             boolean contentPlaced = false;
             while (!contentPlaced){
