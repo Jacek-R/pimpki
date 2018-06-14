@@ -71,7 +71,7 @@ public class PimpekTournament implements Tournament {
 
         BoardCreator boardCreator = null;  // temporary! :D
 
-        
+
         // mamy gotowe i start:
 
 
