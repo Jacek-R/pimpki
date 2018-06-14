@@ -1,7 +1,6 @@
 package match;
 
 import world.Board;
-import worldManager.WorldManager;
 import configuration.Configuration;
 import observer.MatchObserver;
 import pimpek.pimpekModel.Pimpek;
@@ -40,8 +39,8 @@ public class BasicMatch implements Match {
         int maxTurns = configuration.getMaxTurns();
 
         while(turnCounter < maxTurns && observer.getLiving() > 0) {
+
             for (Pimpek being : beings) {
-                System.out.println("Jetsem w for, pimpek + " + being + " with location: " + being.getLocation());
                 try {
                     being.act();
                 } catch (FileNotFoundException e) {

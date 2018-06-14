@@ -37,7 +37,7 @@ public class MapManager implements WorldManager {
     @Override
     public void setBoard(Board board) {
         this.board = board;
-        resetMaps();
+//        resetMaps();  // todo
     }
 
     @Override
@@ -87,11 +87,7 @@ public class MapManager implements WorldManager {
         int worldWidth = board.getWidth();
         int worldHeight = board.getHeight();
 
-        if (x >= worldWidth || y >= worldHeight) {
-            return false;
-        }
-
-        return true;
+        return x < worldWidth && y < worldHeight;
     }
 
     @Override
@@ -111,8 +107,8 @@ public class MapManager implements WorldManager {
 
     @Override
     public void cleanUpPlace(Coordinates coordinates) throws FileNotFoundException {
-        Cell oldCell = board.getCellAt(coordinates.getX(), coordinates.getY());
         clearPlace(coordinates);
+        Cell oldCell = board.getCellAt(coordinates.getX(), coordinates.getY());
         Content newContent = new Empty();
         oldCell.setContent(newContent);
         oldCell.getCellView().setContent(ImageParser.getImage(newContent.getImagePath()));
@@ -222,12 +218,17 @@ public class MapManager implements WorldManager {
         return new Coords(x, y);
     }
 
-    private void clearPlace(Coordinates coordinates) {
+    private void clearPlace(Coordinates coordinates) throws FileNotFoundException {
         if (! isEmpty(coordinates) ) {
             predators.remove(coordinates);
             pacifists.remove(coordinates);
             food.remove(coordinates);
             obstacles.remove(coordinates);
         }
+
+        Cell oldCell = board.getCellAt(coordinates.getX(), coordinates.getY());
+        Content newContent = new Empty();
+        oldCell.setContent(newContent);
+        oldCell.getCellView().setContent(ImageParser.getImage(newContent.getImagePath()));
     }
 }

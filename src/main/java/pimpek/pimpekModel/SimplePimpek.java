@@ -78,8 +78,6 @@ public class SimplePimpek implements Pacifist {
     }
 
     protected void move(Coordinates coordinates) throws FileNotFoundException {
-            System.out.println("ruszam się tu: " + coordinates);
-            System.out.println(this);
             worldManager.registerBeing(coordinates, this);
             energy--;
     }
@@ -143,7 +141,17 @@ public class SimplePimpek implements Pacifist {
         }
 
         List<Coordinates> placesAsList = new ArrayList<>(possiblePlacesToGo);
-        Collections.shuffle(placesAsList);
+
+        int chances = 0;
+        do {
+            if (chances > 10) {
+                return new BasicEvent(EventType.WAIT, currentLocation);
+            }
+            Collections.shuffle(placesAsList);
+            chances++;
+            
+        } while(worldManager.hasObstacle(placesAsList.get(0)));
+
         return new BasicEvent(EventType.MOVE, placesAsList.get(0));
     }
 
@@ -151,8 +159,6 @@ public class SimplePimpek implements Pacifist {
         if ( isDead() ) {
             return;
         }
-        System.out.println("Jestem w pimpku: " + observer);
-        System.out.println("Pimpek umiera!");
         die();
         observer.registerDeath();
         worldManager.cleanUpPlace(currentLocation);

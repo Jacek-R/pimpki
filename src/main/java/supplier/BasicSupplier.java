@@ -159,7 +159,7 @@ public class BasicSupplier implements Supplier {
     private Match createMatch() throws FileNotFoundException {
         Board board = boardCreator.create();
         worldManager.setBoard(board);
-        matchObserver.reset();
+        matchObserver.rejuvenate();
 
         return new BasicMatch(configuration, matchObserver, beings, pointsParser, board);
     }

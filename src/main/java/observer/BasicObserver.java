@@ -26,11 +26,6 @@ public class BasicObserver implements MatchObserver {
     }
 
     @Override
-    public void registerBeings(Set<Pimpek> toObserve) {
-        toObserve.forEach(this::registerPimpek);
-    }
-
-    @Override
     public boolean registerClone(Pimpek pimpek) {
 
         getPimpekStatistics(pimpek).incrementCloningPoints();
@@ -70,7 +65,7 @@ public class BasicObserver implements MatchObserver {
     }
 
     @Override
-    public void reset() {
+    public void rejuvenate() {
         beingsAndStats.keySet().forEach(Pimpek::regenerate);
     }
 
