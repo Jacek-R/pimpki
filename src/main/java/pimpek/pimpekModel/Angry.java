@@ -44,29 +44,33 @@ public class Angry extends SimplePimpek implements Predator {
     private void attack(List<Coordinates> coords) throws FileNotFoundException {
         int currentY = getLocation().getY();
         int currentX = getLocation().getX();
-        for(Coordinates coord : coords){
-            if(checkLife(coord) > getEnergy()) {
-                move();
-            }else{
-                if (coord.getX() >= currentX && coord.getY() == currentY) {
-                    move(Collections.singletonList(getLocation().getE()));
-                } else if (coord.getX() <= currentX && coord.getY() == currentY) {
-                    move(Collections.singletonList(getLocation().getW()));
-                } else if (coord.getX() == currentX && coord.getY() <= currentY) {
-                    move(Collections.singletonList(getLocation().getS()));
-                } else if (coord.getX() == currentX && coord.getY() >= currentY) {
-                    move(Collections.singletonList(getLocation().getN()));
-                } else if (coord.getX() <= currentX && coord.getY() <= currentY) {
-                    move(Collections.singletonList(getLocation().getSW()));
-                } else if (coord.getX() >= currentX && coord.getY() >= currentY) {
-                    move(Collections.singletonList(getLocation().getNE()));
-                } else if (coord.getX() >= currentX && coord.getY() <= currentY) {
-                    move(Collections.singletonList(getLocation().getSE()));
-                } else if (coord.getX() <= currentX && coord.getY() >= currentY) {
-                    move(Collections.singletonList(getLocation().getNW()));
+        List<Coordinates> cord = getRandomCoordinate();
+        do {
+            for (Coordinates coord : coords) {
+                if (checkLife(coord) > getEnergy()) {
+                    move();
+                } else {
+                    if (coord.getX() >= currentX && coord.getY() == currentY) {
+                        cord = Collections.singletonList(getLocation().getE());
+                    } else if (coord.getX() <= currentX && coord.getY() == currentY) {
+                        cord = Collections.singletonList(getLocation().getW());
+                    } else if (coord.getX() == currentX && coord.getY() <= currentY) {
+                        cord = Collections.singletonList(getLocation().getS());
+                    } else if (coord.getX() == currentX && coord.getY() >= currentY) {
+                        cord = Collections.singletonList(getLocation().getN());
+                    } else if (coord.getX() <= currentX && coord.getY() <= currentY) {
+                        cord = Collections.singletonList(getLocation().getSW());
+                    } else if (coord.getX() >= currentX && coord.getY() >= currentY) {
+                        cord = Collections.singletonList(getLocation().getNE());
+                    } else if (coord.getX() >= currentX && coord.getY() <= currentY) {
+                        cord = Collections.singletonList(getLocation().getSE());
+                    } else if (coord.getX() <= currentX && coord.getY() >= currentY) {
+                        cord = Collections.singletonList(getLocation().getNW());
+                    }
                 }
             }
-        }
+        }while(!getExplorer().isObstacle(cord.get(0)) && !getExplorer().registerBeing(cord.get(0), this));
+
     }
 
     private int checkLife(Coordinates coord) {

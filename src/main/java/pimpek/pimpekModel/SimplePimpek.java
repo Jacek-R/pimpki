@@ -72,41 +72,68 @@ public class SimplePimpek implements Pacifist {
 
     }
 
-    private void move(Coordinates coords) throws FileNotFoundException{
-        explorer.registerBeing(coords, this);
-        setLocation(coords);
+    protected void move(List<Coordinates> coords) throws FileNotFoundException{
+        explorer.registerBeing(coords.get(0), this);
+        setLocation(coords.get(0));
     }
 
-    private void run(Coordinates coords) throws FileNotFoundException {
+    protected void move() throws FileNotFoundException{
+        move(getRandomCoordinate());
+    }
+
+    protected List<Coordinates> getRandomCoordinate() {
+        Set<Coordinates> direction = currentLocation.getNeighbors();
+        Coordinates direct = currentLocation.getE();
+        do {
+            int size = direction.size();
+            int item = new Random().nextInt(size); // In real life, the Random object should be rather more shared than this
+            int i = 0;
+            for (Coordinates coord : direction) {
+                if (i == item)
+                    direct = coord;
+                i++;
+            }
+        }while(!explorer.isObstacle(direct));
+        return Collections.singletonList(direct);
+    }
+
+    private void run(List<Coordinates> coords) throws FileNotFoundException {
 
         /**
          * need to check if we can move there (there are no obstacle, other predators or something)
          */
-//        Coordinates whereRun = null;
-//
-//        if(currentLocation.getN() == coords){
-//            whereRun = currentLocation.getSW();
-//        }else if(currentLocation.getS() == coords){
-//            whereRun = currentLocation.getNE();
-//        }else if(currentLocation.getW() == coords){
-//            whereRun = currentLocation.getNE();
-//        }else if(currentLocation.getE() == coords){
-//            whereRun = currentLocation.getSW();
-//        }else if(currentLocation.getNE() == coords){
-//            whereRun = currentLocation.getSW();
-//        }else if(currentLocation.getNW() == coords){
-//            whereRun = currentLocation.getSE();
-//        }else if(currentLocation.getSE() == coords){
-//            whereRun = currentLocation.getNW();
-//        }else if(currentLocation.getSW() == coords){
-//            whereRun = currentLocation.getNE();
-//        }
-//
-//        move(whereRun);
-    }
+            int currentY = getLocation().getY();
+            int currentX = getLocation().getX();
+            List<Coordinates> cord = getRandomCoordinate();
+            do {
+                for (Coordinates coord : coords) {
+                    if (coord.getX() >= currentX && coord.getY() == currentY) {
+                        cord = Collections.singletonList(getLocation().getW());
+                    } else if (coord.getX() <= currentX && coord.getY() == currentY) {
+                        cord = Collections.singletonList(getLocation().getE());
+                    } else if (coord.getX() == currentX && coord.getY() <= currentY) {
+                        cord = Collections.singletonList(getLocation().getN());
+                    } else if (coord.getX() == currentX && coord.getY() >= currentY) {
+                        cord = Collections.singletonList(getLocation().getS());
+                    } else if (coord.getX() <= currentX && coord.getY() <= currentY) {
+                        cord = Collections.singletonList(getLocation().getNE());
+                    } else if (coord.getX() >= currentX && coord.getY() >= currentY) {
+                        cord = Collections.singletonList(getLocation().getSW());
+                    } else if (coord.getX() >= currentX && coord.getY() <= currentY) {
+                        cord = Collections.singletonList(getLocation().getNW());
+                    } else if (coord.getX() <= currentX && coord.getY() >= currentY) {
+                        cord = Collections.singletonList(getLocation().getSE());
+                    }
+                }
+            }while(!explorer.isObstacle(cord.get(0)) && !explorer.registerBeing(cord.get(0), this));
+            }
 
-    private void eat(Coordinates coords) throws FileNotFoundException {
-        Food food = explorer.getFood(coords);
+
+
+
+
+    protected void eat(List<Coordinates> coords) throws FileNotFoundException {
+        Food food = explorer.getFood(coords.get(0));
         this.energy += food.getEnergy();
         observer.registerEnergyPoints(this, food.getEnergy());
         move(coords);
@@ -137,6 +164,16 @@ public class SimplePimpek implements Pacifist {
             }
         }
         return event;
+    }
+
+    private Set<Coordinates> whereArePredators(Set<Coordinates> neighbors){
+        Set<Coordinates> predators = new HashSet<>();
+        for(Coordinates coord : neighbors){
+            if(explorer.isPredator(coord)){
+                predators.add(coord);
+            }
+        }
+        return predators;
     }
 
     @Override
