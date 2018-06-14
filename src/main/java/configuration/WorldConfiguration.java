@@ -24,7 +24,7 @@ public class WorldConfiguration implements Configuration {
     private final Map<FoodGenre,Integer> foodQuantity;
     private final float LIMITING_BEING_FACTOR = 0.1f;
     private final float LIMITING_OBSTACLE_FACTOR = 0.1f;
-    private final float LIMITING_FOOD_FACTOR = 0.11f;
+    private final float LIMITING_FOOD_FACTOR = 0.09f;
 
     public static Configuration getInstance(int mapWidth, int mapHeight, int matchQuantity, int obstaclesQuantity,
                                             int cloningCost, int initialEnergy, int maxTurns) {
