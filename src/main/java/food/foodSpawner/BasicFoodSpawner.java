@@ -17,13 +17,16 @@ public class BasicFoodSpawner implements FoodSpawner {
     }
 
     @Override
-    public boolean spawn(Set<Food> foodCollection) throws FileNotFoundException {
+    public synchronized boolean spawn(Set<Food> foodCollection) throws FileNotFoundException {
         spawnedFood = 0;
         for (Food food: foodCollection) {
+
+            System.out.println("KArmiciel, food: " + spawnedFood);
             boolean contentPlaced = false;
             while (!contentPlaced){
                 Coordinates coordinates = worldManager.selectRandomCoordinates();
-                if (worldManager.isEmpty(coordinates)) {
+                if (worldManager.isEmpty(coordinates) && !worldManager.hasObstacle(coordinates) &&
+                    !worldManager.hasBeing(coordinates)) {
                     spawnedFood++;
                     contentPlaced = worldManager.registerFood(coordinates, food);
                 }

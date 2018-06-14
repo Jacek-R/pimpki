@@ -35,6 +35,7 @@ public class BasicObserver implements MatchObserver {
         beings.forEach(this::registerPimpek);
         this.fodder = fodder;
         foodQuantity = foodSpawner.getSpawnedFood();
+        this.living = beings.size();
     }
 
     @Override
@@ -60,6 +61,7 @@ public class BasicObserver implements MatchObserver {
     @Override
     public void registerDeath() throws FileNotFoundException {
         dead++;
+        living--;
         handleFoodSpawn();
     }
 
@@ -75,11 +77,7 @@ public class BasicObserver implements MatchObserver {
 
     @Override
     public int getLiving() {
-        int total = beingsAndStats.size() + living - dead;
-        if (total < 0) {
-            total = 0;
-        }
-        return total;
+        return living;
     }
 
     @Override
@@ -119,6 +117,9 @@ public class BasicObserver implements MatchObserver {
 
     @Override
     public int getFoodQuantity() {
+        if (foodQuantity < 0) {
+            return 0;
+        }
         return foodQuantity;
     }
 }
