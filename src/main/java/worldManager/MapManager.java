@@ -87,7 +87,7 @@ public class MapManager implements WorldManager {
         int worldWidth = board.getWidth();
         int worldHeight = board.getHeight();
 
-        if (x > worldWidth || y > worldHeight) {
+        if (x >= worldWidth || y >= worldHeight) {
             return false;
         }
 
