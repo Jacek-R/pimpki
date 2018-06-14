@@ -1,4 +1,4 @@
-package dependencyFactory;
+package supplier;
 
 import configuration.Configuration;
 import food.foodGenerator.BasicFoodGenerator;
@@ -31,7 +31,7 @@ import worldManager.WorldManager;
 
 import java.util.Set;
 
-public class BasicDIFactory implements DIFactory {
+public class BasicSupplier implements Supplier {
 
     private final Configuration configuration;
     private final WorldManager worldManager;
@@ -55,11 +55,11 @@ public class BasicDIFactory implements DIFactory {
     private final StatisticToPoints pointsParser;
 
 
-    public static DIFactory getInstance(Configuration configuration) {
-        return new BasicDIFactory(configuration);
+    public static Supplier getInstance(Configuration configuration) {
+        return new BasicSupplier(configuration);
     }
 
-    private BasicDIFactory(Configuration configuration) {
+    private BasicSupplier(Configuration configuration) {
         this.configuration = configuration;
         this.worldManager = createWorldManager();
         this.foodSpawner = createFoodSpawner();

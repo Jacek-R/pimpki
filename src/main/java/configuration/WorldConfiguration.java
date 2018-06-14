@@ -22,9 +22,17 @@ public class WorldConfiguration implements Configuration {
     private final int maxTurns;
     private final Map<PimpekGenre,Integer> pimpeksQuantity;
     private final Map<FoodGenre,Integer> foodQuantity;
+    private final float LIMITING_BEING_FACTOR = 0.15f;
+    private final float LIMITING_OBSTACLE_FACTOR = 0.1f;
+    private final float LIMITING_FOOD_FACTOR = 0.15f;
 
     public static Configuration getInstance(int mapWidth, int mapHeight, int matchQuantity, int obstaclesQuantity,
                                             int cloningCost, int initialEnergy, int maxTurns) {
+
+        if (areConstructorArgumentIncorrect(mapWidth, mapHeight, matchQuantity, obstaclesQuantity,
+                cloningCost, initialEnergy, maxTurns) ) {
+            throw new IllegalArgumentException("Invalid arguments!");
+        }
 
         return new WorldConfiguration(mapWidth, mapHeight, matchQuantity, obstaclesQuantity,
                 cloningCost, initialEnergy, maxTurns);
@@ -55,14 +63,6 @@ public class WorldConfiguration implements Configuration {
     }
 
     @Override
-    public Map<FoodGenre,Integer> getFoodQuantity() {
-        if(foodQuantity.size() < 2) {
-            return generateDefaultFoodQuanity();
-        }
-        return foodQuantity;
-    }
-
-    @Override
     public int getMatchQuantity() {
         return matchQuantity;
     }
@@ -74,14 +74,25 @@ public class WorldConfiguration implements Configuration {
 
     @Override
     public Map<PimpekGenre, Integer> getPimpeksQuantity() {
-        if(pimpeksQuantity.size() < 2) {
-            return generateDefaultPimpeksQuanity();
+        if ( pimpeksQuantity.size() < 2 || ! isBeingsQuantityCorrect() ) {
+            return generateDefaultPimpeksQuantity();
         }
         return pimpeksQuantity;
     }
 
     @Override
+    public Map<FoodGenre,Integer> getFoodQuantity() {
+        if( foodQuantity.size() < 2 || ! isFoodQuantityCorrect() ) {
+            return generateDefaultFoodQuantity();
+        }
+        return foodQuantity;
+    }
+
+    @Override
     public int getObstaclesQuantity() {
+        if (obstaclesQuantity == 0 || ! isObstacleQuantityCorrect() ) {
+            return generateDefaultObstacleQuantity();
+        }
         return obstaclesQuantity;
     }
 
@@ -113,21 +124,52 @@ public class WorldConfiguration implements Configuration {
         foodQuantity.put(genre, quantity);
     }
 
-    private Map<PimpekGenre, Integer> generateDefaultPimpeksQuanity() {
+    private Map<PimpekGenre, Integer> generateDefaultPimpeksQuantity() {
 
         Map<PimpekGenre,Integer> defaultPimpeksQuantity = new HashMap<>();
-        int divideFactor = 20;
-        int defaultGenreQuantity = mapHeight/divideFactor;
+        int defaultGenreQuantity = (int) (mapHeight * mapWidth * LIMITING_BEING_FACTOR) / PimpekGenre.values().length;
+
         Arrays.stream(PimpekGenre.values()).forEach(g -> defaultPimpeksQuantity.put(g, defaultGenreQuantity));
         return defaultPimpeksQuantity;
     }
 
-    private Map<FoodGenre,Integer> generateDefaultFoodQuanity() {
+    private Map<FoodGenre,Integer> generateDefaultFoodQuantity() {
 
         Map<FoodGenre, Integer> defaultFoodQuantity = new HashMap<>();
-        int divideFactor = 20;
-        int defaultGenreQuantity = mapHeight/divideFactor;
+
+        int defaultGenreQuantity = (int) (mapHeight * mapWidth * LIMITING_FOOD_FACTOR) / FoodGenre.values().length;
+
         Arrays.stream(FoodGenre.values()).forEach(f -> defaultFoodQuantity.put(f, defaultGenreQuantity));
         return defaultFoodQuantity;
+    }
+
+    private int generateDefaultObstacleQuantity() {
+
+        return (int) (mapHeight * mapWidth * LIMITING_OBSTACLE_FACTOR);
+    }
+
+    private boolean isBeingsQuantityCorrect() {
+        int beingsQuantity = pimpeksQuantity.values().stream().mapToInt(Integer::intValue).sum();
+        int acceptableQuantity = (int) (mapWidth * mapHeight * LIMITING_BEING_FACTOR);
+        return beingsQuantity <= acceptableQuantity;
+    }
+
+    private boolean isFoodQuantityCorrect() {
+        int currentQuantity = foodQuantity.values().stream().mapToInt(Integer::intValue).sum();
+        int acceptableQuantity = (int) (mapWidth * mapHeight * LIMITING_FOOD_FACTOR);
+        return currentQuantity <= acceptableQuantity;
+    }
+
+    private boolean isObstacleQuantityCorrect() {
+        int acceptableQuantity = (int) (mapWidth * mapHeight * LIMITING_OBSTACLE_FACTOR);
+        return obstaclesQuantity <= acceptableQuantity;
+    }
+
+    private static boolean areConstructorArgumentIncorrect(int mapWidth, int mapHeight, int matchQuantity, int obstaclesQuantity,
+                                                  int cloningCost, int initialEnergy, int maxTurns) {
+
+        return mapWidth < 5 || mapHeight < 5 || mapWidth > 100 || mapHeight > 100 || matchQuantity < 1 ||
+                matchQuantity > 100 || obstaclesQuantity < 0 ||
+                initialEnergy < cloningCost*2 || maxTurns < 0 || maxTurns > 1000;
     }
 }
