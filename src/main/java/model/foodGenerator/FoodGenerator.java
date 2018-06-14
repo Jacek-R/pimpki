@@ -2,9 +2,9 @@ package model.foodGenerator;
 
 import model.food.Food;
 
-import java.util.List;
+import java.util.Set;
 
 public interface FoodGenerator {
 
-    List<Food> generate();
+    Set<Food> generate();
 }

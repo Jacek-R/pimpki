@@ -11,6 +11,10 @@ public interface Board {
 
     Cell getCellAt(int x, int y);
 
+    Cell[][] getCells();
+
+    void setCells(Cell[][] cells);
+
     GridPane getGridPane();
 
 }

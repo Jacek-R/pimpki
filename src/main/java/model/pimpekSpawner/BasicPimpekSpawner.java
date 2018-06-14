@@ -2,31 +2,33 @@ package model.pimpekSpawner;
 
 import explorer.WorldManager;
 import model.coordinates.Coordinates;
-import model.coordinates.Coords;
 import model.pimpek.Pimpek;
-import world.World;
+import world.Board;
 
+import java.io.FileNotFoundException;
 import java.util.Set;
 
 public class BasicPimpekSpawner implements PimpekSpawner {
 
-    private World world;
     private final WorldManager worldManager;
+    private Board board;
 
-    public BasicPimpekSpawner(World world, WorldManager worldManager) {
-        this.world = world;
+    public BasicPimpekSpawner(WorldManager worldManager) {
         this.worldManager = worldManager;
     }
 
     @Override
-    public boolean spawn(Set<Pimpek> pimpki) {
-
-        // algorytm wybiera coordynaty (Coordinates)
-        // po wybraniu rejetrujemy w worldManager:
-        // worldManager.registerBeing(pimpek); <-- ta metoda (worldManagera) mogłaby również seterem ustawić
-        // Content w danym cell
-
-
+    public boolean spawn(Set<Pimpek> pimpki) throws FileNotFoundException {
+        this.board = worldManager.getBoard();
+        for (int i = 0; i < pimpki.size(); i++) {
+            boolean contentPlaced = false;
+            while (!contentPlaced){
+                Coordinates coordinates = worldManager.selectRandomCoordinates();
+                if (worldManager.isEmpty(coordinates)) {
+                    contentPlaced = worldManager.registerBeing(coordinates, pimpki.iterator().next());
+                }
+            }
+        }
         return true;
     }
 

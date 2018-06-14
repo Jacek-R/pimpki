@@ -14,6 +14,8 @@ public interface Coordinates {
     Coordinates getW();
     Coordinates getNW();
     List<Coordinates> getNeighbors();
+    int getX();
+    int getY();
 
 
 }

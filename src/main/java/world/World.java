@@ -38,6 +38,16 @@ public class World implements Board {
     }
 
     @Override
+    public Cell[][] getCells() {
+        return cells;
+    }
+
+    @Override
+    public void setCells(Cell[][] cells) {
+        this.cells = cells;
+    }
+
+    @Override
     public Cell getCellAt(int x, int y) {
         return cells[x][y];
     }

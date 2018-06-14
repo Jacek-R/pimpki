@@ -2,9 +2,10 @@ package model.foodSpawner;
 
 import model.food.Food;
 
-import java.util.List;
+import java.io.FileNotFoundException;
+import java.util.Set;
 
 public interface FoodSpawner {
 
-    boolean spawn(List<Food> foodCollection);
+    boolean spawn(Set<Food> foodCollection) throws FileNotFoundException;
 }

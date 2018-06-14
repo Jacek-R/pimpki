@@ -1,17 +1,30 @@
 package explorer;
 
+import model.cell.Cell;
+import model.cellcontent.Content;
 import model.cellcontent.Obstacle;
+import model.cellcontent.Wall;
 import model.coordinates.Coordinates;
+import model.coordinates.Coords;
+import model.food.Apple;
 import model.food.Food;
+import model.food.FoodGenre;
+import model.food.Strawberry;
 import model.pimpek.Pacifist;
 import model.pimpek.Pimpek;
 import model.pimpek.PimpekGenre;
 import model.pimpek.Predator;
+import world.Board;
+import world.ImageParser;
 
+import java.io.FileNotFoundException;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Random;
 
 public class MapManager implements WorldManager {
+
+    private Board board;
 
     private Map<Coordinates,Predator> predators = new HashMap<>();
     private Map<Coordinates,Pacifist> pacifists = new HashMap<>();
@@ -19,8 +32,18 @@ public class MapManager implements WorldManager {
     private Map<Coordinates,Obstacle> obstacles = new HashMap<>();
 
     @Override
+    public Board getBoard() {
+        return board;
+    }
+
+    @Override
+    public void setBoard(Board board) {
+        this.board = board;
+    }
+
+    @Override
     public boolean isEmpty(Coordinates coordinates) {
-        return isFood(coordinates) || isObstacle(coordinates) || isBeing(coordinates);
+        return !isFood(coordinates) && !isObstacle(coordinates) && !isBeing(coordinates);
     }
 
     @Override
@@ -69,12 +92,30 @@ public class MapManager implements WorldManager {
     }
 
     @Override
-    public void registerObstacle(Coordinates coordinates, Obstacle obstacle) {
+    public boolean registerObstacle(Coordinates coordinates, Obstacle obstacle) throws FileNotFoundException {
+        if (! areCoordinatesValid(coordinates) ) {
+            return false;
+        }
+
         obstacles.put(coordinates, obstacle);
+
+        Cell cell = board.getCellAt(coordinates.getX(), coordinates.getY());
+        if (cell == null) {
+            return false;
+        } else{
+            placeObstacle(cell);
+        }
+
+
+        return true;
     }
 
     @Override
-    public void registerBeing(Coordinates coordinates, Pimpek pimpek) {
+    public boolean registerBeing(Coordinates coordinates, Pimpek pimpek) throws FileNotFoundException {
+
+        if (! areCoordinatesValid(coordinates) ) {
+            return false;
+        }
 
         PimpekGenre genre = pimpek.getGenre();
         clearPlace(coordinates);
@@ -87,11 +128,65 @@ public class MapManager implements WorldManager {
                 predators.put(coordinates, (Predator) pimpek);
                 break;
         }
+
+
+        Cell cell = board.getCellAt(coordinates.getX(), coordinates.getY());
+        if (cell == null) {
+            return false;
+        } else {
+            placePimpek(cell, pimpek);
+        }
+
+        return true;
     }
 
     @Override
-    public void registerFood(Coordinates coordinates, Food food) {
-        this.food.put(coordinates, food);
+    public boolean registerFood(Coordinates coordinates, Food newFood) throws FileNotFoundException{
+
+        if (! areCoordinatesValid(coordinates) ) {
+            return false;
+        }
+
+        FoodGenre foodGenre = newFood.getGenre();
+
+
+        switch(foodGenre) {
+            case APPLE:
+                newFood = (Apple)newFood;
+                break;
+            case STRAWBERRY:
+                newFood = (Strawberry)newFood ;
+                break;
+        }
+
+        food.put(coordinates, newFood);
+
+        Cell cell = board.getCellAt(coordinates.getX(), coordinates.getY());
+        if (cell == null) {
+            return false;
+        } else {
+            placeFood(cell, newFood);
+        }
+
+        return true;
+    }
+
+    private void placePimpek(Cell cell, Pimpek pimpek) throws FileNotFoundException {
+        Content content = pimpek;
+        cell.setContent(pimpek);
+        cell.getCellView().setContent(ImageParser.getImage(content.getImagePath()));
+    }
+
+    private void placeFood(Cell cell, Food food) throws FileNotFoundException {
+        Content content = food;
+        cell.setContent(food);
+        cell.getCellView().setContent(ImageParser.getImage(content.getImagePath()));
+    }
+
+    private void placeObstacle(Cell cell) throws FileNotFoundException {
+        Content content = new Wall();
+        cell.setContent(content);
+        cell.getCellView().setContent(ImageParser.getImage(content.getImagePath()));
     }
 
     @Override
@@ -109,5 +204,30 @@ public class MapManager implements WorldManager {
             food.remove(coordinates);
             obstacles.remove(coordinates);
         }
+    }
+
+    private boolean areCoordinatesValid(Coordinates coordinates) {
+        int x = coordinates.getX();
+        int y = coordinates.getY();
+
+        if (x < 0 || y < 0) {
+            return false;
+        }
+
+        int worldWidth = board.getWidth();
+        int worldHeight = board.getHeight();
+
+        if (x > worldWidth || y > worldHeight) {
+            return false;
+        }
+
+        return true;
+    }
+
+    public Coordinates selectRandomCoordinates() {
+        Random random = new Random();
+        int x = random.nextInt(board.getWidth());
+        int y = random.nextInt(board.getHeight());
+        return new Coords(x, y);
     }
 }
