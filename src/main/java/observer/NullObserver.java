@@ -4,6 +4,7 @@ import match.Match;
 import pimpek.pimpekModel.Pimpek;
 import pimpek.pimpekStatistic.PimpekStatistics;
 
+import java.io.FileNotFoundException;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
@@ -54,5 +55,10 @@ public class NullObserver implements MatchObserver {
     @Override
     public int getFoodQuantity() {
         return 0;
+    }
+
+    @Override
+    public void executeFoodSpawn() throws FileNotFoundException {
+
     }
 }

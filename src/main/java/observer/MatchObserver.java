@@ -20,4 +20,5 @@ public interface MatchObserver {
     void rejuvenate();
     void registerMatch(Match match);
     int getFoodQuantity();
+    void executeFoodSpawn() throws FileNotFoundException;
 }

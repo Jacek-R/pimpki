@@ -21,7 +21,7 @@ public class BasicMatch implements Match {
     private final StatisticToPoints statisticToPoints;  // parser
     private final Board board;
     private GameScreen gameScreen;
-    private int turnCounter;
+    private int turnCounter = 1;
     private final int TURN_INTERVAL = 150;
 
     public BasicMatch(Configuration configuration,
@@ -51,7 +51,13 @@ public class BasicMatch implements Match {
         int maxTurns = configuration.getMaxTurns();
 
         while(turnCounter < maxTurns && observer.getLiving() > 0) {
-
+            if (turnCounter % 1000 == 0) {
+                try {
+                    observer.executeFoodSpawn();
+                } catch (FileNotFoundException e) {
+                    e.printStackTrace();
+                }
+            }
             for (Pimpek being : beings) {
                 try {
                     being.act();

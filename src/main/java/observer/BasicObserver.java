@@ -122,4 +122,10 @@ public class BasicObserver implements MatchObserver {
         }
         return foodQuantity;
     }
+
+    @Override
+    public void executeFoodSpawn() throws FileNotFoundException {
+        foodSpawner.spawn(fodder);
+        foodQuantity += foodSpawner.getSpawnedFood();
+    }
 }
