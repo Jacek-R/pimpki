@@ -35,7 +35,7 @@ public class App extends Application {
 
         Configuration configuration = WorldConfiguration.getInstance(27, 24,
                 1, 20,
-                140, 130, 1000);
+                140, 130, 3000);
 
         configuration.addPimpeksQuantityByGenre(PimpekGenre.PACIFIST, 11);
         configuration.addPimpeksQuantityByGenre(PimpekGenre.PREDATOR, 4);
