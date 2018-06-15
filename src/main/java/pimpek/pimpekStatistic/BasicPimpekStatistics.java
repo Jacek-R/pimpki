@@ -4,6 +4,7 @@ public class BasicPimpekStatistics implements PimpekStatistics {
 
     private int cloningPoints;
     private int energyPoints;
+    private final int CLONING_BONUS = 100;
 
     @Override
     public void incrementEnergyPoints(int toAdd) {
@@ -23,5 +24,10 @@ public class BasicPimpekStatistics implements PimpekStatistics {
     @Override
     public int getCloningPoints() {
         return cloningPoints;
+    }
+
+    @Override
+    public int getTotalPoints() {
+        return energyPoints + cloningPoints * CLONING_BONUS;
     }
 }

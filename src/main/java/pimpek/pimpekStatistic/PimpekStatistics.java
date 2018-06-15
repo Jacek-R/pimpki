@@ -6,4 +6,5 @@ public interface PimpekStatistics {
     void incrementCloningPoints();
     int getEnergyPoints();
     int getCloningPoints();
+    int getTotalPoints();
 }

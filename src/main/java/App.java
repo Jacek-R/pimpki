@@ -38,8 +38,8 @@ public class App extends Application {
                 1, 20,
                 140, 130, 3000);
 
-        configuration.addPimpeksQuantityByGenre(PimpekGenre.PACIFIST, 11);
-        configuration.addPimpeksQuantityByGenre(PimpekGenre.PREDATOR, 4);
+        configuration.addPimpeksQuantityByGenre(PimpekGenre.PACIFIST, 15);
+        configuration.addPimpeksQuantityByGenre(PimpekGenre.PREDATOR, 5);
 
         return configuration;
     }
