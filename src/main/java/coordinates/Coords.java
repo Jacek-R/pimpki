@@ -14,47 +14,47 @@ public class Coords implements Coordinates {
 
     @Override
     public Coordinates get(int x, int y) {
-        return new Coords(x,y);
+        return new Coords(x, y);
     }
 
     @Override
     public Coordinates getN() {
-        return new Coords(x, y+1);
+        return new Coords(x, y - 1);
     }
 
     @Override
     public Coordinates getNE() {
-        return new Coords(x+1, y+1);
+        return new Coords(x + 1, y - 1);
     }
 
     @Override
     public Coordinates getE() {
-        return new Coords(x+1, y);
+        return new Coords(x + 1, y);
     }
 
     @Override
     public Coordinates getSE() {
-        return new Coords(x+1, y-1);
+        return new Coords(x + 1, y + 1);
     }
 
     @Override
     public Coordinates getS() {
-        return new Coords(x, y-1);
+        return new Coords(x, y + 1);
     }
 
     @Override
     public Coordinates getSW() {
-        return new Coords(x-1, y-1);
+        return new Coords(x - 1, y + 1);
     }
 
     @Override
     public Coordinates getW() {
-        return new Coords(x-1, y);
+        return new Coords(x - 1, y);
     }
 
     @Override
     public Coordinates getNW() {
-        return new Coords(x-1, y+1);
+        return new Coords(x - 1, y - 1);
     }
 
     @Override
@@ -66,7 +66,7 @@ public class Coords implements Coordinates {
     @Override
     public int hashCode() {
         int multiplier = 16;
-        return (x-1)*multiplier + (y+1)*(multiplier+1);
+        return (x - 1) * multiplier + (y + 1) * (multiplier + 1);
     }
 
     @Override

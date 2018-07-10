@@ -2,6 +2,7 @@ package pimpek.pimpekModel;
 
 import cell.CellPaths;
 import coordinates.Coordinates;
+import javafx.scene.image.Image;
 import pimpek.events.BasicEvent;
 import pimpek.events.Event;
 import pimpek.events.EventType;
@@ -12,7 +13,7 @@ import java.util.*;
 
 public class Angry extends SimplePimpek implements Predator {
 
-    private static final String IMAGE_PATH = CellPaths.PREDATOR.getPath();
+    private static final Image IMAGE = CellPaths.PREDATOR.getImage();
     private final PimpekGenre genre = PimpekGenre.PREDATOR;
 
 
@@ -91,8 +92,8 @@ public class Angry extends SimplePimpek implements Predator {
     }
 
     @Override
-    public String getImagePath() {
-        return IMAGE_PATH;
+    public Image getImage() {
+        return IMAGE;
     }
 
     @Override

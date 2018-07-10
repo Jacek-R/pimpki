@@ -34,12 +34,12 @@ public class App extends Application {
 
     private Configuration buildConfig() {
 
-        Configuration configuration = WorldConfiguration.getInstance(27, 24,
+        Configuration configuration = WorldConfiguration.getInstance(54, 46,
                 1, 20,
                 140, 130, 3000);
 
-        configuration.addPimpeksQuantityByGenre(PimpekGenre.PACIFIST, 15);
-        configuration.addPimpeksQuantityByGenre(PimpekGenre.PREDATOR, 5);
+        configuration.addPimpeksQuantityByGenre(PimpekGenre.PACIFIST, 40);
+        configuration.addPimpeksQuantityByGenre(PimpekGenre.PREDATOR, 15);
 
         return configuration;
     }

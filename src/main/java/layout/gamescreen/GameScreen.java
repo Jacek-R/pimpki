@@ -79,11 +79,11 @@ public class GameScreen {
     private VBox createOptionsContainer() throws FileNotFoundException {
         VBox vBox = new VBox();
         GridPane header = createHeaderContainer();
-        GridPane resultsTable = createResultsTableContainer();
+//        GridPane resultsTable = createResultsTableContainer();
         GridPane statsContainer = createStatsContainer();
         GridPane buttonsContainer = createButtonsContainer();
-//        buttonsContainer.setVisible(false);
-        vBox.getChildren().addAll(header, resultsTable, statsContainer, buttonsContainer);
+//        resultsTable.setVisible(false);
+        vBox.getChildren().addAll(header, statsContainer, buttonsContainer);
         return vBox;
     }
 

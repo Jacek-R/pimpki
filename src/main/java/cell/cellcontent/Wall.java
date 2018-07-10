@@ -1,13 +1,14 @@
 package cell.cellcontent;
 
 import cell.CellPaths;
+import javafx.scene.image.Image;
 
-public class Wall implements Content, Obstacle{
-    private static final String IMAGE_PATH = CellPaths.WALL.getPath();
+public class Wall implements Content, Obstacle {
+    private static final Image IMAGE = CellPaths.WALL.getImage();
 
     @Override
-    public String getImagePath() {
-        return IMAGE_PATH;
+    public Image getImage() {
+        return IMAGE;
     }
 
 }
