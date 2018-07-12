@@ -1,5 +1,6 @@
 package pimpek.pimpekModel;
 
+import cell.Cell;
 import cell.CellPaths;
 import coordinates.Coordinates;
 import javafx.scene.image.Image;
@@ -10,6 +11,8 @@ import worldManager.WorldManager;
 
 import java.io.FileNotFoundException;
 import java.util.*;
+
+import static cell.CellPaths.BLOOD;
 
 public class Angry extends SimplePimpek implements Predator {
 
@@ -67,11 +70,15 @@ public class Angry extends SimplePimpek implements Predator {
                     incrementEnergy(worldManager.getPredator(coordinates).getEnergy()/3);
                     worldManager.getPredator(coordinates).kill();
                     worldManager.cleanUpPlace(coordinates);
+                    Cell cell = worldManager.getBoard().getCellAt(coordinates.getX(), coordinates.getY());
+                    cell.getCellView().setBackground(BLOOD.getImage());
                     return new BasicEvent(EventType.MOVE, coordinates);
                 }else if(worldManager.hasPacifist(coordinates)){
                     incrementEnergy(worldManager.getPacifist(coordinates).getEnergy()/3);
                     worldManager.getPacifist(coordinates).kill();
                     worldManager.cleanUpPlace(coordinates);
+                    Cell cell = worldManager.getBoard().getCellAt(coordinates.getX(), coordinates.getY());
+                    cell.getCellView().setBackground(BLOOD.getImage());
                     return new BasicEvent(EventType.MOVE, coordinates);
                 }
             }
