@@ -1,10 +1,11 @@
 package food.foodModel;
 
 import cell.CellPaths;
+import javafx.scene.image.Image;
 
 public class Apple implements Food {
 
-    private static final String IMAGE_PATH = CellPaths.APPLE.getPath();
+    private static final Image IMAGE = CellPaths.APPLE.getImage();
     private static final FoodGenre genre = FoodGenre.APPLE;
 
     @Override
@@ -13,8 +14,8 @@ public class Apple implements Food {
     }
 
     @Override
-    public String getImagePath() {
-        return IMAGE_PATH;
+    public Image getImage() {
+        return IMAGE;
     }
 
     @Override
