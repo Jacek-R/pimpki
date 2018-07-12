@@ -37,7 +37,6 @@ public class MapManager implements WorldManager {
     @Override
     public void setBoard(Board board) {
         this.board = board;
-//        resetMaps();  // todo
     }
 
     @Override
