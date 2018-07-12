@@ -1,1 +1,1 @@
-# pimpki
+# pimpki - life simulator
