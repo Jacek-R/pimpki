@@ -148,23 +148,21 @@ public class SimplePimpek implements Pacifist {
 
     protected Event chaoticMove(Set<Coordinates> possiblePlacesToGo) {
         Random chaos = new Random();
-        if (chaos.nextBoolean()) {
+        if (chaos.nextBoolean() && chaos.nextBoolean()) {
             return new BasicEvent(EventType.WAIT, currentLocation);
         }
 
-        List<Coordinates> placesAsList = new ArrayList<>(possiblePlacesToGo);
+        List<Coordinates> placesToGo = new ArrayList<>(possiblePlacesToGo);
 
-        int chances = 0;
-        do {
-            if (chances > 10) {
-                return new BasicEvent(EventType.WAIT, currentLocation);
+        int counter = 0;
+        while (counter < 20) {
+            Collections.shuffle(placesToGo);
+            if (! worldManager.hasObstacle(placesToGo.get(0)) && worldManager.isEmpty(placesToGo.get(0))) {
+                return new BasicEvent(EventType.MOVE, placesToGo.get(0));
             }
-            Collections.shuffle(placesAsList);
-            chances++;
-
-        } while (worldManager.hasObstacle(placesAsList.get(0)) && !worldManager.isEmpty(placesAsList.get(0)));
-
-        return new BasicEvent(EventType.MOVE, placesAsList.get(0));
+            counter++;
+        }
+        return new BasicEvent(EventType.WAIT, currentLocation);
     }
 
     protected void handleDead() throws FileNotFoundException {
