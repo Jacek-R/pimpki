@@ -1,5 +1,7 @@
 package pimpek.pimpekModel;
 
+import cell.Cell;
+import javafx.scene.image.Image;
 import pimpek.events.EventType;
 import worldManager.WorldManager;
 import cell.CellPaths;
@@ -13,6 +15,8 @@ import observer.NullObserver;
 import java.io.FileNotFoundException;
 import java.util.*;
 
+import static cell.CellPaths.BLOOD;
+
 /**
  * basic genre - a bit stupid
  */
@@ -20,7 +24,7 @@ import java.util.*;
 public class SimplePimpek implements Pacifist {
 
     private final Pimpek ancestor;  // use it to update statistic (observer)
-    private static final String IMAGE_PATH = CellPaths.PIMPEK.getPath();
+    private static final Image IMAGE = CellPaths.PIMPEK.getImage();
     private final String name;
     private Coordinates currentLocation;
     private int energy;
@@ -54,7 +58,7 @@ public class SimplePimpek implements Pacifist {
 
     @Override
     public synchronized void act() throws FileNotFoundException {
-        if ( isDead() ) {
+        if (isDead()) {
             return;
         }
 
@@ -68,7 +72,7 @@ public class SimplePimpek implements Pacifist {
         handleCloning();
 
         Event event = scan();
-        switch(event.getType()){
+        switch (event.getType()) {
             case MOVE:
                 move(event.getCords());
                 break;
@@ -81,8 +85,8 @@ public class SimplePimpek implements Pacifist {
     }
 
     protected void move(Coordinates coordinates) throws FileNotFoundException {
-            worldManager.registerBeing(coordinates, this);
-            energy--;
+        worldManager.registerBeing(coordinates, this);
+        energy--;
     }
 
     protected void eat(Coordinates coordinates) throws FileNotFoundException {
@@ -97,18 +101,19 @@ public class SimplePimpek implements Pacifist {
 
     protected Event scan() throws FileNotFoundException {
 
+        /** clone when is trying to act, is causing null pointer here**/
         Set<Coordinates> possibleCordsToGo = currentLocation.getNeighbors();
 
         // check for predator
         for (Coordinates coordinate : possibleCordsToGo) {
-            if (worldManager.hasPredator(coordinate) ) {
+            if (worldManager.hasPredator(coordinate)) {
                 return handlePredatorProblem();
             }
         }
 
         // check for food
         for (Coordinates coordinate : possibleCordsToGo) {
-            if (worldManager.hasFood(coordinate) ) {
+            if (worldManager.hasFood(coordinate)) {
                 return new BasicEvent(EventType.EAT, coordinate);
             }
         }
@@ -121,9 +126,9 @@ public class SimplePimpek implements Pacifist {
         Set<Coordinates> neighbors = currentLocation.getNeighbors();
         List<Coordinates> possiblePlacesToRun = new ArrayList<>();
 
-        for (Coordinates cords: neighbors) {
+        for (Coordinates cords : neighbors) {
             if (worldManager.areCoordinatesOnMap(cords) &&
-                    (worldManager.isEmpty(cords) || worldManager.hasFood(cords)) ) {
+                    (worldManager.isEmpty(cords) || worldManager.hasFood(cords))) {
                 possiblePlacesToRun.add(cords);
             }
         }
@@ -133,7 +138,7 @@ public class SimplePimpek implements Pacifist {
         }
 
         for (Coordinates coordinates : possiblePlacesToRun) {
-            if (worldManager.isNeighborhoodEmpty(coordinates) ) {
+            if (worldManager.isNeighborhoodEmpty(coordinates)) {
                 return new BasicEvent(EventType.MOVE, coordinates);
             }
         }
@@ -143,7 +148,7 @@ public class SimplePimpek implements Pacifist {
 
     protected Event chaoticMove(Set<Coordinates> possiblePlacesToGo) {
         Random chaos = new Random();
-        if ( chaos.nextBoolean() ) {
+        if (chaos.nextBoolean()) {
             return new BasicEvent(EventType.WAIT, currentLocation);
         }
 
@@ -156,19 +161,21 @@ public class SimplePimpek implements Pacifist {
             }
             Collections.shuffle(placesAsList);
             chances++;
-            
-        } while(worldManager.hasObstacle(placesAsList.get(0)) && !worldManager.isEmpty(placesAsList.get(0)));
+
+        } while (worldManager.hasObstacle(placesAsList.get(0)) && !worldManager.isEmpty(placesAsList.get(0)));
 
         return new BasicEvent(EventType.MOVE, placesAsList.get(0));
     }
 
     protected void handleDead() throws FileNotFoundException {
-        if ( isDead() ) {
+        if (isDead()) {
             return;
         }
         die();
         observer.registerDeath();
         worldManager.cleanUpPlace(currentLocation);
+        Cell cell = worldManager.getBoard().getCellAt(currentLocation.getX(), currentLocation.getY());
+        cell.getCellView().setBackground(BLOOD.getImage());
     }
 
 
@@ -261,8 +268,8 @@ public class SimplePimpek implements Pacifist {
     }
 
     @Override
-    public String getImagePath() {
-        return IMAGE_PATH;
+    public Image getImage() {
+        return IMAGE;
     }
 
     @Override

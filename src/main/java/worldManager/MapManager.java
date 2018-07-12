@@ -13,23 +13,21 @@ import pimpek.pimpekModel.Pimpek;
 import pimpek.pimpekModel.PimpekGenre;
 import pimpek.pimpekModel.Predator;
 import world.Board;
-import world.ImageParser;
 
-import java.io.FileNotFoundException;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Random;
 
-import static cell.CellPaths.BLOOD;
+import static cell.CellPaths.GRASS;
 
 public class MapManager implements WorldManager {
 
     private Board board;
 
-    private Map<Coordinates,Predator> predators = new HashMap<>();
-    private Map<Coordinates,Pacifist> pacifists = new HashMap<>();
-    private Map<Coordinates,Food> food = new HashMap<>();
-    private Map<Coordinates,Obstacle> obstacles = new HashMap<>();
+    private Map<Coordinates, Predator> predators = new HashMap<>();
+    private Map<Coordinates, Pacifist> pacifists = new HashMap<>();
+    private Map<Coordinates, Food> food = new HashMap<>();
+    private Map<Coordinates, Obstacle> obstacles = new HashMap<>();
 
     @Override
     public Board getBoard() {
@@ -39,7 +37,6 @@ public class MapManager implements WorldManager {
     @Override
     public void setBoard(Board board) {
         this.board = board;
-//        resetMaps();  // todo
     }
 
     @Override
@@ -108,18 +105,18 @@ public class MapManager implements WorldManager {
     }
 
     @Override
-    public void cleanUpPlace(Coordinates coordinates) throws FileNotFoundException {
+    public void cleanUpPlace(Coordinates coordinates) {
         clearPlace(coordinates);
         Cell cell = board.getCellAt(coordinates.getX(), coordinates.getY());
         Content newContent = new Empty();
         cell.setContent(newContent);
-        cell.getCellView().setBackground(ImageParser.getImage(BLOOD.getPath()));
-        cell.getCellView().setContent(ImageParser.getImage(newContent.getImagePath()));
+        cell.getCellView().setBackground(GRASS.getImage());
+        cell.getCellView().setContent(newContent.getImage());
     }
 
     @Override
-    public boolean registerObstacle(Coordinates coordinates, Obstacle obstacle) throws FileNotFoundException {
-        if (! areCoordinatesOnMap(coordinates) ) {
+    public boolean registerObstacle(Coordinates coordinates, Obstacle obstacle) {
+        if (!areCoordinatesOnMap(coordinates)) {
             return false;
         }
 
@@ -128,7 +125,7 @@ public class MapManager implements WorldManager {
         Cell cell = board.getCellAt(coordinates.getX(), coordinates.getY());
         if (cell == null) {
             return false;
-        } else{
+        } else {
             placeObstacle(cell);
         }
 
@@ -136,9 +133,9 @@ public class MapManager implements WorldManager {
     }
 
     @Override
-    public boolean registerBeing(Coordinates coordinates, Pimpek pimpek) throws FileNotFoundException {
+    public boolean registerBeing(Coordinates coordinates, Pimpek pimpek) {
 
-        if (! areCoordinatesOnMap(coordinates) ) {
+        if (!areCoordinatesOnMap(coordinates)) {
             return false;
         }
 
@@ -150,7 +147,7 @@ public class MapManager implements WorldManager {
         // clean up new place
         clearPlace(coordinates);
 
-        switch(genre) {
+        switch (genre) {
             case PACIFIST:
                 pacifists.put(coordinates, (Pacifist) pimpek);
                 break;
@@ -172,9 +169,9 @@ public class MapManager implements WorldManager {
     }
 
     @Override
-    public boolean registerFood(Coordinates coordinates, Food newFood) throws FileNotFoundException{
+    public boolean registerFood(Coordinates coordinates, Food newFood) {
 
-        if (! areCoordinatesOnMap(coordinates) ) {
+        if (!areCoordinatesOnMap(coordinates)) {
             return false;
         }
 
@@ -190,20 +187,20 @@ public class MapManager implements WorldManager {
         return true;
     }
 
-    private void placePimpek(Cell cell, Pimpek pimpek) throws FileNotFoundException {
+    private void placePimpek(Cell cell, Pimpek pimpek) {
         cell.setContent(pimpek);
-        cell.getCellView().setContent(ImageParser.getImage(pimpek.getImagePath()));
+        cell.getCellView().setContent(pimpek.getImage());
     }
 
-    private void placeFood(Cell cell, Food food) throws FileNotFoundException {
+    private void placeFood(Cell cell, Food food) {
         cell.setContent(food);
-        cell.getCellView().setContent(ImageParser.getImage(food.getImagePath()));
+        cell.getCellView().setContent(food.getImage());
     }
 
-    private void placeObstacle(Cell cell) throws FileNotFoundException {
+    private void placeObstacle(Cell cell) {
         Content content = new Wall();
         cell.setContent(content);
-        cell.getCellView().setContent(ImageParser.getImage(content.getImagePath()));
+        cell.getCellView().setContent(content.getImage());
     }
 
     private void resetMaps() {
@@ -221,8 +218,8 @@ public class MapManager implements WorldManager {
         return new Coords(x, y);
     }
 
-    private void clearPlace(Coordinates coordinates) throws FileNotFoundException {
-        if (! isEmpty(coordinates) ) {
+    private void clearPlace(Coordinates coordinates) {
+        if (!isEmpty(coordinates)) {
             predators.remove(coordinates);
             pacifists.remove(coordinates);
             food.remove(coordinates);
@@ -232,6 +229,6 @@ public class MapManager implements WorldManager {
         Cell oldCell = board.getCellAt(coordinates.getX(), coordinates.getY());
         Content newContent = new Empty();
         oldCell.setContent(newContent);
-        oldCell.getCellView().setContent(ImageParser.getImage(newContent.getImagePath()));
+        oldCell.getCellView().setContent(newContent.getImage());
     }
 }

@@ -41,16 +41,18 @@ public class BasicObserver implements MatchObserver {
     @Override
     public boolean registerClone(Pimpek pimpek) throws FileNotFoundException {
 
-        getPimpekStatistics(pimpek).incrementCloningPoints();
-        Pimpek cloned = pimpekCloner.clone(pimpek);
-        cloned.setObserver(this);
-
-        living++;
         if (match == null) {
             return false;
         }
-        pimpekSpawner.spawnClone(cloned, pimpek);
-        return match.registerClonedPlayer(cloned);
+
+        getPimpekStatistics(pimpek).incrementCloningPoints();
+        Pimpek cloned = pimpekCloner.clone(pimpek);
+        if (pimpekSpawner.spawnClone(cloned, pimpek)) {
+            living++;
+            cloned.setObserver(this);
+            return match.registerClonedPlayer(cloned);
+        }
+        return false;
     }
 
     @Override

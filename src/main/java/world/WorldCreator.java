@@ -1,7 +1,6 @@
 package world;
 
 import worldManager.WorldManager;
-import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.StackPane;
 import cell.CellPaths;
@@ -17,11 +16,8 @@ import obstacle.obstacleSpawner.ObstacleSpawner;
 import pimpek.pimpekModel.Pimpek;
 import pimpek.pimpekSpawner.PimpekSpawner;
 
-import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.util.Set;
-import java.util.Timer;
-import java.util.TimerTask;
 
 public class WorldCreator implements BoardCreator {
 
@@ -53,18 +49,17 @@ public class WorldCreator implements BoardCreator {
     }
 
     @Override
-    public Board create() throws FileNotFoundException{
+    public Board create() throws FileNotFoundException {
         Board board = createEmptyBoard();
         explorer.setBoard(board);
         populate();
         return board;
     }
 
-    public Board createEmptyBoard() throws FileNotFoundException {
+    public Board createEmptyBoard() {
         Cell[][] cells = createEmptyCells();
-        int counter = 0;
-        for (Cell[] row: cells) {
-            for (int i=0; i<row.length; i++) {
+        for (Cell[] row : cells) {
+            for (int i = 0; i < row.length; i++) {
                 row[i].getContent();
             }
 
@@ -73,12 +68,12 @@ public class WorldCreator implements BoardCreator {
     }
 
     public void populate() throws FileNotFoundException {
+        obstacleSpawner.spawn(obstaclesQuantity);
         pimpekSpawner.spawn(beings);
         foodSpawner.spawn(supplies);
-        obstacleSpawner.spawn(obstaclesQuantity);
     }
 
-    private Cell[][] createEmptyCells() throws FileNotFoundException {
+    private Cell[][] createEmptyCells() {
         Cell[][] cells = new Cell[width][height];
         for (int i = 0; i < width; i++) {
             for (int j = 0; j < height; j++) {
@@ -89,11 +84,11 @@ public class WorldCreator implements BoardCreator {
         return cells;
     }
 
-    private CellView createCellView(Content content) throws FileNotFoundException {
+    private CellView createCellView(Content content) {
         return new CellView(
                 new StackPane(),
-                new ImageView(new Image(new FileInputStream(CellPaths.GRASS.getPath()))),
-                new ImageView(ImageParser.getImage(content.getImagePath()))
+                new ImageView(CellPaths.GRASS.getImage()),
+                new ImageView(content.getImage())
         );
     }
 }
